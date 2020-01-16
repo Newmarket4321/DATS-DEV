@@ -78,34 +78,34 @@ namespace DATS_Timesheets
                 JDEdepartment = "10";
             }
             else if(department == "6"){
-
+                JDEdepartment = "";
             }
             else if(department == "7"){
-
+                JDEdepartment = "";
             }
             else if(department == "8"){
-
+                JDEdepartment = "";
             }
             else if (department == "9"){
-
+                JDEdepartment = "";
             }
             else if (department == "10"){
-
+                JDEdepartment = "";
             }
             else if (department == "11"){
-
+                JDEdepartment = "";
             }
             else if (department == "12"){
-
+                JDEdepartment = "";
             }
             else if (department == "13"){
-
+                JDEdepartment = "";
             }
             else if (department == "18"){
-
+                JDEdepartment = "";
             }
             else if (department == "19"){
-
+                JDEdepartment = "";
             }
             else if (department == "21"){
                 JDEdepartment = "85";

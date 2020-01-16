@@ -186,7 +186,7 @@ namespace DATS_Timesheets
             
             if(Core.canReview(Core.getUsername()) && !Core.getDepartments().Contains(21)) //Supervisors Non-Engineering
             {
-                dt = SQL.Run("select paytype, description from paycodes where paytype not in (900, 80, 4, 108, 922, 901, 903, 906) and paytypeactive=1 order by description");
+                dt = SQL.Run("select paytype, description from paycodes where paytype not in (900, 80, 4, 108, 922, 901, 903) and paytypeactive=1 order by description");
             }
             else if(Core.canReview(Core.getUsername())) //Supervisors Engineering
             {
@@ -197,7 +197,7 @@ namespace DATS_Timesheets
                 dt = SQL.Run(@"
 SELECT PayType, [Description]
 FROM PayCodes
-WHERE paytype in (1, 2, 81, 90, 100, 105, 111, 112, 300, 305, 310, 311, 400, 808, 810, 811, 813, 816, 818, 820, 822, 825, 826, 901, 903, 906, 915, 922, 950, 955)
+WHERE paytype in (1, 2, 81, 90, 100, 105, 111, 112, 300, 305, 310, 311, 400, 808, 810, 811, 813, 816, 818, 820, 822, 825, 826, 901, 903, 905, 915, 922, 950, 955)
 and paytypeactive = 1
 
 ORDER BY PayType

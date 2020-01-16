@@ -358,8 +358,16 @@ where userid=@USERID");
 
         private void button1_Click(object sender, EventArgs e)
         {
-            Entitlements ent = new Entitlements(int.Parse(textBox2.Text));
-            ent.ShowDialog();
+            if(Core.isAdmin(Core.getUsername()))
+            {
+                Entitlements ent = new Entitlements(int.Parse(textBox2.Text));
+                ent.ShowDialog();
+            }
+            else
+            {
+                MessageBox.Show("You do not have the rights view entitlements");
+            }
+            
         }
     }
 }

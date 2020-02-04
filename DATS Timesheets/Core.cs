@@ -26,7 +26,7 @@ namespace DATS_Timesheets
             string name = Environment.UserName;
 
             if (Environment.MachineName == "SYSNW-05-19")
-                name = "Mayes, Mike";
+                name = "Mitchell, Lesley";
 
             try
             {
@@ -626,13 +626,9 @@ namespace DATS_Timesheets
         {
             double bankedTimeIn;
 
-            //            DataTable dt = SQL.Run(@"select
-            //(SELECT sum(hours) from Timesheets where paytype=950 and EmployeeID=@EMPID and dateworked>=@DATE) as [In1],
-            //(SELECT sum(hours) from Timesheets where paytype=955 and EmployeeID=@EMPID and dateworked>=@DATE) as [In15]", empID, start);
-
-            DataTable dt = SQL.Run(@"select
-(SELECT sum(hours) from Timesheets where paytype=950 and EmployeeID=@EMPID) as [In1],
-(SELECT sum(hours) from Timesheets where paytype=955 and EmployeeID=@EMPID) as [In15]", empID);
+                        DataTable dt = SQL.Run(@"select
+            (SELECT sum(hours) from Timesheets where paytype=950 and EmployeeID=@EMPID and dateworked>=@DATE) as [In1],
+            (SELECT sum(hours) from Timesheets where paytype=955 and EmployeeID=@EMPID and dateworked>=@DATE) as [In15]", empID, start);
 
             bankedTimeIn = 1.5 * (dt.Rows[0]["In15"].ToString() == "" ? 0 : double.Parse(dt.Rows[0]["In15"].ToString()));
             bankedTimeIn += dt.Rows[0]["In1"].ToString() == "" ? 0 : double.Parse(dt.Rows[0]["In1"].ToString());

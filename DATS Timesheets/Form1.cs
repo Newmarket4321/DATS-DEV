@@ -572,7 +572,10 @@ where t.employeeid = u.employeeid and u.displayname = @USERNAME and t.paytype = 
                 total.SubItems.Add(w1Hours.ToString());
                 total.SubItems.Add(w2Hours.ToString());
 
-                if (Core.canReview(Core.getUsername()) && Core.isFullTime(getUsername()) && ((decimal)w1Hours < Core.getDepartmentDailyHours() * 5 || (decimal)w2Hours < Core.getDepartmentDailyHours() * 5))
+                var temp1 = Core.canReview(Core.getUsername());
+                var temp2 = Core.isFullTime(getUsername());
+                //if (Core.canReview(Core.getUsername()) && Core.isFullTime(getUsername()) && ((decimal)w1Hours < Core.getDepartmentDailyHours() * 5 || (decimal)w2Hours < Core.getDepartmentDailyHours() * 5))
+                if (Core.canReview(Core.getUsername()) && Core.isFullTime(getUsername()) && ((decimal)totalHours < Core.getDepartmentDailyHours() * 10))
                     label1.Visible = true;
                 else
                     label1.Visible = false;

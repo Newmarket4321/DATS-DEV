@@ -197,7 +197,7 @@ namespace DATS_Timesheets
                 dt = SQL.Run(@"
 SELECT PayType, [Description]
 FROM PayCodes
-WHERE paytype in (1, 2, 81, 90, 100, 105, 111, 112, 300, 305, 310, 311, 400, 808, 810, 811, 813, 816, 818, 820, 822, 825, 826, 901, 903, 905, 915, 922, 950, 955)
+WHERE paytype in (1, 2, 81, 90, 100, 105, 111, 112, 300, 301, 305, 310, 311, 400, 808, 810, 811, 813, 816, 818, 820, 822, 825, 826, 901, 903, 905, 906, 908, 909, 915, 922, 950, 955)
 and paytypeactive = 1
 
 ORDER BY PayType
@@ -209,7 +209,7 @@ ORDER BY PayType
 SELECT PayType, [Description]
 FROM PayCodes
 
-WHERE PayType in (1, 2, 5, 105, 106, 955, 81, 809, 821, 807, 905, 311, 812, 811, 907, 90, 109, 111, 0, 904)
+WHERE PayType in (1, 2, 5, 105, 106, 955, 81, 809, 821, 807, 905, 311, 812, 811, 907, 90, 109, 111, 0, 904, 301, 908, 909)
 and paytypeactive = 1
 
 ORDER BY PayType
@@ -219,7 +219,7 @@ ORDER BY PayType
 SELECT PayType, [Description]
 FROM PayCodes
 
-WHERE PayType in (1, 2, 105, 955, 81, 809, 821, 807, 811, 905, 311, 907, 90, 109, 5, 106, 812, 111, 0, 904)
+WHERE PayType in (1, 2, 105, 955, 81, 809, 821, 807, 811, 905, 311, 907, 90, 109, 5, 106, 812, 111, 0, 904, 301, 908, 909)
 and paytypeactive = 1
 
 ORDER BY PayType
@@ -229,7 +229,7 @@ ORDER BY PayType
 SELECT PayType, [Description]
 FROM PayCodes
 
-WHERE PayType in (1, 2, 105, 950, 955, 81, 809, 807, 821, 822, 905, 311, 112, 111, 904)
+WHERE PayType in (1, 2, 105, 950, 955, 81, 809, 807, 821, 822, 905, 311, 112, 111, 904, 301, 908, 909)
 and paytypeactive = 1
 
 ORDER BY PayType
@@ -239,7 +239,7 @@ ORDER BY PayType
 SELECT PayType, [Description]
 FROM PayCodes
 
-WHERE PayType in (1, 105, 2, 0, 904, 90)
+WHERE PayType in (1, 105, 2, 0, 904, 90, 301, 908, 909)
 and paytypeactive = 1
 
 ORDER BY PayType
@@ -249,7 +249,7 @@ ORDER BY PayType
 SELECT PayType, [Description]
 FROM PayCodes
 
-WHERE PayType in (1, 105, 955, 81, 809, 807, 821, 905, 311, 112, 111, 812, 2, 0, 904, 90)
+WHERE PayType in (1, 105, 955, 81, 809, 807, 821, 905, 311, 112, 111, 812, 2, 0, 904, 90, 301, 908, 909)
 and paytypeactive = 1
 
 ORDER BY PayType

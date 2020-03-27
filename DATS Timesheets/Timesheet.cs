@@ -197,7 +197,7 @@ namespace DATS_Timesheets
                 dt = SQL.Run(@"
 SELECT PayType, [Description]
 FROM PayCodes
-WHERE paytype in (1, 2, 81, 90, 100, 105, 111, 112, 300, 301, 305, 310, 311, 400, 808, 810, 811, 813, 816, 818, 820, 822, 825, 826, 901, 903, 905, 908, 909, 915, 922, 950, 955)
+WHERE paytype in (1, 2, 81, 90, 100, 105, 111, 112, 300, 301, 305, 310, 311, 400, 808, 810, 811, 813, 816, 818, 820, 822, 825, 826, 901, 903, 905, 906, 908, 909, 915, 922, 950, 955)
 and paytypeactive = 1
 
 ORDER BY PayType

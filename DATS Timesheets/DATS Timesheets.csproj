@@ -71,10 +71,10 @@
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestCertificateThumbprint>3D6BBBB81AFCC04CA99DBB38620FE5A372988E8E</ManifestCertificateThumbprint>
+    <ManifestCertificateThumbprint>1B98FDC92BC6DA257A7082CFC147122010741B58</ManifestCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestKeyFile>DATS Timesheets_TemporaryKey.pfx</ManifestKeyFile>
+    <ManifestKeyFile>DATS Timesheets_1_TemporaryKey.pfx</ManifestKeyFile>
   </PropertyGroup>
   <PropertyGroup>
     <GenerateManifests>true</GenerateManifests>
@@ -84,11 +84,15 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="ClosedXML">
-      <HintPath>..\..\ProjectList\ProjectList\bin\ClosedXML.dll</HintPath>
+      <HintPath>bin\ClosedXML\ClosedXML.dll</HintPath>
       <EmbedInteropTypes>False</EmbedInteropTypes>
     </Reference>
+    <Reference Include="Oracle.DataAccess, Version=4.112.3.0, Culture=neutral, PublicKeyToken=89b483f429c47342, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Oracle.DataAccess.dll</HintPath>
+    </Reference>
     <Reference Include="Oracle.ManagedDataAccess">
-      <HintPath>..\..\..\..\Visual Studio 2015\Projects\Oracle.ManagedDataAccess.dll</HintPath>
+      <HintPath>bin\Oracle.ManagedDataAccess.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
@@ -857,6 +861,7 @@
     <EmbeddedResource Include="Archive\ViewTimesheets.resx">
       <DependentUpon>ViewTimesheets.cs</DependentUpon>
     </EmbeddedResource>
+    <None Include="DATS Timesheets_1_TemporaryKey.pfx" />
     <None Include="DATS Timesheets_TemporaryKey.pfx" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">

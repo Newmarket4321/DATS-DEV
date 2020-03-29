@@ -700,8 +700,8 @@ and employeeid = @EMPID", year, year + 1, empID);
 
         public static double getVacationBalance(int year, int empID, bool priorYearLimit)
         {
-            if (priorYearLimit && DateTime.Now.Month >= 4)
-                return 0;
+        //    if (priorYearLimit && DateTime.Now.Month >= 4)
+        //        return 0;
 
             return getVacationMax(year, empID) - getVacationUsed(year, empID);
         }

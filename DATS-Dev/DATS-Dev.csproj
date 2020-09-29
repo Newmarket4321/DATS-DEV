@@ -8,10 +8,11 @@
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>DATS_Timesheets</RootNamespace>
-    <AssemblyName>DATS</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <AssemblyName>DATS-Dev</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <IsWebBootstrapper>false</IsWebBootstrapper>
+    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
     <PublishUrl>T:\PCapps\DATS\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
@@ -48,7 +49,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>Resources\favicon.ico</ApplicationIcon>
+    <ApplicationIcon>
+    </ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
     <DebugSymbols>true</DebugSymbols>
@@ -130,6 +132,12 @@
     </Compile>
     <Compile Include="Components\Day.Designer.cs">
       <DependentUpon>Day.cs</DependentUpon>
+    </Compile>
+    <Compile Include="EntitlementType.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="EntitlementType.Designer.cs">
+      <DependentUpon>EntitlementType.cs</DependentUpon>
     </Compile>
     <Compile Include="Lookups\FindEmpID.cs">
       <SubType>Form</SubType>
@@ -691,6 +699,9 @@
     <EmbeddedResource Include="Components\Day.resx">
       <DependentUpon>Day.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="EntitlementType.resx">
+      <DependentUpon>EntitlementType.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Lookups\FindEmpID.resx">
       <DependentUpon>FindEmpID.cs</DependentUpon>
     </EmbeddedResource>
@@ -794,6 +805,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Archive\ReviewTimesheetsList.resx">
       <DependentUpon>ReviewTimesheetsList.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Archive\TimeEntry.resx">
       <DependentUpon>TimeEntry.cs</DependentUpon>
@@ -824,9 +836,11 @@
     </EmbeddedResource>
     <EmbeddedResource Include="SourceGrid\DevAge.Windows.Forms\Windows\Forms\ErrorDialog.resx">
       <DependentUpon>ErrorDialog.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="SourceGrid\DevAge.Windows.Forms\Windows\Forms\ErrorDialogDetails.resx">
       <DependentUpon>ErrorDialogDetails.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="SourceGrid\DevAge.Windows.Forms\Windows\Forms\FormBase.resx">
       <DependentUpon>FormBase.cs</DependentUpon>

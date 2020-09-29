@@ -40,8 +40,8 @@ namespace DATS_Timesheets
                 //Install
                 if (Core.getExecutionPath() == Core.getDeploymentPath())
                 {
-                    File.Copy(Core.getDeploymentPath(), Core.getUserDesktopDirectory() + @"\DATS.exe", true);
-                    MessageBox.Show("DATS.exe has been installed! Check your desktop for the new icon.");
+                    File.Copy(Core.getDeploymentPath(), Core.getUserDesktopDirectory() + @"\DATS-Dev.exe", true);
+                    MessageBox.Show("DATS-Dev.exe has been installed! Check your desktop for the new icon.");
                     return;
                 }
 
@@ -177,8 +177,8 @@ namespace DATS_Timesheets
 
                 arguments = arguments.Trim();
 
-                string source = Core.getDeploymentDirectory() + "DATS.exe";
-                string destination = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location) + @"\DATS.exe";
+                string source = Core.getDeploymentDirectory() + "DATS-Dev.exe";
+                string destination = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location) + @"\DATS-Dev.exe";
 
                 bool copied = false;
 

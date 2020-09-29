@@ -34,6 +34,7 @@ namespace DATS_Timesheets
                 Oracle ora = null;
                 string cutoff = "";
 
+
                 if (Core.getEnvironment() != "PD")
                     MessageBox.Show("This export is in test mode. Environment: " + Core.getEnvironment() + Environment.NewLine
                         + "If this isn't intended or you're not sure what this means, speak to IT.");
@@ -59,8 +60,8 @@ namespace DATS_Timesheets
                     Invoke((MethodInvoker)delegate { label2.Font = new Font(label1.Font, FontStyle.Bold); });
                     Invoke((MethodInvoker)delegate { label2.Update(); });
 
-                    if (Core.getEnvironment() == "PD")
-                    {
+  //                  if (Core.getEnvironment() == "PD")
+  //                  {
                         //1. Get local batch ID
                         sql = new SQL("select max(batchid) from batchids");
                         batchID = int.Parse(sql.Run().Rows[0][0].ToString()) + 1;
@@ -86,7 +87,7 @@ and exported='False'
 and paytype not in (0)
 and not (@EMPTYPE1 = 'S' and paytype = 811)
 and EmployeeID in (select EmployeeID from Users where EMPTYPE = @EMPTYPE2)", batchID, Core.JDEToDate(cutoff), type, type);
-                    }
+  //                  }
 
                     //4. Clear F06116Z1
                     Oracle.Run("delete from " + Core.getSchema(Core.getEnvironment()) + ".F06116Z1");
@@ -148,7 +149,7 @@ and EMPTYPE = @EMPTYPE", Core.JDEToDate(cutoff), batchID, type);
                         double hourRate = double.Parse(dt.Rows[i]["rate_r"].ToString());
                         hours = (int)((double)hours * hourRate);
 
-                        ora = new Oracle("INSERT INTO " + Core.getSchema(Core.getEnvironment()) + ".F06116Z1 ( VLEDUS, VLICU, VLEDBT, VLAN8, VLDWK, VLPDBA, VLPHRW, VLANI, VLEPA, VLSHRT, VLRCCD, VLEDLN, VLEDTN ) VALUES ( @VLEDUS, @VLICU, @VLEDBT, @VLAN8, @VLDWK, @VLPDBA, @VLPHRW, @VLANI, @VLEPA, @VLSHRT, @VLRCCD, @VLEDLN, @VLEDTN )");
+                        ora = new Oracle("INSERT INTO " + Core.getSchema(Core.getEnvironment()) + ".F06116Z1 ( VLEDUS, VLICU, VLEDBT, VLAN8, VLDWK, VLPDBA, VLPHRW, VLANI, VLEPA, VLSHRT, VLRCCD, VLEDLN, VLEDTN, VLEDDT, VLEDER, VLEDSP, VLEDTC, VLEDTR, VLPRTR) VALUES ( @VLEDUS, @VLICU, @VLEDBT, @VLAN8, @VLDWK, @VLPDBA, @VLPHRW, @VLANI, @VLEPA, @VLSHRT, @VLRCCD, @VLEDLN, @VLEDTN, @VLEDDT, @VLEDER, @VLEDSP, @VLEDTC, @VLEDTR, @VLPRTR )");
                         ora.AddParameter("@VLEDUS", "JDE"); //Create user
                         ora.AddParameter("@VLICU", 0);
                         ora.AddParameter("@VLEDBT", F0002NumberPayroll); //Batch number
@@ -162,6 +163,13 @@ and EMPTYPE = @EMPTYPE", Core.JDEToDate(cutoff), batchID, type);
                         ora.AddParameter("@VLRCCD", recordType); //Record type
                         ora.AddParameter("@VLEDLN", lineNumber);
                         ora.AddParameter("@VLEDTN", 0);
+                        ora.AddParameter("@VLEDDT", Core.dateToJDE(DateTime.Today.ToString())); // EAC Trans Date
+                        ora.AddParameter("@VLEDER", "R");
+                        ora.AddParameter("@VLEDSP", 0);
+                        ora.AddParameter("@VLEDTC", "A"); //Add
+                        ora.AddParameter("@VLEDTR", 1);   //Transaction type
+                        ora.AddParameter("@VLPRTR", 0);   //Unique Number
+
                         ora.Run();
 
                         totalLSum += lsum;
@@ -211,7 +219,7 @@ and EMPTYPE = @EMPTYPE", Core.JDEToDate(cutoff), batchID, type);
                             double hourRate = double.Parse(dt.Rows[i]["rate_r"].ToString());
                             hours = (int)((double)hours * hourRate);
 
-                            ora = new Oracle("INSERT INTO " + Core.getSchema(Core.getEnvironment()) + ".F06116Z1 ( VLEDUS, VLICU, VLEDBT, VLAN8, VLDWK, VLPDBA, VLPHRW, VLANI, VLEPA, VLSHRT, VLRCCD, VLEDLN, VLEDTN ) VALUES ( @VLEDUS, @VLICU, @VLEDBT, @VLAN8, @VLDWK, @VLPDBA, @VLPHRW, @VLANI, @VLEPA, @VLSHRT, @VLRCCD, @VLEDLN, @VLEDTN )");
+                            ora = new Oracle("INSERT INTO " + Core.getSchema(Core.getEnvironment()) + ".F06116Z1 ( VLEDUS, VLICU, VLEDBT, VLAN8, VLDWK, VLPDBA, VLPHRW, VLANI, VLEPA, VLSHRT, VLRCCD, VLEDLN, VLEDTN, VLEDDT, VLEDER, VLEDSP, VLEDTC, VLEDTR, VLPRTR ) VALUES ( @VLEDUS, @VLICU, @VLEDBT, @VLAN8, @VLDWK, @VLPDBA, @VLPHRW, @VLANI, @VLEPA, @VLSHRT, @VLRCCD, @VLEDLN, @VLEDTN, @VLEDDT, @VLEDER, @VLEDSP, @VLEDTC, @VLEDTR, @VLPRTR )");
                             ora.AddParameter("@VLEDUS", "JDE"); //Create user
                             ora.AddParameter("@VLICU", 0);
                             ora.AddParameter("@VLEDBT", F0002NumberWorkOrder); //Batch number
@@ -225,6 +233,12 @@ and EMPTYPE = @EMPTYPE", Core.JDEToDate(cutoff), batchID, type);
                             ora.AddParameter("@VLRCCD", recordType); //Record type
                             ora.AddParameter("@VLEDLN", lineNumber);
                             ora.AddParameter("@VLEDTN", 0);
+                            ora.AddParameter("@VLEDDT", Core.dateToJDE(DateTime.Today.ToString())); // EAC Trans Date
+                            ora.AddParameter("@VLEDER", "R");
+                            ora.AddParameter("@VLEDSP", 0);
+                            ora.AddParameter("@VLEDTC", "A"); //Add
+                            ora.AddParameter("@VLEDTR", 1);   //Transaction type
+                            ora.AddParameter("@VLPRTR", 0);   //Unique Number
                             ora.Run();
 
                             totalLSum += lsum;
@@ -272,12 +286,12 @@ and EMPTYPE = @EMPTYPE", Core.JDEToDate(cutoff), batchID, type);
 
                     string email = "";
 
-                    if (Core.getEnvironment() != "PD")
-                        email = "gsmyth@newmarket.ca";
-                    else
-                        email = Core.getVariable("PayrollContact");
+  //                  if (Core.getEnvironment() != "PD")
+  //                      email = "msquires@newmarket.ca";
+  //                  else
+                      email = Core.getVariable("PayrollContact");
 
-                    Core.sendMail(email, "DATS Export #" + batchID, output1 + Environment.NewLine + Environment.NewLine + output2);
+                    Core.sendMail(email, "DATS-Dev Export #" + batchID, output1 + Environment.NewLine + Environment.NewLine + output2);
                     MessageBox.Show("The export has finished. Please check your e-mail for results.");
 
                     Invoke((MethodInvoker)delegate { Close(); });

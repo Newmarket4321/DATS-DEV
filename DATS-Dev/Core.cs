@@ -18,15 +18,15 @@ namespace DATS_Timesheets
     class Core
     {
         //////////////////////////
-        static string environment = "PD";
+        static string environment = "PY";
         //////////////////////////
 
         public static string getUsername()
         {
             string name = Environment.UserName;
 
-            if (Environment.MachineName == "SYSNW-05-19")
-                name = "Whitehead, Natasha";
+         //   if (Environment.MachineName == "SYSEA-08-18")
+         //      name = "Squires, Michael";
 
             try
             {
@@ -95,7 +95,7 @@ namespace DATS_Timesheets
 
         public static DateTime getLatestVersion()
         {
-            return File.GetLastWriteTime(@"\\data\Files\PCapps\DATS\DATS.exe");
+            return File.GetLastWriteTime(@"\\data\Files\PCapps\DATS\DATS-Dev.exe");
         }
 
         public static void error(Exception e)
@@ -113,7 +113,7 @@ namespace DATS_Timesheets
             }
             else if(e is IOException && getErrorText(e).Contains("because it is being used by another process"))
             {
-                MessageBox.Show("DATS is trying to update to the latest version, but is unable to because your computer considers the file in use." + Environment.NewLine
+                MessageBox.Show("DATS Dev is trying to update to the latest version, but is unable to because your computer considers the file in use." + Environment.NewLine
                     + Environment.NewLine
                     + "This most often happens when someone else was using your computer, had DATS open, then walked away from the computer without properly logging out." + Environment.NewLine
                     + Environment.NewLine 
@@ -127,7 +127,7 @@ namespace DATS_Timesheets
                 try
                 {
                     //Report to IT
-                    sendMail("gsmyth@newmarket.ca", "DATS Error", getErrorText(e));
+                    sendMail("ealarcon@newmarket.ca", "DATS-Dev Error", getErrorText(e));
 
                     string response = Core.lookupMessageBox(
                         "Error",
@@ -683,6 +683,7 @@ namespace DATS_Timesheets
             return r;
         }
 
+       
         public static double getVacationUsed(int year, int empID)
         {
             DataTable dt = SQL.Run(@"select sum(hours)
@@ -700,12 +701,16 @@ and employeeid = @EMPID", year, year + 1, empID);
 
         public static double getVacationBalance(int year, int empID, bool priorYearLimit)
         {
+        //    soleil
         //    if (priorYearLimit && DateTime.Now.Month >= 4)
         //        return 0;
 
             return getVacationMax(year, empID) - getVacationUsed(year, empID);
         }
         
+
+
+
         public static double getBankedVacationMax(int empID)
         {
             double r = 0;
@@ -724,6 +729,7 @@ and employeeid = @EMPID", year, year + 1, empID);
             return r;
         }
 
+
         public static double getBankedVacationUsed(int empID)
         {
             DataTable dt = SQL.Run(@"select sum(hours)
@@ -739,6 +745,49 @@ and employeeid = @EMPID", empID); //October 19th, 2017 is when the bankvacmax wa
         {
             return getBankedVacationMax(empID) - getBankedVacationUsed(empID);
         }
+
+        public static double getMCLMax(int year, int empID)
+        {
+            double r = 0;
+
+            DataTable dt = SQL.Run("select entitlement from entitlements where year = @YEAR and type = 'MCL Vacation' and employeeid = @EMPID", year, empID);
+
+            if (dt.Rows.Count == 0) //This year not found
+            {
+                //Check last year
+                dt = SQL.Run("select entitlement from entitlements where year = @YEAR and type = 'MCL Vacation' and employeeid = @EMPID", year - 1, empID);
+
+                if (dt.Rows.Count > 0) // Found last year
+                {
+                    r = double.Parse(dt.Rows[0][0].ToString());
+                    SQL.Run("insert into entitlements values (@EMPID, @YEAR, @TYPE, @ENTITLEMENT)", empID, year, "MCL Vacation", r);
+                    Core.logHistory("Entitlement generated", year + " MCL Vacation = " + r + " for " + Core.getUsernameFromEmpID(empID), "");
+                }
+            }
+            else
+                r = double.Parse(dt.Rows[0][0].ToString());
+
+            return r;
+        }
+        public static double getMCLUsed(int year, int empID)
+        {
+
+
+            DataTable dt = SQL.Run(@"select sum(hours)
+from Timesheets
+where
+    (year(dateworked) = @YEAR1 and paytype in (818))
+ 
+and employeeid = @EMPID", year, empID);
+
+            return dt.Rows[0][0].ToString() == "" ? 0 : double.Parse(dt.Rows[0][0].ToString());
+        }
+
+        public static double getMCLBalance(int year, int empID, bool priorYearLimit)
+        {
+            return getMCLMax(year, empID) - getMCLUsed(year, empID);
+        }
+
 
         public static string getEmpType(int empID)
         {
@@ -921,7 +970,6 @@ select YAEST from " + Core.getSchema(Core.getEnvironment()) + ".F060116 where YA
         {
             string year = x.ToString().Substring(2, 2);
             string period = '0' + x.ToString().Substring(4, 2);
-
             DataTable dt = Oracle.Run("select JDPPED from " + Core.getSchema(Core.getEnvironment()) + ".F069066 where JDPCCD='" + (empType == "H" ? "HR" : "SAL") + "' and JDPPNB=" + period + " and JDDTEY=" + year);
             DateTime endDate = Core.JDEToDate(dt.Rows[0][0].ToString());
 
@@ -1299,7 +1347,7 @@ JDPPED >= " + jdeDate);
 
             while (startingMonday.DayOfWeek != DayOfWeek.Monday)
                 startingMonday = startingMonday.AddDays(-1);
-
+      
             sql = new SQL("select sum(t.hours) from Timesheets t, users u where t.dateworked >= @START and t.dateworked <= @END and t.employeeid = u.employeeid and u.username = @USERNAME");
             sql.AddParameter("@START", startingMonday);
             sql.AddParameter("@END", startingMonday.AddDays(7));

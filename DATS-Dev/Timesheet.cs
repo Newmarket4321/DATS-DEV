@@ -541,23 +541,32 @@ order by count(t.employeeid) desc");
                 return foundErrors;
             }
 
-            //Disabled for Engineering
-            if ((workOrderBar.Visible == true && (workOrderBar.Items.Count == 0 || workOrderBar.SelectedItem.ToString().Split(' ')[0] == "")) && !Core.getDepartments(forUser).Contains(21))
-            {
-                foundErrors = true;
-                MessageBox.Show("Please select a work order.");
 
-                return foundErrors;
+
+            if (forUser == "Bond, Jeff" | forUser == "Gregory, Mark" | forUser == "Bishop, Darrell" | forUser == "VanWensem, Harry" | forUser == "O'Brien, Michelle" | forUser == "Agnoletto, Mark")
+            {
+                // Not required for these users
             }
-
-            if (Core.getDepartmentForcesDescription(forUser) && !Core.canReview(Core.getUsername()))
+            else
             {
-                if (textBox1.Text.Length == 0)
+                //Disabled for Engineering
+                if ((workOrderBar.Visible == true && (workOrderBar.Items.Count == 0 || workOrderBar.SelectedItem.ToString().Split(' ')[0] == "")) && !Core.getDepartments(forUser).Contains(21))
                 {
                     foundErrors = true;
-                    MessageBox.Show("Please enter a description.");
+                    MessageBox.Show("Please select a work order.");
 
                     return foundErrors;
+                }
+
+                if (Core.getDepartmentForcesDescription(forUser) && !Core.canReview(Core.getUsername()))
+                {
+                    if (textBox1.Text.Length == 0)
+                    {
+                        foundErrors = true;
+                        MessageBox.Show("Please enter a description.");
+
+                        return foundErrors;
+                    }
                 }
             }
             
@@ -569,15 +578,15 @@ order by count(t.employeeid) desc");
 
                 return foundErrors;
             }
-
-            if ((dateCalendar.SelectionStart.Month >= 4 || dateCalendar.SelectionEnd.Month >= 4) && (payTypeBar.Text == "Vac(S)Pr.Yr." || payTypeBar.Text == "Vac.(H) Prior Year"))
-            {
-                foundErrors = true;
-                MessageBox.Show("Effective April 1st, prior-year vacation is no longer accessible. Please use banked vacation." + Environment.NewLine
-                    + "Please speak to your supervisor if you have any questions.");
-
-                return foundErrors;
-            }
+//            soleil
+//            if ((dateCalendar.SelectionStart.Month >= 4 || dateCalendar.SelectionEnd.Month >= 4) && (payTypeBar.Text == "Vac(S)Pr.Yr." || payTypeBar.Text == "Vac.(H) Prior Year"))
+//            {
+//                foundErrors = true;
+ //               MessageBox.Show("Effective April 1st, prior-year vacation is no longer accessible. Please use banked vacation." + Environment.NewLine
+ //                   + "Please speak to your supervisor if you have any questions.");
+//
+ //               return foundErrors;
+   //         }
 
             if (payTypeBar.Text != "Standby" && payTypeBar.Text != "Standby -Weekend" && payTypeBar.Text != "Meal Allowance")
             {

@@ -232,6 +232,9 @@ order by dateworked asc");
 
         private void refresh()
         {
+            DateTime xxx ;
+            DateTime yyy ;
+
             if ((getEmpType() == "S" && toolStripComboBox3.Items.Count > 0 && toolStripComboBox3.Text[6] == 'H') ||
                 (getEmpType() == "H" && toolStripComboBox3.Items.Count > 0 && toolStripComboBox3.Text[6] == 'S') ||
                 firstLoad)
@@ -277,11 +280,23 @@ ORDER BY t.DATEWORKED ASC");
 //INNER JOIN Department d ON r.departmentid = d.departmentid
 
             //                sql.AddParameter("@DEPARTMENTUSERNAME", Core.getUsername()); //Username of current user to determine current department
+            // Selects TimeSheets data for the calendar's range -Soleil
+
             sql.AddParameter("@USERNAME", getUsername());
             sql.AddParameter("@DATEWORKED", getStart());
-            sql.AddParameter("@DATECUTOFF", getEnd());
-            DataTable dt = sql.Run();
+            // sql.AddParameter("@DATECUTOFF", getEnd());
 
+            //soleil 
+            xxx = getEnd();
+            yyy = DateTime.Parse(xxx.ToString("yyyy/MM/dd")+" 23:59:00 PM");
+            
+            sql.AddParameter("@DATECUTOFF", yyy);
+
+            DataTable dt = sql.Run();
+            //*
+            //Report r = new Report(Text, dt);
+            //r.Show();
+            //*
             double totalHours = 0;
 
             resultsList.Items.Clear();
@@ -418,6 +433,11 @@ ORDER BY t.DATEWORKED ASC");
             double statUsed = Core.getStatUsed(start, end, empID);
             double statBalance = Core.getStatBalance(start, end, empID);
 
+            // MCL Bank
+            double MCLMax = Core.getMCLMax(year, empID);
+            double MCLUsed = Core.getMCLUsed(year, empID);
+            double MCLBalance = Core.getMCLBalance(year, empID, false);
+
             //Report
             DataTable dt = new DataTable();
             dt.Columns.Add("Category");
@@ -427,18 +447,23 @@ ORDER BY t.DATEWORKED ASC");
 
             dt.Rows.Add(new object[] { "Banked Overtime", bankedTimeIn, bankedTimeUsed, bankedTimeBalance });
 
-            if (DateTime.Today.Month < 4)
-                dt.Rows.Add(new object[] { (start.Year - 1) + " Vacation", vacationPriorMax, vacationPriorUsed, vacationPriorBalance });
+//          if (DateTime.Today.Month < 4) soleil April
+            dt.Rows.Add(new object[] { (start.Year - 1) + " Vacation", vacationPriorMax, vacationPriorUsed, vacationPriorBalance });
 
             dt.Rows.Add(new object[] { start.Year + " Vacation", vacationMax, vacationUsed, vacationBalance });
 
             if ((!Core.isFacilities(getUsername()) && !Core.isFacilityMaintenance(getUsername())) || Core.getBankedVacationBalance(empID) > 0)
                 dt.Rows.Add(new object[] { "Banked Vacation", "", "", bankedVacationBalance });
 
+            if (MCLMax > 0)
+                dt.Rows.Add(new object[] { "MCL Vacation", MCLMax, MCLUsed, MCLBalance });
+
             dt.Rows.Add(new object[] { "Floater", floaterMax, floaterUsed, floaterBalance });
 
             if (Core.isFacilities(getUsername()) || Core.isFacilityMaintenance(getUsername()))
                 dt.Rows.Add(new object[] { "Statutory Holiday", statMax, statUsed, statBalance });
+
+            
 
             listView1.Items.Clear();
 
@@ -2984,7 +3009,7 @@ order by t.dateworked asc");
         private void modifyLockoutToolStripMenuItem_Click_1(object sender, EventArgs e)
         {
             string empType = "H";
-
+            //eac
             string word = empType == "H" ? "hourly" : "salary";
             string message;
             int currentPeriod = Core.getCurrentPeriod(empType);
@@ -3058,6 +3083,7 @@ order by t.dateworked asc");
 
         private void bankedTimeRemainingToolStripMenuItem_Click(object sender, EventArgs e)
         {
+  
             int year = DateTime.Today.Year;
             DateTime start = new DateTime(year, 1, 1);
             DateTime end = start.AddYears(1);
@@ -3087,6 +3113,12 @@ order by t.dateworked asc");
             double statUsed = Core.getStatUsed(start, end, empID);
             double statBalance = Core.getStatBalance(start, end, empID);
 
+            // MCL Bank
+            double MCLMax = Core.getMCLMax(year, empID);
+            double MCLUsed = Core.getMCLUsed(year, empID);
+            double MCLBalance = Core.getMCLBalance(year, empID, false);
+
+
             //Report
             DataTable dt = new DataTable();
             dt.Columns.Add("Category");
@@ -3108,13 +3140,17 @@ order by p.paytype", start, end, getUsername());
 
             dt.Rows.Add(new object[] { "Banked Time", bankedTimeIn, bankedTimeUsed, bankedTimeBalance });
 
-            if (DateTime.Today.Month < 4)
+ //           if (DateTime.Today.Month < 4)  Soleil
                 dt.Rows.Add(new object[] { (start.Year - 1) + " Vacation", vacationPriorMax, vacationPriorUsed, vacationPriorBalance });
             
             dt.Rows.Add(new object[] { start.Year + " Vacation", vacationMax, vacationUsed, vacationBalance });
 
             if (!Core.isFacilities(getUsername()) && !Core.isFacilityMaintenance(getUsername()))
                 dt.Rows.Add(new object[] { "Banked Vacation", bankedVacationMax, bankedVacationUsed, bankedVacationBalance });
+
+            if (MCLMax > 0)
+                dt.Rows.Add(new object[] { start.Year + " MCL Vacation", MCLMax, MCLUsed, MCLBalance });
+
 
             dt.Rows.Add(new object[] { "Floater", floaterMax, floaterUsed, floaterBalance });
 
@@ -3162,6 +3198,7 @@ order by p.paytype", start, end, getUsername());
 
         private void departmentEntitlementSummaryToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            // Aqui me quede
             string departmentSpread = "";
             SQL sql;
             DataTable dt;
@@ -3193,16 +3230,17 @@ order by p.paytype", start, end, getUsername());
             result.Columns.Add("Employment");
             result.Columns.Add("Bank Hours Remaining");
 
-            if (DateTime.Today.Month < 4)
-            {
+ //          if (DateTime.Today.Month < 4)Soleil
+            
                 result.Columns.Add((year - 1) + " Vacation Entitlement");
                 result.Columns.Add((year - 1) + " Vacation Balance");
-            }
             
+            // MCL Code added on Aug 2020
             result.Columns.Add(year + " Vacation Entitlement");
             result.Columns.Add(year + " Vacation Balance");
             result.Columns.Add("Banked Vacation Entitlement");
             result.Columns.Add("Banked Vacation Balance");
+            result.Columns.Add("MCL Vacation Balance");
             result.Columns.Add("Floaters Remaining");
             result.Columns.Add("Stats Remaining (Facilities)");
 
@@ -3227,6 +3265,11 @@ order by p.paytype", start, end, getUsername());
                 double bankedVacationMax = Core.getBankedVacationMax(empID);
                 double bankedVacationUsed = Core.getBankedVacationUsed(empID);
                 double bankedVacationBalance = Core.getBankedVacationBalance(empID);
+
+                // MCL Bank
+                double MCLMax = Core.getMCLMax(year, empID);
+                double MCLUsed = Core.getMCLUsed(year, empID);
+                double MCLBalance = Core.getMCLBalance(year, empID, false);
 
                 double floaterMax = Core.getFloaterMax(empID);
                 double floaterUsed = Core.getFloaterUsed(start, end, empID);
@@ -3271,6 +3314,7 @@ order by p.paytype", start, end, getUsername());
                     code = "Unknown";
 
                 //Result
+                /*
                 if (DateTime.Today.Month >= 4)
                 result.Rows.Add(new object[] {
                     users.Rows[u]["DISPLAYNAME"].ToString(),
@@ -3281,9 +3325,10 @@ order by p.paytype", start, end, getUsername());
                     vacationBalance,
                     bankedVacationMax,
                     bankedVacationBalance,
+                    MCLBalance,
                     floaterBalance,
                     statLabel });
-                else
+                else */
                     result.Rows.Add(new object[] {
                     users.Rows[u]["DISPLAYNAME"].ToString(),
                     users.Rows[u]["DEPARTMENT"].ToString(),
@@ -3295,11 +3340,12 @@ order by p.paytype", start, end, getUsername());
                     vacationBalance,
                     bankedVacationMax,
                     bankedVacationBalance,
+                    MCLBalance,
                     floaterBalance,
                     statLabel });
             }
 
-            Report r = new Report("Staff Entitlement Summary", result);
+        Report r = new Report("Staff Entitlement Summary", result);
             r.Show();
         }
 

@@ -84,7 +84,7 @@ namespace DATS_Timesheets
             string queryString = @"
 select FAAPID, FADL01
 
-from PRODDTA.F1201
+from CRPDTA.F1201
 
 where FAAPID like '__-__%'
 and FAACL9 in ('P01', 'P02', 'P03', 'P04', 'P05', 'P06', 'P07', 'P08', 'P09', 'P10')

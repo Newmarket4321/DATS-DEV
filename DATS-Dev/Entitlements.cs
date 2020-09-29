@@ -28,13 +28,27 @@ namespace DATS_Timesheets
         public void refresh()
         {
             Core.fillListView(listView1, SQL.Run("select Year, Type, Entitlement, '' as Balance from entitlements where employeeid = @EMPID", empID));
-
+            double balance = 0;
             for(int i = 0; i < listView1.Items.Count; i++)
              {
                 int year = int.Parse(listView1.Items[i].SubItems[listView1.Columns.IndexOfKey("Year")].Text);
                 string type = listView1.Items[i].SubItems[listView1.Columns.IndexOfKey("Type")].Text;
                 double entitlement = double.Parse(listView1.Items[i].SubItems[listView1.Columns.IndexOfKey("Entitlement")].Text);
-                double balance = (type == "Vacation" ? Core.getVacationBalance(year, empID, year < DateTime.Now.Year) : Core.getBankedVacationBalance(empID));
+                //double balance = (type == "Vacation" ? Core.getVacationBalance(year, empID, year < DateTime.Now.Year) : Core.getBankedVacationBalance(empID));
+                // MCL Code added Aug 2020
+                switch (type)
+                {
+                    case "Vacation":
+                        balance = Core.getVacationBalance(year, empID, year < DateTime.Now.Year);
+                        break;
+                    case "MCL Vacation":
+                        balance = Core.getMCLBalance(year, empID, year < DateTime.Now.Year);
+                        break;
+                    default:
+                        balance = Core.getBankedVacationBalance(empID);
+                        break;
+                }
+
 
                 listView1.Items[i].SubItems[listView1.Columns.IndexOfKey("Balance")].Text = balance.ToString();
             }
@@ -42,30 +56,39 @@ namespace DATS_Timesheets
 
         private void button1_Click(object sender, EventArgs e)
         {
-            bool success;
-            int year = Core.getInt("Enter vacation year", 1990, 2100, DateTime.Today.Year, out success);
-
-            if (!success)
-                return;
-
-            int count = SQL.Run("select * from entitlements where year = @YEAR and type = 'Vacation'", year).Rows.Count;
-
-            if(count > 0)
+            // MCL Code added Aug 2020
+            if (Core.isAdmin(Core.getUsername()))
             {
-                MessageBox.Show(username + " already has an entitlement entry for " + year + "." + Environment.NewLine
-                    + "Please view it on the left side of the Entitlements screen.");
-                return;
+                EntitlementType entType = new EntitlementType(username,empID);
+                entType.ShowDialog();
+                refresh();
             }
 
-            double value = Core.getDouble("Enter " + username + " 's " + year + " vacation entitlement", 0, 1000, 0, out success);
+            /*    bool success;
+                int year = Core.getInt("Enter vacation year", 1990, 2100, DateTime.Today.Year, out success);
 
-            if (!success)
-                return;
+                if (!success)
+                    return;
 
-            SQL.Run("insert into entitlements values (@EMPID, @YEAR, @TYPE, @ENTITLEMENT)", empID, year, "Vacation", value);
-            Core.logHistory("Entitlement added", year + " Vacation = " + value + " for " + username, "");
+                int count = SQL.Run("select * from entitlements where year = @YEAR and type = 'Vacation'", year).Rows.Count;
 
-            refresh();
+                if(count > 0)
+                {
+                    MessageBox.Show(username + " already has an entitlement entry for " + year + "." + Environment.NewLine
+                        + "Please view it on the left side of the Entitlements screen.");
+                    return;
+                }
+
+                double value = Core.getDouble("Enter " + username + " 's " + year + " vacation entitlement", 0, 1000, 0, out success);
+
+                if (!success)
+                    return;
+
+                SQL.Run("insert into entitlements values (@EMPID, @YEAR, @TYPE, @ENTITLEMENT)", empID, year, "Vacation", value);
+                Core.logHistory("Entitlement added", year + " Vacation = " + value + " for " + username, "");
+
+                refresh();
+            */
         }
 
         private void button5_Click(object sender, EventArgs e)

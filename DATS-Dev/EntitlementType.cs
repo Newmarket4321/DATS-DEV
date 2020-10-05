@@ -50,9 +50,21 @@ namespace DATS_Timesheets
             }
             else
             {
-                SQL.Run("insert into entitlements values (@EMPID, @YEAR, @TYPE, @ENTITLEMENT)", idEmp, year, Etype, nvalue);
-                Core.logHistory("Entitlement added", year + " Vacation = " + nvalue + " for " + cusername, "");
-                this.Close();
+                if(Environment.MachineName == "SYSMG-09-19")
+                {
+                    if(nvalue == 35 || nvalue == 40 || nvalue == 70 || nvalue == 80)
+                    {
+                        
+                        SQL.Run("insert into entitlements values (@EMPID, @YEAR, @TYPE, @ENTITLEMENT)", idEmp, year, Etype, nvalue);
+                        Core.logHistory("Entitlement added", year + " Vacation = " + nvalue + " for " + cusername, "");
+                        
+                        this.Close();
+                    }
+                    else
+                    {
+                        MessageBox.Show("Your overtime limit is 35,40,70 or 80.");
+                    }
+                 }
             }
         }
 

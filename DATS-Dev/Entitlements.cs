@@ -168,9 +168,8 @@ and dateworked < @END2) a
                     MessageBox.Show(username + " has " + balance + " hours of " + (year != 0 ? year + " " : "") + type + ". This change would bring them below 0. Please try a different number.");
                     return;
                 }
-                if(Environment.MachineName == "SYSMG-09-19")
-                {
-                    if(newValue == 35 || newValue == 40 || newValue == 70 || newValue == 80)
+              //  if(Environment.MachineName == "SYSMG-09-19")
+                    if(newValue == 35 || newValue == 40 || newValue == 70 || newValue == 80) //Banked Overtime Limit
                     {
                          SQL.Run("update entitlements set entitlement = @NEWVALUE where year = @YEAR and type = @TYPE and employeeid = @EMPID", newValue, year, type, empID);
                          Core.logHistory("Entitlement edited", (year != 0 ? year + " " : "" ) + type + " = " + newValue + " for " + username, "");
@@ -180,9 +179,8 @@ and dateworked < @END2) a
                     else
                     {
                         MessageBox.Show("Your overtime limit is 35,40,70 or 80.");
-                    }                           
-
-                }
+                    }     
+                
             }
             else
                 MessageBox.Show("No entitlement selected.");

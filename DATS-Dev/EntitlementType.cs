@@ -50,9 +50,8 @@ namespace DATS_Timesheets
             }
             else
             {
-                if(Environment.MachineName == "SYSMG-09-19")
-                {
-                    if(nvalue == 35 || nvalue == 40 || nvalue == 70 || nvalue == 80)
+               // if(Environment.MachineName == "SYSMG-09-19")
+                    if(nvalue == 35 || nvalue == 40 || nvalue == 70 || nvalue == 80) //Banked Overtime Limit
                     {
                         
                         SQL.Run("insert into entitlements values (@EMPID, @YEAR, @TYPE, @ENTITLEMENT)", idEmp, year, Etype, nvalue);
@@ -64,7 +63,7 @@ namespace DATS_Timesheets
                     {
                         MessageBox.Show("Your overtime limit is 35,40,70 or 80.");
                     }
-                 }
+                 
             }
         }
 

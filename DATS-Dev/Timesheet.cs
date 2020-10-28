@@ -181,82 +181,60 @@ namespace DATS_Timesheets
         public void startingSetup()
         {
             showHideWorkingElements();
-
+            SQL usr;
             DataTable dt;
-            
-            if(Core.canReview(Core.getUsername()) && !Core.getDepartments().Contains(21)) //Supervisors Non-Engineering
+           
+            dt =  SQL.Run(@"select department from department d 
+                            join departmentassociations da on d.departmentid = da.departmentid
+                            join users u on da.userid = u.userid
+                            where u.displayname =@UserName and d.DepartmentID in 
+                            (select DepartmentID from DepartmentAssociations da 
+                            join Users u on da.UserID = u.USERID where u.active = 1 and u.ENTERSTIME = 1 group by DepartmentID )
+                            order by department", forUser.ToString());
+          
+            string ColumnName = "";
+            for (int i = 0; i < dt.Rows.Count; i++)
+                ColumnName = dt.Rows[i]["department"].ToString();
+            if (Environment.MachineName == "SYSMG-09-19")
             {
-                dt = SQL.Run("select paytype, description from paycodes where paytype not in (900, 80, 4, 108, 922, 901, 903) and paytypeactive=1 order by description");
+                if (ColumnName == "Facilities Maintenance" || ColumnName == "Facilities - Operations")
+                    ColumnName = "F_Maintanence_Operations";
+                else if (ColumnName == "Parks")
+                    ColumnName = "Parks_HRLY";
+                else if (ColumnName == "Water")
+                    ColumnName = "Water_HRLY";
+                else if (ColumnName == "Roads")
+                    ColumnName = "Roads_HRLY";
+                else if (ColumnName == "Fleet")
+                    ColumnName = "Fleet_HRLY";
+                else if (ColumnName == "Ops Office")
+                    ColumnName = "OpsOffice_HRLY";
+                else
+                    ColumnName = "";
             }
-            else if(Core.canReview(Core.getUsername())) //Supervisors Engineering
+             string code ="";
+             code = Core.getEmpType(Core.getEmpID(forUser.ToString()));
+
+                if (code == "")       { code = "Full-time Regular"; ColumnName = "All_Salary"; }
+                else if (code == "1") { code = "Part-time Casual";  ColumnName = "All_PTC";    }
+                else if (code == "2") { code = "Part-time Hourly";  ColumnName = "All_PTH";    }
+                else if (code == "3") { code = "Contract";          ColumnName = "ALL_SEIU_Contract"; }
+                else if (code == "4") { code = "Elected Officials"; }
+                else if (code == "5") { code = "Full-time Hourly";  ColumnName = "All_Salary"; }
+                else if (code == "6") { code = "Contract Salary"; }
+                else if (code == "7") { code = "LTD";             }
+                else  code = "Unknown";
+
+          if(Environment.MachineName == "SYSMG-09-19")
             {
-                dt = SQL.Run("select paytype, description from paycodes where paytype not in (900, 80, 4, 108) and paytypeactive=1 order by description");
+                //string str = "";
+                //str += "Dept " + Core.getEmpID(forUser.ToString()) + " = code =" + code;
+               // MessageBox.Show(ColumnName + "= Department = " + Core.getEmpID(forUser.ToString()) + " = code =" + code);
             }
-            else if (Core.isSalary(Core.getEmpID(forUser))) //Salary
-            {
-                dt = SQL.Run(@"
-SELECT PayType, [Description]
-FROM PayCodes
-WHERE paytype in (1, 2, 81, 90, 100, 105, 111, 112, 300, 301, 305, 310, 311, 400, 808, 810, 811, 813, 816, 818, 820, 822, 825, 826, 901, 903, 905, 906, 908, 909, 915, 922, 950, 955)
-and paytypeactive = 1
 
-ORDER BY PayType
-");
-            }
-            //Facilities staff
-            else if(Core.isFacilities())
-                dt = SQL.Run(@"
-SELECT PayType, [Description]
-FROM PayCodes
-
-WHERE PayType in (1, 2, 5, 105, 106, 955, 81, 809, 821, 807, 905, 311, 812, 811, 907, 90, 109, 111, 0, 904, 301, 908, 909)
-and paytypeactive = 1
-
-ORDER BY PayType
-");
-            else if (Core.getDepartments().Contains(5)) //Facilities maintenance
-                dt = SQL.Run(@"
-SELECT PayType, [Description]
-FROM PayCodes
-
-WHERE PayType in (1, 2, 105, 955, 81, 809, 821, 807, 811, 905, 311, 907, 90, 109, 5, 106, 812, 111, 0, 904, 301, 908, 909)
-and paytypeactive = 1
-
-ORDER BY PayType
-");
-            else if (Core.getDepartments().Contains(13)) //IT
-                dt = SQL.Run(@"
-SELECT PayType, [Description]
-FROM PayCodes
-
-WHERE PayType in (1, 2, 105, 950, 955, 81, 809, 807, 821, 822, 905, 311, 112, 111, 904, 301, 908, 909)
-and paytypeactive = 1
-
-ORDER BY PayType
-");
-            else if (Core.getDepartments().Contains(2) && Core.isPartTime(Core.getUsername())) //Part-time Parks
-                dt = SQL.Run(@"
-SELECT PayType, [Description]
-FROM PayCodes
-
-WHERE PayType in (1, 105, 2, 0, 904, 90, 301, 908, 909)
-and paytypeactive = 1
-
-ORDER BY PayType
-");
-            else
-                dt = SQL.Run(@"
-SELECT PayType, [Description]
-FROM PayCodes
-
-WHERE PayType in (1, 105, 955, 81, 809, 807, 821, 905, 311, 112, 111, 812, 2, 0, 904, 90, 301, 908, 909)
-and paytypeactive = 1
-
-ORDER BY PayType
-");
+            dt = SQL.Run(@" SELECT PayType, Description FROM PayCodes WHERE " + ColumnName + " = 1 and paytypeactive = 1 ORDER BY Description");
 
             payTypeBar.Items.Clear();
-
             int regIndex = -1;
             for (int i = 0; i < dt.Rows.Count; i++)
             {
@@ -267,6 +245,8 @@ ORDER BY PayType
             }
 
             payTypeBar.SelectedIndex = regIndex;
+
+            
             showHideWorkingElements();
 
             GetTime gt = new GetTime(forUser, dateCalendar.SelectionStart);

@@ -38,7 +38,7 @@ namespace DATS_Timesheets
             textBox3.Text = username;
             oldUsername = username;
             
-            SQL sql = new SQL("select u.username, u.vacmax, u.bankvacmax, u.employeeid as EmpID, u.reviewer, u.approver, u.active, u.enterstime, u.admin from users u where u.displayname = @USERNAME");
+            SQL sql = new SQL("select u.username, u.vacmax, u.bankvacmax, u.employeeid as EmpID, u.reviewer, u.approver, u.active, u.enterstime, u.admin, u.viewonlyuser from users u where u.displayname = @USERNAME");
             sql.AddParameter("@USERNAME", username);
             DataTable dt = sql.Run();
 
@@ -51,7 +51,11 @@ namespace DATS_Timesheets
             bool admin = bool.Parse(dt.Rows[0]["admin"].ToString());
             bool active = bool.Parse(dt.Rows[0]["active"].ToString());
             bool entersTime = bool.Parse(dt.Rows[0]["enterstime"].ToString());
-
+            bool viewonly = false;
+            if (dt.Rows[0]["viewonlyuser"].ToString() != null)
+            {
+                viewonly = bool.Parse(dt.Rows[0]["viewonlyuser"].ToString());
+            }
             if (!active)
                 radioButton1.Checked = true;
             else if (admin)
@@ -69,6 +73,10 @@ namespace DATS_Timesheets
                     radioButton3.Checked = true;
                 else
                     radioButton4.Checked = true;
+            }
+            else if (viewonly)
+            {
+                radioButton8.Checked = true;
             }
             else
                 radioButton2.Checked = true;
@@ -89,7 +97,7 @@ namespace DATS_Timesheets
                 radioButton4.Enabled = false;
                 radioButton5.Enabled = false;
                 radioButton6.Enabled = false;
-
+                radioButton8.Enabled = false;
                 textBox1.Enabled = false;
                 textBox2.Enabled = false;
                 textBox3.Enabled = false;
@@ -216,11 +224,11 @@ namespace DATS_Timesheets
             bool entersTime = radioButton2.Checked || radioButton3.Checked || radioButton6.Checked;
             bool admin = radioButton7.Checked;
             bool active = !radioButton1.Checked;
-            
+            bool viewonly = radioButton8.Checked;
             if (mode == NEWMODE)
             {
                 //Create user
-                SQL sql = new SQL("INSERT INTO Users VALUES (@Username, @DisplayName, @EmpID, @EmpType, @CanReview, @CanApprove, @VacMax, @BankVacMax, @Active, @PriorVacMax, @EntersTime, @Admin)");
+                SQL sql = new SQL("INSERT INTO Users VALUES (@Username, @DisplayName, @EmpID, @EmpType, @CanReview, @CanApprove, @VacMax, @BankVacMax, @Active, @PriorVacMax, @EntersTime, @Admin, @Viewonlyuser)");
                 sql.AddParameter("@Username", textBox1.Text);
                 sql.AddParameter("@DisplayName", textBox3.Text);
                 sql.AddParameter("@EmpID", textBox2.Text);
@@ -233,6 +241,7 @@ namespace DATS_Timesheets
                 sql.AddParameter("@PriorVacMax", 0);
                 sql.AddParameter("@EntersTime", entersTime);
                 sql.AddParameter("@Admin", admin);
+                sql.AddParameter("@Viewonlyuser", viewonly);
                 sql.Run();
 
                 //Grab userID
@@ -275,7 +284,8 @@ approver=@CANAPPROVE,
 EmployeeID=@EMPLOYEEID,
 Active=@ACTIVE,
 enterstime=@ENTERSTIME,
-admin=@ADMIN
+admin=@ADMIN,
+viewonlyuser=@Viewonlyuser
 
 where userid=@USERID");
                 sql.AddParameter("@USERNAME", textBox1.Text);
@@ -287,6 +297,7 @@ where userid=@USERID");
                 sql.AddParameter("@ACTIVE", active);
                 sql.AddParameter("@ENTERSTIME", entersTime);
                 sql.AddParameter("@ADMIN", admin);
+                sql.AddParameter("@Viewonlyuser", viewonly);
                 sql.Run();
 
                 //Grab userID

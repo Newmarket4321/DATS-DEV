@@ -94,7 +94,7 @@ namespace DATS_Timesheets
             {
                 sql = new SQL(
     @"SELECT
-u.userid as ID, u.displayname as Username, u.reviewer, u.approver, u.employeeid as EmpID, u.active as Active, u.admin as Admin
+u.userid as ID, u.displayname as Username, u.reviewer, u.approver, u.employeeid as EmpID, u.active as Active, u.admin as Admin, u.viewonlyuser as Viewonlyuser
 FROM users u, department d, departmentassociations da
 WHERE u.userid = da.userid and da.departmentid = d.departmentid and d.department = @DEPARTMENT
 order by u.displayname
@@ -105,7 +105,7 @@ order by u.displayname
             {
                 sql = new SQL(
     @"SELECT
-u.userid as ID, u.displayname as Username, u.reviewer, u.approver, u.employeeid as EmpID, u.active as Active, u.admin as Admin
+u.userid as ID, u.displayname as Username, u.reviewer, u.approver, u.employeeid as EmpID, u.active as Active, u.admin as Admin, u.viewonlyuser as Viewonlyuser
 FROM users u order by u.displayname
 ");
             }
@@ -122,6 +122,7 @@ FROM users u order by u.displayname
                 bool manager = bool.Parse(dt.Rows[i]["approver"].ToString());
                 bool admin = bool.Parse(dt.Rows[i]["admin"].ToString());
                 bool active = bool.Parse(dt.Rows[i]["active"].ToString());
+                bool viewonly = bool.Parse(dt.Rows[i]["viewonlyuser"].ToString());
                 string role;
                 Color roleColor;
 
@@ -139,6 +140,11 @@ FROM users u order by u.displayname
                 {
                     role = "Approver";
                     roleColor = Color.Purple;
+                }
+                else if(viewonly)
+                {
+                    role = "ViewOnly User";
+                    roleColor = Color.Fuchsia;
                 }
                 else
                 {

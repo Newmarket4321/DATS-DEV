@@ -33,7 +33,7 @@ namespace DATS_Timesheets
                 DataTable dt = null;
                 Oracle ora = null;
                 string cutoff = "";
-
+                DateTime endDate;
 
                 if (Core.getEnvironment() != "PD")
                     MessageBox.Show("This export is in test mode. Environment: " + Core.getEnvironment() + Environment.NewLine
@@ -74,6 +74,9 @@ namespace DATS_Timesheets
 
                         //3. Mark timesheets as exported, and give them local batch ID
                         cutoff = Oracle.RunString("select max(JDPPED) from " + Core.getSchema(Core.getEnvironment()) + ".F069066 where trim(JDPCCD) = '" + (type == "H" ? "HR" : "SAL") + "' and JDPPED <= @TODAY", Core.dateToJDE(DateTime.Today.ToString()));
+                        // Select up to yyyy/mm/dd 23:59:00 Soleil
+
+                        endDate = DateTime.Parse(Core.JDEToDate(cutoff).ToString("yyyy/MM/dd") + " 23:59:00 PM");
 
                         SQL.Run(@"
 update Timesheets
@@ -86,8 +89,10 @@ and recordlocked='True'
 and exported='False'
 and paytype not in (0)
 and not (@EMPTYPE1 = 'S' and paytype = 811)
-and EmployeeID in (select EmployeeID from Users where EMPTYPE = @EMPTYPE2)", batchID, Core.JDEToDate(cutoff), type, type);
-  //                  }
+and EmployeeID in (select EmployeeID from Users where EMPTYPE = @EMPTYPE2)", batchID, endDate, type, type);
+
+                    //and EmployeeID in (select EmployeeID from Users where EMPTYPE = @EMPTYPE2)", batchID, Core.JDEToDate(cutoff), type, type);
+                    //                  }
 
                     //4. Clear F06116Z1
                     Oracle.Run("delete from " + Core.getSchema(Core.getEnvironment()) + ".F06116Z1");

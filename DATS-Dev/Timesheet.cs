@@ -197,7 +197,7 @@ namespace DATS_Timesheets
                 ColumnName = dt.Rows[i]["department"].ToString();//Checking Department Typ
             if (Environment.MachineName == "SYSMG-09-19")
             {
-                if (ColumnName == "Facilities Maintenance" || ColumnName == "Facilities - Operations")e
+                if (ColumnName == "Facilities Maintenance" || ColumnName == "Facilities - Operations")
                     ColumnName = "F_Maintanence_Operations";
                 else if (ColumnName == "Parks")
                     ColumnName = "Parks_HRLY";

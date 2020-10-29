@@ -183,7 +183,7 @@ namespace DATS_Timesheets
             showHideWorkingElements();
             SQL usr;
             DataTable dt;
-           
+           //Filtering for PayType
             dt =  SQL.Run(@"select department from department d 
                             join departmentassociations da on d.departmentid = da.departmentid
                             join users u on da.userid = u.userid
@@ -194,10 +194,10 @@ namespace DATS_Timesheets
           
             string ColumnName = "";
             for (int i = 0; i < dt.Rows.Count; i++)
-                ColumnName = dt.Rows[i]["department"].ToString();
+                ColumnName = dt.Rows[i]["department"].ToString();//Checking Department Typ
             if (Environment.MachineName == "SYSMG-09-19")
             {
-                if (ColumnName == "Facilities Maintenance" || ColumnName == "Facilities - Operations")
+                if (ColumnName == "Facilities Maintenance" || ColumnName == "Facilities - Operations")e
                     ColumnName = "F_Maintanence_Operations";
                 else if (ColumnName == "Parks")
                     ColumnName = "Parks_HRLY";
@@ -213,7 +213,7 @@ namespace DATS_Timesheets
                     ColumnName = "";
             }
              string code ="";
-             code = Core.getEmpType(Core.getEmpID(forUser.ToString()));
+             code = Core.getEmpType(Core.getEmpID(forUser.ToString())); //Checking Employee Type
 
                 if (code == "")       { code = "Full-time Regular"; ColumnName = "All_Salary"; }
                 else if (code == "1") { code = "Part-time Casual";  ColumnName = "All_PTC";    }
@@ -246,7 +246,8 @@ namespace DATS_Timesheets
 
             payTypeBar.SelectedIndex = regIndex;
 
-            
+            //End Filtering 
+
             showHideWorkingElements();
 
             GetTime gt = new GetTime(forUser, dateCalendar.SelectionStart);

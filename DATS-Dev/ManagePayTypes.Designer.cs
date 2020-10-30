@@ -29,12 +29,6 @@
         private void InitializeComponent()
         {
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.PayType_Txt = new System.Windows.Forms.TextBox();
-            this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.Description_txt = new System.Windows.Forms.TextBox();
-            this.TypeActive = new System.Windows.Forms.CheckBox();
-            this.button1 = new System.Windows.Forms.Button();
             this.Edit = new System.Windows.Forms.DataGridViewLinkColumn();
             this.Delete = new System.Windows.Forms.DataGridViewLinkColumn();
             this.PayType = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -60,6 +54,12 @@
             this.Water_HRLY = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Parks_HRLY = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.F_Maintanence_Operations = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.PayType_Txt = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.Description_txt = new System.Windows.Forms.TextBox();
+            this.TypeActive = new System.Windows.Forms.CheckBox();
+            this.button1 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -99,7 +99,7 @@
             this.Parks_HRLY,
             this.F_Maintanence_Operations});
             this.dataGridView1.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnKeystroke;
-            this.dataGridView1.Location = new System.Drawing.Point(47, 159);
+            this.dataGridView1.Location = new System.Drawing.Point(47, 168);
             this.dataGridView1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowTemplate.Height = 28;
@@ -107,6 +107,187 @@
             this.dataGridView1.Size = new System.Drawing.Size(1094, 552);
             this.dataGridView1.TabIndex = 21;
             this.dataGridView1.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellClick);
+            // 
+            // Edit
+            // 
+            this.Edit.DataPropertyName = "lnkColumn";
+            this.Edit.HeaderText = "Edit";
+            this.Edit.Name = "Edit";
+            this.Edit.Text = "Edit";
+            this.Edit.UseColumnTextForLinkValue = true;
+            this.Edit.Width = 43;
+            // 
+            // Delete
+            // 
+            this.Delete.DataPropertyName = "lnkColumn";
+            this.Delete.HeaderText = "Delete";
+            this.Delete.Name = "Delete";
+            this.Delete.Text = "Delete";
+            this.Delete.UseColumnTextForLinkValue = true;
+            this.Delete.Width = 62;
+            // 
+            // PayType
+            // 
+            this.PayType.DataPropertyName = "PayType";
+            this.PayType.HeaderText = "Pay Type";
+            this.PayType.Name = "PayType";
+            this.PayType.Width = 101;
+            // 
+            // Description
+            // 
+            this.Description.DataPropertyName = "Description";
+            this.Description.HeaderText = "Description";
+            this.Description.Name = "Description";
+            this.Description.Width = 125;
+            // 
+            // PayTypeActive
+            // 
+            this.PayTypeActive.DataPropertyName = "PayTypeActive";
+            this.PayTypeActive.HeaderText = "PayType Active";
+            this.PayTypeActive.Name = "PayTypeActive";
+            this.PayTypeActive.Width = 140;
+            // 
+            // TransType
+            // 
+            this.TransType.DataPropertyName = "TransType";
+            this.TransType.HeaderText = "TransType";
+            this.TransType.Name = "TransType";
+            this.TransType.Width = 119;
+            // 
+            // Rate_A
+            // 
+            this.Rate_A.DataPropertyName = "Rate_A";
+            this.Rate_A.HeaderText = "Rate A";
+            this.Rate_A.Name = "Rate_A";
+            this.Rate_A.Width = 89;
+            // 
+            // Rate_R
+            // 
+            this.Rate_R.DataPropertyName = "Rate_R";
+            this.Rate_R.HeaderText = "Rate R";
+            this.Rate_R.Name = "Rate_R";
+            this.Rate_R.Width = 89;
+            // 
+            // RegYN
+            // 
+            this.RegYN.DataPropertyName = "RegYN";
+            this.RegYN.HeaderText = "RegYN";
+            this.RegYN.Name = "RegYN";
+            this.RegYN.Width = 97;
+            // 
+            // StdYN
+            // 
+            this.StdYN.DataPropertyName = "StdYN";
+            this.StdYN.HeaderText = "StdYN";
+            this.StdYN.Name = "StdYN";
+            this.StdYN.ReadOnly = true;
+            this.StdYN.Width = 92;
+            // 
+            // OTYN
+            // 
+            this.OTYN.DataPropertyName = "OTYN";
+            this.OTYN.HeaderText = "OTYN";
+            this.OTYN.Name = "OTYN";
+            this.OTYN.Width = 88;
+            // 
+            // VacYN
+            // 
+            this.VacYN.DataPropertyName = "VacYN";
+            this.VacYN.HeaderText = "VacYN";
+            this.VacYN.Name = "VacYN";
+            this.VacYN.ReadOnly = true;
+            this.VacYN.Width = 95;
+            // 
+            // Rate_Exp
+            // 
+            this.Rate_Exp.DataPropertyName = "Rate_Exp";
+            this.Rate_Exp.HeaderText = "Rate Exp";
+            this.Rate_Exp.Name = "Rate_Exp";
+            this.Rate_Exp.Width = 103;
+            // 
+            // AbsYN
+            // 
+            this.AbsYN.DataPropertyName = "AbsYN";
+            this.AbsYN.HeaderText = "AbsYN";
+            this.AbsYN.Name = "AbsYN";
+            this.AbsYN.Width = 95;
+            // 
+            // Colour
+            // 
+            this.Colour.DataPropertyName = "Colour";
+            this.Colour.HeaderText = "Colour";
+            this.Colour.Name = "Colour";
+            this.Colour.Width = 91;
+            // 
+            // ALL_Salary
+            // 
+            this.ALL_Salary.DataPropertyName = "ALL_Salary";
+            this.ALL_Salary.HeaderText = "ALL Salary";
+            this.ALL_Salary.Name = "ALL_Salary";
+            this.ALL_Salary.Width = 113;
+            // 
+            // ALL_PTC
+            // 
+            this.ALL_PTC.DataPropertyName = "ALL_PTC";
+            this.ALL_PTC.HeaderText = "ALL PTC";
+            this.ALL_PTC.Name = "ALL_PTC";
+            // 
+            // ALL_PTH
+            // 
+            this.ALL_PTH.DataPropertyName = "ALL_PTH";
+            this.ALL_PTH.HeaderText = "ALL PTH";
+            this.ALL_PTH.Name = "ALL_PTH";
+            this.ALL_PTH.Width = 101;
+            // 
+            // ALL_SEIU_Contract
+            // 
+            this.ALL_SEIU_Contract.DataPropertyName = "ALL_SEIU_Contract";
+            this.ALL_SEIU_Contract.HeaderText = "ALL SEIU Contract";
+            this.ALL_SEIU_Contract.Name = "ALL_SEIU_Contract";
+            this.ALL_SEIU_Contract.Width = 167;
+            // 
+            // OpsOffice_HRLY
+            // 
+            this.OpsOffice_HRLY.DataPropertyName = "OpsOffice_HRLY";
+            this.OpsOffice_HRLY.HeaderText = "OpsOffice HRLY";
+            this.OpsOffice_HRLY.Name = "OpsOffice_HRLY";
+            this.OpsOffice_HRLY.Width = 151;
+            // 
+            // Roads_HRLY
+            // 
+            this.Roads_HRLY.DataPropertyName = "Roads_HRLY";
+            this.Roads_HRLY.HeaderText = "Roads HRLY";
+            this.Roads_HRLY.Name = "Roads_HRLY";
+            this.Roads_HRLY.ReadOnly = true;
+            this.Roads_HRLY.Width = 129;
+            // 
+            // Fleet_HRLY
+            // 
+            this.Fleet_HRLY.DataPropertyName = "Fleet_HRLY";
+            this.Fleet_HRLY.HeaderText = "Fleet HRLY";
+            this.Fleet_HRLY.Name = "Fleet_HRLY";
+            this.Fleet_HRLY.Width = 119;
+            // 
+            // Water_HRLY
+            // 
+            this.Water_HRLY.DataPropertyName = "Water_HRLY";
+            this.Water_HRLY.HeaderText = "Water HRLY";
+            this.Water_HRLY.Name = "Water_HRLY";
+            this.Water_HRLY.Width = 125;
+            // 
+            // Parks_HRLY
+            // 
+            this.Parks_HRLY.DataPropertyName = "Parks_HRLY";
+            this.Parks_HRLY.HeaderText = "Parks HRLY";
+            this.Parks_HRLY.Name = "Parks_HRLY";
+            this.Parks_HRLY.Width = 123;
+            // 
+            // F_Maintanence_Operations
+            // 
+            this.F_Maintanence_Operations.DataPropertyName = "F_Maintanence_Operations";
+            this.F_Maintanence_Operations.HeaderText = "Facilities Maintanence/Operations";
+            this.F_Maintanence_Operations.Name = "F_Maintanence_Operations";
+            this.F_Maintanence_Operations.Width = 259;
             // 
             // PayType_Txt
             // 
@@ -159,188 +340,6 @@
             this.button1.Text = "Submit";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
-            // 
-            // Edit
-            // 
-            this.Edit.DataPropertyName = "lnkColumn";
-            this.Edit.HeaderText = "Edit";
-            this.Edit.Name = "Edit";
-            this.Edit.Text = "Edit";
-            this.Edit.UseColumnTextForLinkValue = true;
-            this.Edit.Width = 43;
-            // 
-            // Delete
-            // 
-            this.Delete.DataPropertyName = "lnkColumn";
-            this.Delete.HeaderText = "Delete";
-            this.Delete.Name = "Delete";
-            this.Delete.Text = "Delete";
-            this.Delete.UseColumnTextForLinkValue = true;
-            this.Delete.Width = 62;
-            // 
-            // PayType
-            // 
-            this.PayType.DataPropertyName = "PayType";
-            this.PayType.HeaderText = "Pay Type";
-            this.PayType.Name = "PayType";
-            this.PayType.Width = 109;
-            // 
-            // Description
-            // 
-            this.Description.DataPropertyName = "Description";
-            this.Description.HeaderText = "Description";
-            this.Description.Name = "Description";
-            this.Description.Width = 125;
-            // 
-            // PayTypeActive
-            // 
-            this.PayTypeActive.DataPropertyName = "PayTypeActive";
-            this.PayTypeActive.HeaderText = "PayType Active";
-            this.PayTypeActive.Name = "PayTypeActive";
-            this.PayTypeActive.Width = 152;
-            // 
-            // TransType
-            // 
-            this.TransType.DataPropertyName = "TransType";
-            this.TransType.HeaderText = "TransType";
-            this.TransType.Name = "TransType";
-            this.TransType.Width = 119;
-            // 
-            // Rate_A
-            // 
-            this.Rate_A.DataPropertyName = "Rate_A";
-            this.Rate_A.HeaderText = "Rate A";
-            this.Rate_A.Name = "Rate_A";
-            this.Rate_A.Width = 95;
-            // 
-            // Rate_R
-            // 
-            this.Rate_R.DataPropertyName = "Rate_R";
-            this.Rate_R.HeaderText = "Rate R";
-            this.Rate_R.Name = "Rate_R";
-            this.Rate_R.Width = 96;
-            // 
-            // RegYN
-            // 
-            this.RegYN.DataPropertyName = "RegYN";
-            this.RegYN.HeaderText = "RegYN";
-            this.RegYN.Name = "RegYN";
-            this.RegYN.Width = 97;
-            // 
-            // StdYN
-            // 
-            this.StdYN.DataPropertyName = "StdYN";
-            this.StdYN.HeaderText = "StdYN";
-            this.StdYN.Name = "StdYN";
-            this.StdYN.ReadOnly = true;
-            this.StdYN.Width = 92;
-            // 
-            // OTYN
-            // 
-            this.OTYN.DataPropertyName = "OTYN";
-            this.OTYN.HeaderText = "OTYN";
-            this.OTYN.Name = "OTYN";
-            this.OTYN.Width = 88;
-            // 
-            // VacYN
-            // 
-            this.VacYN.DataPropertyName = "VacYN";
-            this.VacYN.HeaderText = "VacYN";
-            this.VacYN.Name = "VacYN";
-            this.VacYN.ReadOnly = true;
-            this.VacYN.Width = 95;
-            // 
-            // Rate_Exp
-            // 
-            this.Rate_Exp.DataPropertyName = "Rate_Exp";
-            this.Rate_Exp.HeaderText = "Rate Exp";
-            this.Rate_Exp.Name = "Rate_Exp";
-            this.Rate_Exp.Width = 111;
-            // 
-            // AbsYN
-            // 
-            this.AbsYN.DataPropertyName = "AbsYN";
-            this.AbsYN.HeaderText = "AbsYN";
-            this.AbsYN.Name = "AbsYN";
-            this.AbsYN.Width = 95;
-            // 
-            // Colour
-            // 
-            this.Colour.DataPropertyName = "Colour";
-            this.Colour.HeaderText = "Colour";
-            this.Colour.Name = "Colour";
-            this.Colour.Width = 91;
-            // 
-            // ALL_Salary
-            // 
-            this.ALL_Salary.DataPropertyName = "ALL_Salary";
-            this.ALL_Salary.HeaderText = "ALL Salary";
-            this.ALL_Salary.Name = "ALL_Salary";
-            this.ALL_Salary.Width = 122;
-            // 
-            // ALL_PTC
-            // 
-            this.ALL_PTC.DataPropertyName = "ALL_PTC";
-            this.ALL_PTC.HeaderText = "ALL PTC";
-            this.ALL_PTC.Name = "ALL_PTC";
-            this.ALL_PTC.Width = 108;
-            // 
-            // ALL_PTH
-            // 
-            this.ALL_PTH.DataPropertyName = "ALL_PTH";
-            this.ALL_PTH.HeaderText = "ALL PTH";
-            this.ALL_PTH.Name = "ALL_PTH";
-            this.ALL_PTH.Width = 109;
-            // 
-            // ALL_SEIU_Contract
-            // 
-            this.ALL_SEIU_Contract.DataPropertyName = "ALL_SEIU_Contract";
-            this.ALL_SEIU_Contract.HeaderText = "ALL SEIU Contract";
-            this.ALL_SEIU_Contract.Name = "ALL_SEIU_Contract";
-            this.ALL_SEIU_Contract.Width = 167;
-            // 
-            // OpsOffice_HRLY
-            // 
-            this.OpsOffice_HRLY.DataPropertyName = "OpsOffice_HRLY";
-            this.OpsOffice_HRLY.HeaderText = "OpsOffice HRLY";
-            this.OpsOffice_HRLY.Name = "OpsOffice_HRLY";
-            this.OpsOffice_HRLY.Width = 151;
-            // 
-            // Roads_HRLY
-            // 
-            this.Roads_HRLY.DataPropertyName = "Roads_HRLY";
-            this.Roads_HRLY.HeaderText = "Roads HRLY";
-            this.Roads_HRLY.Name = "Roads_HRLY";
-            this.Roads_HRLY.ReadOnly = true;
-            this.Roads_HRLY.Width = 129;
-            // 
-            // Fleet_HRLY
-            // 
-            this.Fleet_HRLY.DataPropertyName = "Fleet_HRLY";
-            this.Fleet_HRLY.HeaderText = "Fleet HRLY";
-            this.Fleet_HRLY.Name = "Fleet_HRLY";
-            this.Fleet_HRLY.Width = 119;
-            // 
-            // Water_HRLY
-            // 
-            this.Water_HRLY.DataPropertyName = "Water_HRLY";
-            this.Water_HRLY.HeaderText = "Water HRLY";
-            this.Water_HRLY.Name = "Water_HRLY";
-            this.Water_HRLY.Width = 125;
-            // 
-            // Parks_HRLY
-            // 
-            this.Parks_HRLY.DataPropertyName = "Parks_HRLY";
-            this.Parks_HRLY.HeaderText = "Parks HRLY";
-            this.Parks_HRLY.Name = "Parks_HRLY";
-            this.Parks_HRLY.Width = 123;
-            // 
-            // F_Maintanence_Operations
-            // 
-            this.F_Maintanence_Operations.DataPropertyName = "F_Maintanence_Operations";
-            this.F_Maintanence_Operations.HeaderText = "Facilities Maintanence/Operations";
-            this.F_Maintanence_Operations.Name = "F_Maintanence_Operations";
-            this.F_Maintanence_Operations.Width = 259;
             // 
             // ManagePayTypes
             // 

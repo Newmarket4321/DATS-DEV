@@ -107,6 +107,7 @@ namespace DATS_Timesheets
                     //Which departments to show
                     if (Core.isAdmin(Core.getUsername()))
                     {
+                        PaychequestoolStripMenuItem1.Visible = true;
                         dt = SQL.Run("select department from department d order by department");
                         toolStripComboBox2.Items.Add("All");
                     }

@@ -78,8 +78,23 @@ namespace DATS_Timesheets
                         paytypeSummaryToolStripMenuItem.Visible = true;
                         bankedTimeRemainingToolStripMenuItem.Visible = true;
                     }
+                    if (Core.CanViewOnly(Core.getUsername()))
+                    {
+                        timesheetsToolStripMenuItem.Visible = false;
+                        toolStripMenuItem2.Visible = false;
+                        PaychequestoolStripMenuItem1.Visible = true;
+                        managementOptionsToolStripMenuItem.Visible = false;
+                        toolStripMenuItem1.Visible = false;
+                        toolStripMenuItem4.Visible = false;
+                        approveToolStripMenuItem.Visible = false;
+                        reviewToolStripMenuItem.Visible = false;
+                        toolStripMenuItem3.Visible = false;
+                        exportedToolStripMenuItem.Visible = false;
+                        hoursCalendar1.Enabled = false;
+                        menuStrip2.Enabled = false;
+                    }
 
-                    if (!Core.isAdmin(Core.getUsername()))
+                        if (!Core.isAdmin(Core.getUsername()))
                     {
                         payrollToolStripMenuItem.Visible = false;
                         exportedToolStripMenuItem.Visible = false;
@@ -2476,6 +2491,12 @@ and t2.dateworked >= @STARTDATE7 and t2.dateworked < @ENDDATE7) as 'Lump Sum'
             loadUsers();
         }
 
+        private void ManagePayTypeMenuItem_click(object sender, EventArgs e)
+        {
+            (new ManagePayTypes()).ShowDialog();
+            
+        }
+
         private void manageWorkOrdersToolStripMenuItem_Click(object sender, EventArgs e)
         {
             GetDepartment gd = new GetDepartment();
@@ -3680,5 +3701,6 @@ order by HistoryTimestamp desc
 ", DateTime.Today.AddMonths(-2)));
             r.Show();
         }
+
     }
 }

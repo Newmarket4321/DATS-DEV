@@ -25,9 +25,11 @@ namespace DATS_Timesheets
         {
             string name = Environment.UserName;
 
-         //   if (Environment.MachineName == "SYSEA-08-18")
-         //      name = "Squires, Michael";
+            //   if (Environment.MachineName == "SYSEA-08-18")
+            //      name = "Squires, Michael";
 
+              if (Environment.MachineName == "SYSMG-09-19")
+                name = "Martino, Daniel";
             try
             {
                 name = SQL.RunString("select displayname from users where username=@NAME", name);
@@ -127,9 +129,15 @@ namespace DATS_Timesheets
                 try
                 {
                     //Report to IT
-                    sendMail("ealarcon@newmarket.ca", "DATS-Dev Error", getErrorText(e));
-
-                    string response = Core.lookupMessageBox(
+                    if (Environment.MachineName == "SYSMG-09-19")
+                    {
+                        sendMail("kpatel@newmarket.ca", "DATS-Dev Error", getErrorText(e));
+                    }
+                    else
+                    {
+                        sendMail("ealarcon@newmarket.ca", "DATS-Dev Error", getErrorText(e));
+                    }
+                        string response = Core.lookupMessageBox(
                         "Error",
                         "Unfortunately something went wrong, however this has automatically been reported to IT."
                         + Environment.NewLine + "You should receive an e-mail response soon.", "Show me the error", "OK");
@@ -626,7 +634,7 @@ namespace DATS_Timesheets
         {
             double bankedTimeIn;
 
-                        DataTable dt = SQL.Run(@"select
+            DataTable dt = SQL.Run(@"select
             (SELECT sum(hours) from Timesheets where paytype=950 and EmployeeID=@EMPID and dateworked>=@DATE) as [In1],
             (SELECT sum(hours) from Timesheets where paytype=955 and EmployeeID=@EMPID and dateworked>=@DATE) as [In15]", empID, start);
 
@@ -641,7 +649,7 @@ namespace DATS_Timesheets
             double bankedTimeUsed;
 
             DataTable dt = SQL.Run(@"select
-(SELECT sum(hours) from Timesheets where (paytype=81 or paytype=82) and EmployeeID=@EMPID and dateworked>=@DATE) as [Out]", empID, start);
+            (SELECT sum(hours) from Timesheets where (paytype=81 or paytype=82) and EmployeeID=@EMPID and dateworked>=@DATE) as [Out]", empID, start);
 
             bankedTimeUsed = dt.Rows[0]["Out"].ToString() == "" ? 0 : double.Parse(dt.Rows[0]["Out"].ToString());
 
@@ -1639,7 +1647,16 @@ ORDER BY t.TIMECARDDETAILID ASC");
 
             return supervisor || isAdmin(username);
         }
-
+        public static bool CanViewOnly(string username)
+        {
+            SQL sql = new SQL("select u.viewonlyuser from Users u where u.displayname = @USERNAME");
+            sql.AddParameter("@USERNAME", username);
+            bool ViewOnlyUser = bool.Parse(sql.Run().Rows[0]["viewonlyuser"].ToString());
+            if (ViewOnlyUser != null)
+                return ViewOnlyUser || isAdmin(username);
+            else
+                return false;
+        }
         public static bool canApprove(string username)
         {
             SQL sql = new SQL("select u.approver from Users u where u.displayname = @USERNAME");

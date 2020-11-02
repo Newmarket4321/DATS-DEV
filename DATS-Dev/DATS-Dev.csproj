@@ -241,6 +241,12 @@
     <Compile Include="Components\HoursCalendar.Designer.cs">
       <DependentUpon>HoursCalendar.cs</DependentUpon>
     </Compile>
+    <Compile Include="ManagePayTypes.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ManagePayTypes.Designer.cs">
+      <DependentUpon>ManagePayTypes.cs</DependentUpon>
+    </Compile>
     <Compile Include="ManageWorkOrders.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -755,6 +761,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Components\HoursCalendar.resx">
       <DependentUpon>HoursCalendar.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ManagePayTypes.resx">
+      <DependentUpon>ManagePayTypes.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ManageWorkOrders.resx">
       <DependentUpon>ManageWorkOrders.cs</DependentUpon>

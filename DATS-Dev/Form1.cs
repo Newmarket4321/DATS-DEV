@@ -78,7 +78,7 @@ namespace DATS_Timesheets
                         paytypeSummaryToolStripMenuItem.Visible = true;
                         bankedTimeRemainingToolStripMenuItem.Visible = true;
                     }
-                    if (!Core.CanViewOnly(Core.getUsername()))
+                    if (Core.CanViewOnly(Core.getUsername()))
                     {
                         timesheetsToolStripMenuItem.Visible = false;
                         toolStripMenuItem2.Visible = false;
@@ -90,7 +90,8 @@ namespace DATS_Timesheets
                         reviewToolStripMenuItem.Visible = false;
                         toolStripMenuItem3.Visible = false;
                         exportedToolStripMenuItem.Visible = false;
-                        hoursCalendar1.Visible = false;
+                        hoursCalendar1.Enabled = false;
+                        menuStrip2.Enabled = false;
                     }
 
                         if (!Core.isAdmin(Core.getUsername()))

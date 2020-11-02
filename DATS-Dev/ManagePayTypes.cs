@@ -39,31 +39,51 @@ namespace DATS_Timesheets
             DialogResult result;
             if (e.ColumnIndex == 1)
             {
-                SQL sql = new SQL("Select count(*) from Timesheets where PayType = @PayType");
-                sql.AddParameter("@PayType", dataGridView1.Rows[e.RowIndex].Cells["PayType"].Value.ToString());
-                if (int.Parse(sql.Run().Rows[0][0].ToString()) >= 1)
+                Ptype = Convert.ToString(dataGridView1.Rows[e.RowIndex].Cells["PayType"].Value);
+                Delete.Name = Paytype + "_Delete";
+                string Task = dataGridView1.Rows[e.RowIndex].Cells[1].Value.ToString();
+                if (Task == "Delete")
                 {
-                    result = MessageBox.Show("This Pay Type is in use! You Can not delete this.");
-                }
-                else
-                {
-                    result = MessageBox.Show("Are You sure want to Delete?", "Confirmation", MessageBoxButtons.YesNo);
-                    if (result == System.Windows.Forms.DialogResult.Yes)
-                    {
-                        Ptype = Convert.ToString(dataGridView1.Rows[e.RowIndex].Cells["PayType"].Value);
-                        sql = new SQL("delete from PayCodes where PayType = @PayType");
-                        sql.AddParameter("@PayType", dataGridView1.Rows[e.RowIndex].Cells["PayType"].Value.ToString());
 
-                        sql.Run();
-                        MessageBox.Show("Record deleted !");
-                        loaddata();
-                        dataGridView1.Update();
-                        dataGridView1.Refresh();
+                    SQL sql = new SQL("Select count(*) from Timesheets where PayType = @PayType");
+                    sql.AddParameter("@PayType", Paytype);
+                    if (int.Parse(sql.Run().Rows[0][0].ToString()) >= 1)
+                    {
+                        result = MessageBox.Show("This Pay Type is in use! You Can not delete this.");
                     }
                     else
                     {
-                        MessageBox.Show("Record not deleted !");
+                        result = MessageBox.Show("Are You sure want to Delete?", "Confirmation", MessageBoxButtons.YesNo);
+                        if (result == System.Windows.Forms.DialogResult.Yes &&
+                            dataGridView1.CurrentCell.OwningColumn.Name == Paytype + "_Delete")
+                        {
+                            sql = new SQL("delete from PayCodes where PayType = @PayType");
+                            sql.AddParameter("@PayType", Paytype);
+
+                            sql.Run();
+                            MessageBox.Show("Record deleted !");
+                            loaddata();
+                            dataGridView1.Update();
+                            dataGridView1.Refresh();
+                        }
+                        else
+                        {
+                            MessageBox.Show("Record not deleted !");
+                        }
                     }
+                }
+                else if(Task == "Cancel")
+                {
+
+                    dataGridView1.Rows[e.RowIndex].Cells[0].Value = "Edit";
+                    dataGridView1.Rows[e.RowIndex].Cells[1].Value = "Delete";
+                    Edit.UseColumnTextForLinkValue = true;
+                    Edit.Name = Paytype + "_Edit";
+                    Delete.UseColumnTextForLinkValue = true;
+                    Delete.Name = Paytype + "_Delete";
+                    loaddata();
+                    dataGridView1.Update();
+                    dataGridView1.Refresh();
                 }
             }
             if(e.ColumnIndex == 0)
@@ -80,16 +100,15 @@ namespace DATS_Timesheets
                             dataGridView1.CurrentCell.OwningColumn.Name == Paytype + "_Edit" &&
                             dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value != "Save")
                         {
-                            MessageBox.Show(Task + "   " + Edit.Name);
+                            //MessageBox.Show(Task + "   " + Edit.Name);
                             dataGridView1.CurrentRow.ReadOnly = false;
                             dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value = "Save";
                             Edit.Name = Paytype + "_Save";
                             Edit.UseColumnTextForLinkValue = false;
+                            dataGridView1.Rows[e.RowIndex].Cells[1].Value = "Cancel";
+                            Delete.Name = Paytype + "_Cancel";
+                            Delete.UseColumnTextForLinkValue = false;
                         }
-                    }
-                    else
-                    {
-
                     }
                 }
                 else if(Task == "Save")
@@ -97,6 +116,7 @@ namespace DATS_Timesheets
                     result = MessageBox.Show("Are You sure want to Save this record?", "Confirmation", MessageBoxButtons.YesNo);
                     if (result == System.Windows.Forms.DialogResult.Yes)
                     {
+
                         if (dataGridView1.Rows[e.RowIndex].Cells["PayType"].Value.ToString() == Ptype &&
                             dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value != "Edit" &&
                             dataGridView1.CurrentCell.OwningColumn.Name == Paytype + "_Save")
@@ -139,20 +159,19 @@ namespace DATS_Timesheets
                             MessageBox.Show(Task + " Record Saved successfully !" + Edit.Name);
                             Edit.UseColumnTextForLinkValue = true;
                             Edit.Name = Paytype + "_Edit";
+                            Delete.UseColumnTextForLinkValue = true;
+                            Delete.Name = Paytype + "_Delete";
                             loaddata();
                             dataGridView1.Update();
                             dataGridView1.Refresh();
                         }
                     }
-                    else
-                    {
-
-                    }
                 }
+                
             }
            
         }
-       
+
         private void button1_Click(object sender, EventArgs e)
         {
             SQL sql = new SQL("Select count(*) from PayCodes where PayType = @PayType");
@@ -201,6 +220,9 @@ namespace DATS_Timesheets
                     loaddata();
                     dataGridView1.Update();
                     dataGridView1.Refresh();
+                    PayType_Txt.Text = "";
+                    Description_txt.Text = "";
+                   
                 }
                 else
                 {
@@ -208,6 +230,5 @@ namespace DATS_Timesheets
                 }
             }
         }
-
     }
 }

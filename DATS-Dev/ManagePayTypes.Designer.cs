@@ -60,7 +60,10 @@
             this.Description_txt = new System.Windows.Forms.TextBox();
             this.TypeActive = new System.Windows.Forms.CheckBox();
             this.button1 = new System.Windows.Forms.Button();
+            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // dataGridView1
@@ -107,6 +110,7 @@
             this.dataGridView1.Size = new System.Drawing.Size(1094, 552);
             this.dataGridView1.TabIndex = 21;
             this.dataGridView1.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellClick);
+            this.dataGridView1.DataError += new System.Windows.Forms.DataGridViewDataErrorEventHandler(this.dataGridView1_DataError);
             // 
             // Edit
             // 
@@ -131,49 +135,56 @@
             this.PayType.DataPropertyName = "PayType";
             this.PayType.HeaderText = "Pay Type";
             this.PayType.Name = "PayType";
-            this.PayType.Width = 101;
+            this.PayType.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.PayType.Width = 71;
             // 
             // Description
             // 
             this.Description.DataPropertyName = "Description";
             this.Description.HeaderText = "Description";
             this.Description.Name = "Description";
-            this.Description.Width = 125;
+            this.Description.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.Description.Width = 95;
             // 
             // PayTypeActive
             // 
             this.PayTypeActive.DataPropertyName = "PayTypeActive";
             this.PayTypeActive.HeaderText = "PayType Active";
             this.PayTypeActive.Name = "PayTypeActive";
-            this.PayTypeActive.Width = 140;
+            this.PayTypeActive.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.PayTypeActive.Width = 110;
             // 
             // TransType
             // 
             this.TransType.DataPropertyName = "TransType";
             this.TransType.HeaderText = "TransType";
             this.TransType.Name = "TransType";
-            this.TransType.Width = 119;
+            this.TransType.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.TransType.Width = 89;
             // 
             // Rate_A
             // 
             this.Rate_A.DataPropertyName = "Rate_A";
             this.Rate_A.HeaderText = "Rate A";
             this.Rate_A.Name = "Rate_A";
-            this.Rate_A.Width = 89;
+            this.Rate_A.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.Rate_A.Width = 59;
             // 
             // Rate_R
             // 
             this.Rate_R.DataPropertyName = "Rate_R";
             this.Rate_R.HeaderText = "Rate R";
             this.Rate_R.Name = "Rate_R";
-            this.Rate_R.Width = 89;
+            this.Rate_R.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.Rate_R.Width = 59;
             // 
             // RegYN
             // 
             this.RegYN.DataPropertyName = "RegYN";
             this.RegYN.HeaderText = "RegYN";
             this.RegYN.Name = "RegYN";
-            this.RegYN.Width = 97;
+            this.RegYN.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.RegYN.Width = 67;
             // 
             // StdYN
             // 
@@ -181,14 +192,16 @@
             this.StdYN.HeaderText = "StdYN";
             this.StdYN.Name = "StdYN";
             this.StdYN.ReadOnly = true;
-            this.StdYN.Width = 92;
+            this.StdYN.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.StdYN.Width = 62;
             // 
             // OTYN
             // 
             this.OTYN.DataPropertyName = "OTYN";
             this.OTYN.HeaderText = "OTYN";
             this.OTYN.Name = "OTYN";
-            this.OTYN.Width = 88;
+            this.OTYN.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.OTYN.Width = 58;
             // 
             // VacYN
             // 
@@ -196,62 +209,72 @@
             this.VacYN.HeaderText = "VacYN";
             this.VacYN.Name = "VacYN";
             this.VacYN.ReadOnly = true;
-            this.VacYN.Width = 95;
+            this.VacYN.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.VacYN.Width = 65;
             // 
             // Rate_Exp
             // 
             this.Rate_Exp.DataPropertyName = "Rate_Exp";
             this.Rate_Exp.HeaderText = "Rate Exp";
             this.Rate_Exp.Name = "Rate_Exp";
-            this.Rate_Exp.Width = 103;
+            this.Rate_Exp.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.Rate_Exp.Width = 73;
             // 
             // AbsYN
             // 
             this.AbsYN.DataPropertyName = "AbsYN";
             this.AbsYN.HeaderText = "AbsYN";
             this.AbsYN.Name = "AbsYN";
-            this.AbsYN.Width = 95;
+            this.AbsYN.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.AbsYN.Width = 65;
             // 
             // Colour
             // 
             this.Colour.DataPropertyName = "Colour";
             this.Colour.HeaderText = "Colour";
             this.Colour.Name = "Colour";
-            this.Colour.Width = 91;
+            this.Colour.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.Colour.Width = 61;
             // 
             // ALL_Salary
             // 
             this.ALL_Salary.DataPropertyName = "ALL_Salary";
             this.ALL_Salary.HeaderText = "ALL Salary";
             this.ALL_Salary.Name = "ALL_Salary";
-            this.ALL_Salary.Width = 113;
+            this.ALL_Salary.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.ALL_Salary.Width = 83;
             // 
             // ALL_PTC
             // 
             this.ALL_PTC.DataPropertyName = "ALL_PTC";
             this.ALL_PTC.HeaderText = "ALL PTC";
             this.ALL_PTC.Name = "ALL_PTC";
+            this.ALL_PTC.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.ALL_PTC.Width = 70;
             // 
             // ALL_PTH
             // 
             this.ALL_PTH.DataPropertyName = "ALL_PTH";
             this.ALL_PTH.HeaderText = "ALL PTH";
             this.ALL_PTH.Name = "ALL_PTH";
-            this.ALL_PTH.Width = 101;
+            this.ALL_PTH.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.ALL_PTH.Width = 71;
             // 
             // ALL_SEIU_Contract
             // 
             this.ALL_SEIU_Contract.DataPropertyName = "ALL_SEIU_Contract";
             this.ALL_SEIU_Contract.HeaderText = "ALL SEIU Contract";
             this.ALL_SEIU_Contract.Name = "ALL_SEIU_Contract";
-            this.ALL_SEIU_Contract.Width = 167;
+            this.ALL_SEIU_Contract.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.ALL_SEIU_Contract.Width = 137;
             // 
             // OpsOffice_HRLY
             // 
             this.OpsOffice_HRLY.DataPropertyName = "OpsOffice_HRLY";
             this.OpsOffice_HRLY.HeaderText = "OpsOffice HRLY";
             this.OpsOffice_HRLY.Name = "OpsOffice_HRLY";
-            this.OpsOffice_HRLY.Width = 151;
+            this.OpsOffice_HRLY.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.OpsOffice_HRLY.Width = 121;
             // 
             // Roads_HRLY
             // 
@@ -259,39 +282,44 @@
             this.Roads_HRLY.HeaderText = "Roads HRLY";
             this.Roads_HRLY.Name = "Roads_HRLY";
             this.Roads_HRLY.ReadOnly = true;
-            this.Roads_HRLY.Width = 129;
+            this.Roads_HRLY.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.Roads_HRLY.Width = 99;
             // 
             // Fleet_HRLY
             // 
             this.Fleet_HRLY.DataPropertyName = "Fleet_HRLY";
             this.Fleet_HRLY.HeaderText = "Fleet HRLY";
             this.Fleet_HRLY.Name = "Fleet_HRLY";
-            this.Fleet_HRLY.Width = 119;
+            this.Fleet_HRLY.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.Fleet_HRLY.Width = 89;
             // 
             // Water_HRLY
             // 
             this.Water_HRLY.DataPropertyName = "Water_HRLY";
             this.Water_HRLY.HeaderText = "Water HRLY";
             this.Water_HRLY.Name = "Water_HRLY";
-            this.Water_HRLY.Width = 125;
+            this.Water_HRLY.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.Water_HRLY.Width = 95;
             // 
             // Parks_HRLY
             // 
             this.Parks_HRLY.DataPropertyName = "Parks_HRLY";
             this.Parks_HRLY.HeaderText = "Parks HRLY";
             this.Parks_HRLY.Name = "Parks_HRLY";
-            this.Parks_HRLY.Width = 123;
+            this.Parks_HRLY.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.Parks_HRLY.Width = 93;
             // 
             // F_Maintanence_Operations
             // 
             this.F_Maintanence_Operations.DataPropertyName = "F_Maintanence_Operations";
             this.F_Maintanence_Operations.HeaderText = "Facilities Maintanence/Operations";
             this.F_Maintanence_Operations.Name = "F_Maintanence_Operations";
-            this.F_Maintanence_Operations.Width = 259;
+            this.F_Maintanence_Operations.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.F_Maintanence_Operations.Width = 229;
             // 
             // PayType_Txt
             // 
-            this.PayType_Txt.Location = new System.Drawing.Point(209, 35);
+            this.PayType_Txt.Location = new System.Drawing.Point(243, 64);
             this.PayType_Txt.Name = "PayType_Txt";
             this.PayType_Txt.Size = new System.Drawing.Size(196, 26);
             this.PayType_Txt.TabIndex = 22;
@@ -299,7 +327,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(27, 35);
+            this.label1.Location = new System.Drawing.Point(43, 67);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(73, 20);
             this.label1.TabIndex = 23;
@@ -308,7 +336,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(27, 69);
+            this.label2.Location = new System.Drawing.Point(43, 113);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(157, 20);
             this.label2.TabIndex = 24;
@@ -316,7 +344,7 @@
             // 
             // Description_txt
             // 
-            this.Description_txt.Location = new System.Drawing.Point(209, 69);
+            this.Description_txt.Location = new System.Drawing.Point(243, 113);
             this.Description_txt.Name = "Description_txt";
             this.Description_txt.Size = new System.Drawing.Size(196, 26);
             this.Description_txt.TabIndex = 25;
@@ -324,7 +352,7 @@
             // TypeActive
             // 
             this.TypeActive.AutoSize = true;
-            this.TypeActive.Location = new System.Drawing.Point(497, 71);
+            this.TypeActive.Location = new System.Drawing.Point(468, 113);
             this.TypeActive.Name = "TypeActive";
             this.TypeActive.Size = new System.Drawing.Size(146, 24);
             this.TypeActive.TabIndex = 26;
@@ -333,19 +361,42 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(708, 64);
+            this.button1.Location = new System.Drawing.Point(688, 102);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(128, 37);
+            this.button1.Size = new System.Drawing.Size(141, 37);
             this.button1.TabIndex = 27;
             this.button1.Text = "Submit";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
+            // menuStrip1
+            // 
+            this.menuStrip1.BackColor = System.Drawing.Color.White;
+            this.menuStrip1.ImageScalingSize = new System.Drawing.Size(24, 24);
+            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripMenuItem1});
+            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
+            this.menuStrip1.Name = "menuStrip1";
+            this.menuStrip1.Padding = new System.Windows.Forms.Padding(9, 3, 0, 3);
+            this.menuStrip1.Size = new System.Drawing.Size(1597, 51);
+            this.menuStrip1.TabIndex = 68;
+            this.menuStrip1.Text = "menuStrip1";
+            // 
+            // toolStripMenuItem1
+            // 
+            this.toolStripMenuItem1.Font = new System.Drawing.Font("Segoe UI", 15F);
+            this.toolStripMenuItem1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(122)))), ((int)(((byte)(255)))));
+            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(225, 45);
+            this.toolStripMenuItem1.Text = "Export to Excel";
+            this.toolStripMenuItem1.Click += new System.EventHandler(this.toolStripMenuItem1_Click);
             // 
             // ManagePayTypes
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1597, 734);
+            this.Controls.Add(this.menuStrip1);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.TypeActive);
             this.Controls.Add(this.Description_txt);
@@ -356,6 +407,8 @@
             this.Name = "ManagePayTypes";
             this.Text = "ManagePayTypescs";
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            this.menuStrip1.ResumeLayout(false);
+            this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -395,5 +448,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Water_HRLY;
         private System.Windows.Forms.DataGridViewTextBoxColumn Parks_HRLY;
         private System.Windows.Forms.DataGridViewTextBoxColumn F_Maintanence_Operations;
+        private System.Windows.Forms.MenuStrip menuStrip1;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem1;
     }
 }

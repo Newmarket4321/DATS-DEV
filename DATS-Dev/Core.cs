@@ -25,21 +25,21 @@ namespace DATS_Timesheets
         {
             string name = Environment.UserName;
 
-            //   if (Environment.MachineName == "SYSEA-08-18")
-            //      name = "Squires, Michael";
+            //if (Environment.MachineName == "SYSEA-08-18")
+            //    name = "Squires, Michael";
 
             //if (Environment.MachineName == "SYSMG-09-19")
-            //    name = "Martino, Daniel";
-            //try
-            //{
-            //    name = SQL.RunString("select displayname from users where username=@NAME", name);
-            //}
-            //catch
-            //{
+            //    name = "Alarcon, Erika";
+            try
+            {
+                name = SQL.RunString("select displayname from users where username=@NAME", name);
+            }
+            catch
+            {
 
-            //}
+            }
 
-            return name;
+                return name;
         }
 
         public static string getWindowsUsername()

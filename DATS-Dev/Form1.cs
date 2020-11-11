@@ -2607,7 +2607,7 @@ order by timestamp desc");
                 division = 3;
 
             PayrollExport.updateEmployeeTypes();
-
+ 
             DataTable employees = SQL.Run(@"
 select u.employeeid from users u
 join departmentassociations da on u.userid = da.userid

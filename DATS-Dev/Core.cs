@@ -25,8 +25,8 @@ namespace DATS_Timesheets
         {
             string name = Environment.UserName;
 
-         //   if (Environment.MachineName == "SYSEA-08-18")
-         //      name = "Squires, Michael";
+ //          if (Environment.MachineName == "SYSEA-08-18")
+ //              name = "Prudhomme, Rachel";
 
             try
             {

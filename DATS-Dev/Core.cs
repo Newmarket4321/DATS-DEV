@@ -25,9 +25,11 @@ namespace DATS_Timesheets
         {
             string name = Environment.UserName;
 
- //          if (Environment.MachineName == "SYSEA-08-18")
- //              name = "Prudhomme, Rachel";
+            //if (Environment.MachineName == "SYSEA-08-18")
+            //    name = "Squires, Michael";
 
+            //if (Environment.MachineName == "SYSMG-09-19")
+            //    name = "Alarcon, Erika";
             try
             {
                 name = SQL.RunString("select displayname from users where username=@NAME", name);
@@ -36,8 +38,8 @@ namespace DATS_Timesheets
             {
 
             }
-            
-            return name;
+
+                return name;
         }
 
         public static string getWindowsUsername()
@@ -1651,7 +1653,7 @@ ORDER BY t.TIMECARDDETAILID ASC");
             sql.AddParameter("@USERNAME", username);
             bool ViewOnlyUser = bool.Parse(sql.Run().Rows[0]["viewonlyuser"].ToString());
             if (ViewOnlyUser != null)
-                return ViewOnlyUser || isAdmin(username);
+                return ViewOnlyUser;
             else
                 return false;
         }

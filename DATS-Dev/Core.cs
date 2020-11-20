@@ -796,8 +796,18 @@ and employeeid = @EMPID", year, empID);
             return getMCLMax(year, empID) - getMCLUsed(year, empID);
         }
 
+        public static string getEmpGroup(int empID)
+        {
 
-        public static string getEmpType(int empID)
+            Oracle ora = new Oracle(@"
+select YAUN from " + Core.getSchema(Core.getEnvironment()) + ".F060116 where YAAN8 = @EMPNO");
+            ora.AddParameter("@EMPNO", empID);
+            string code = ora.Run().Rows[0]["YAUN"].ToString().Trim();
+
+            return code;
+
+        }
+            public static string getEmpType(int empID)
         {
             Oracle ora = new Oracle(@"
 select YAEST from " + Core.getSchema(Core.getEnvironment()) + ".F060116 where YAAN8 = @EMPNO");

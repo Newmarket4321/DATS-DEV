@@ -19,6 +19,7 @@ namespace DATS_Timesheets
         public static int TypeText;
         public static string descreption;
         public static string paytypeActive;
+        public static string result;
         DatabaseType type;
         public string Paytype
         {
@@ -45,7 +46,9 @@ namespace DATS_Timesheets
         }
         public void loaddata()
         {
-            SQL sql = new SQL("select * from PayCodes order by Description");
+            SQL sql = new SQL("select PayType, Description, PayTypeActive, TransType, Rate_A, Rate_R, RegYN, StdYN, OTYN, VacYN, Rate_Exp," +
+                " AbsYN, Colour, SAL, EXE, FFE, HRLY, FAC, PTC, XGRD, PTH, " +
+                "CON, O_SCL, SEIU_C from PayCodes order by Description");
 
              DataTable dt = sql.Run();
             dataGridView1.DataSource = dt;
@@ -66,14 +69,17 @@ namespace DATS_Timesheets
             //    {
             //        e.Cancel = true;
             //        dataGridView1.Rows[e.RowIndex].ErrorText = "the value must be a non-negative integer";
-                    
+
             //    }
             //    else
             //    {
             //            MessageBox.Show("Invalid number! The value must be a numeric");
             //    }
-                
+
             //}
+
+          
+
         }
         private void dataGridView1_DataError(object sender, DataGridViewDataErrorEventArgs e)
         {
@@ -101,7 +107,7 @@ namespace DATS_Timesheets
                     Ptype = Convert.ToString(dataGridView1.Rows[e.RowIndex].Cells["PayType"].Value);
                 Delete.Name = Paytype + "_Delete";
                 string Task = "";
-                if (Edit.Name == "Delete" || Edit.Name == "Cancel" || dataGridView1.Rows[e.RowIndex].Cells[1].Value != null)
+                if (Delete.Name == "Delete" || Delete.Name == "Cancel" || dataGridView1.Rows[e.RowIndex].Cells[1].Value != null)
                     Task = dataGridView1.Rows[e.RowIndex].Cells[1].Value.ToString();
                 else
                     return;
@@ -195,7 +201,14 @@ namespace DATS_Timesheets
                 }
                 else if(Task == "Save")
                 {
-                    result = MessageBox.Show("Are You sure want to Save this record?", "Confirmation", MessageBoxButtons.YesNo);
+                    if (Regex.IsMatch(@"^-?\d*\.{0,-1}\d+$", dataGridView1.Rows[e.RowIndex].Cells["RegYN"].Value.ToString()) &&
+                        Regex.IsMatch(@"^-?\d*\.{0,-1}\d+$", dataGridView1.Rows[e.RowIndex].Cells["StdYN"].Value.ToString()) &&
+                         Regex.IsMatch(@"^-?\d*\.{0,-1}\d+$", dataGridView1.Rows[e.RowIndex].Cells["OTYN"].Value.ToString()) &&
+                         Regex.IsMatch(@"^-?\d*\.{0,-1}\d+$", dataGridView1.Rows[e.RowIndex].Cells["VacYN"].Value.ToString()) &&
+                         Regex.IsMatch(@"^-?\d*\.{0,-1}\d+$", dataGridView1.Rows[e.RowIndex].Cells["AbsYN"].Value.ToString()))
+                    {
+                        result = MessageBox.Show("Are You sure want to Save this record?", "Confirmation", MessageBoxButtons.YesNo);
+
                     if (result == System.Windows.Forms.DialogResult.Yes)
                     {
                         if (dataGridView1.Rows[e.RowIndex].Cells["PayType"].Value.ToString() == Ptype &&
@@ -213,20 +226,16 @@ namespace DATS_Timesheets
                                         dataGridView1.Columns[i].ReadOnly = true;
                                 }
                             }
-                            
 
                             SQL sql = new SQL(@"UPDATE PayCodes SET PayType=@PayType, Description=@DESCRIPTION, PayTypeActive=@PAYTYPEACTIVE,
                                     TransType=@TRANSTYPE, Rate_A=@RATE_A, Rate_R=@RATE_R, RegYN=@REGYN, StdYN=@STDYN, OTYN=@OTYN,
-                                    VacYN=@VACYN, Rate_Exp=@RATE_EXP, AbsYN=@ABSYN, Colour=@COLOUR, ALL_Salary=@ALLSALARY, 
-                                    ALL_PTC=@ALLPTC, ALL_PTH=@ALLPTH, ALL_SEIU_Contract=@ALLSEIUCONTRACT, 
-                                    OpsOffice_HRLY=@OPSOFFICEHRLY, Roads_HRLY=@ROADSHRLY, Fleet_HRLY=@FLEETHRLY, Water_HRLY=@WATERHRLY,
-                                    Parks_HRLY=@PARKSHRLY, F_Maintanence_Operations=@FMAINTANENCEOPERATIONS
+                                    VacYN=@VACYN, Rate_Exp=@RATE_EXP, AbsYN=@ABSYN, Colour=@COLOUR, SAL=@SAL, EXE=@EXE, FFE=@FFE, 
+                                    HRLY=@HRLY, FAC=@FAC, PTC=@PTC, XGRD=@XGRD, PTH=@PTH, CON=@CON, O_SCL=@O_SCL, SEIU_C = @SEIU_C
                                     where PayType in (" + dataGridView1.Rows[e.RowIndex].Cells["PayType"].Value.ToString() + @")");
-
-                            //sql.AddParameter("@PTYPE", dataGridView1.Rows[e.RowIndex].Cells["PayType"].Value.ToString());
+                                
                             sql.AddParameter("@PayType", dataGridView1.Rows[e.RowIndex].Cells["PayType"].Value.ToString());
                             sql.AddParameter("@DESCRIPTION", dataGridView1.Rows[e.RowIndex].Cells["Description"].Value.ToString());
-                            sql.AddParameter("@PAYTYPEACTIVE", dataGridView1.Rows[e.RowIndex].Cells["PayTypeActive"].Value.ToString());
+                            sql.AddParameter("@PAYTYPEACTIVE", dataGridView1.Rows[e.RowIndex].Cells["PTypeActive"].Value.ToString());
                             sql.AddParameter("@TRANSTYPE", dataGridView1.Rows[e.RowIndex].Cells["TransType"].Value.ToString());
                             sql.AddParameter("@RATE_A", dataGridView1.Rows[e.RowIndex].Cells["Rate_A"].Value.ToString());
                             sql.AddParameter("@RATE_R", dataGridView1.Rows[e.RowIndex].Cells["Rate_R"].Value.ToString());
@@ -237,16 +246,17 @@ namespace DATS_Timesheets
                             sql.AddParameter("@RATE_EXP", dataGridView1.Rows[e.RowIndex].Cells["Rate_Exp"].Value.ToString());
                             sql.AddParameter("@ABSYN", dataGridView1.Rows[e.RowIndex].Cells["AbsYN"].Value.ToString());
                             sql.AddParameter("@COLOUR", dataGridView1.Rows[e.RowIndex].Cells["Colour"].Value.ToString());
-                            sql.AddParameter("@ALLSALARY", dataGridView1.Rows[e.RowIndex].Cells["ALL_Salary"].Value.ToString());
-                            sql.AddParameter("@ALLPTC", dataGridView1.Rows[e.RowIndex].Cells["ALL_PTC"].Value.ToString());
-                            sql.AddParameter("@ALLPTH", dataGridView1.Rows[e.RowIndex].Cells["ALL_PTH"].Value.ToString());
-                            sql.AddParameter("@ALLSEIUCONTRACT", dataGridView1.Rows[e.RowIndex].Cells["ALL_SEIU_Contract"].Value.ToString());
-                            sql.AddParameter("@OPSOFFICEHRLY", dataGridView1.Rows[e.RowIndex].Cells["OpsOffice_HRLY"].Value.ToString());
-                            sql.AddParameter("@ROADSHRLY", dataGridView1.Rows[e.RowIndex].Cells["Roads_HRLY"].Value.ToString());
-                            sql.AddParameter("@FLEETHRLY", dataGridView1.Rows[e.RowIndex].Cells["Fleet_HRLY"].Value.ToString());
-                            sql.AddParameter("@WATERHRLY", dataGridView1.Rows[e.RowIndex].Cells["Water_HRLY"].Value.ToString());
-                            sql.AddParameter("@PARKSHRLY", dataGridView1.Rows[e.RowIndex].Cells["Parks_HRLY"].Value.ToString());
-                            sql.AddParameter("@FMAINTANENCEOPERATIONS", dataGridView1.Rows[e.RowIndex].Cells["F_Maintanence_Operations"].Value.ToString());
+                            sql.AddParameter("@SAL", dataGridView1.Rows[e.RowIndex].Cells["SAL"].Value.ToString());
+                            sql.AddParameter("@EXE", dataGridView1.Rows[e.RowIndex].Cells["EXE"].Value.ToString());
+                            sql.AddParameter("@FFE", dataGridView1.Rows[e.RowIndex].Cells["FFE"].Value.ToString());
+                            sql.AddParameter("@HRLY", dataGridView1.Rows[e.RowIndex].Cells["HRLY"].Value.ToString());
+                            sql.AddParameter("@FAC", dataGridView1.Rows[e.RowIndex].Cells["FAC"].Value.ToString());
+                            sql.AddParameter("@PTC", dataGridView1.Rows[e.RowIndex].Cells["PTC"].Value.ToString());
+                            sql.AddParameter("@XGRD", dataGridView1.Rows[e.RowIndex].Cells["XGRD"].Value.ToString());
+                            sql.AddParameter("@PTH", dataGridView1.Rows[e.RowIndex].Cells["PTH"].Value.ToString());
+                            sql.AddParameter("@CON", dataGridView1.Rows[e.RowIndex].Cells["CON"].Value.ToString());
+                            sql.AddParameter("@O_SCL", dataGridView1.Rows[e.RowIndex].Cells["O_SCL"].Value.ToString());
+                            sql.AddParameter("@SEIU_C", dataGridView1.Rows[e.RowIndex].Cells["SEIU_C"].Value.ToString());
 
                             sql.Run();
 
@@ -259,6 +269,12 @@ namespace DATS_Timesheets
                             dataGridView1.Update();
                             dataGridView1.Refresh();
                         }
+                    }
+                    }
+                    else
+                    {
+                        MessageBox.Show("Invalid number!The value must be a 0 or -1");
+
                     }
                 }
             }
@@ -286,9 +302,8 @@ namespace DATS_Timesheets
                     descreption = Description_txt.Text;
 
                     sql = new SQL(@"insert into PayCodes values (@PayType, @Description, @PayTypeActive, @TransType, @Rate_A, @Rate_R, 
-                                  @RegYN, @StdYN, @OTYN ,@VacYN, @Rate_Exp, @AbsYN, @Colour, @ALL_Salary, @ALL_PTC, @ALL_PTH,
-                                  @ALL_SEIU_Contract, @OpsOffice_HRLY,@Roads_HRLY, @Fleet_HRLY, @Water_HRLY, @Parks_HRLY,
-                                  @F_Maintanence_Operations)");
+                                  @RegYN, @StdYN, @OTYN ,@VacYN, @Rate_Exp, @AbsYN, @Colour, @SAL, @EXE, @FFE,
+                                  @HRLY, @FAC, @PTC, @XGRD, @PTH, @CON,@O_SCL, @SEIU_C)");
 
                     sql.AddParameter("@PayType", PayTypeText);
                     sql.AddParameter("@Description", Description_txt.Text);
@@ -303,16 +318,17 @@ namespace DATS_Timesheets
                     sql.AddParameter("@Rate_Exp", "");
                     sql.AddParameter("@AbsYN", "");
                     sql.AddParameter("@Colour", "");
-                    sql.AddParameter("@ALL_Salary", "");
-                    sql.AddParameter("@ALL_PTC", "");
-                    sql.AddParameter("@ALL_PTH", "");
-                    sql.AddParameter("@ALL_SEIU_Contract", "");
-                    sql.AddParameter("@OpsOffice_HRLY", "");
-                    sql.AddParameter("@Roads_HRLY", "");
-                    sql.AddParameter("@Fleet_HRLY", "");
-                    sql.AddParameter("@Water_HRLY", "");
-                    sql.AddParameter("@Parks_HRLY", "");
-                    sql.AddParameter("@F_Maintanence_Operations", "");
+                    sql.AddParameter("@SAL", "");
+                    sql.AddParameter("@EXE", "");
+                    sql.AddParameter("@FFE", "");
+                    sql.AddParameter("@HRLY", "");
+                    sql.AddParameter("@FAC", "");
+                    sql.AddParameter("@PTC", "");
+                    sql.AddParameter("@XGRD", "");
+                    sql.AddParameter("@PTH", "");
+                    sql.AddParameter("@CON", "");
+                    sql.AddParameter("@O_SCL", "");
+                    sql.AddParameter("@SEIU_C", "");
 
                     sql.Run();
 

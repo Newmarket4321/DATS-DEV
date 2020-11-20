@@ -197,35 +197,49 @@ namespace DATS_Timesheets
                 ColumnName = dt.Rows[i]["department"].ToString();//Checking Department Typ
             if (Environment.MachineName == "SYSMG-09-19")
             {
-                if (ColumnName == "Facilities Maintenance" || ColumnName == "Facilities - Operations")
-                    ColumnName = "F_Maintanence_Operations";
-                else if (ColumnName == "Parks")
-                    ColumnName = "Parks_HRLY";
-                else if (ColumnName == "Water")
-                    ColumnName = "Water_HRLY";
-                else if (ColumnName == "Roads")
-                    ColumnName = "Roads_HRLY";
-                else if (ColumnName == "Fleet")
-                    ColumnName = "Fleet_HRLY";
-                else if (ColumnName == "Ops Office")
-                    ColumnName = "OpsOffice_HRLY";
-                else
-                    ColumnName = "";
+                //if (ColumnName == "Facilities Maintenance" || ColumnName == "Facilities - Operations")
+                //    ColumnName = "F_Maintanence_Operations";
+                //else if (ColumnName == "Parks")
+                //    ColumnName = "Parks_HRLY";
+                //else if (ColumnName == "Water")
+                //    ColumnName = "Water_HRLY";
+                //else if (ColumnName == "Roads")
+                //    ColumnName = "Roads_HRLY";
+                //else if (ColumnName == "Fleet")
+                //    ColumnName = "Fleet_HRLY";
+                //else if (ColumnName == "Ops Office")
+                //    ColumnName = "OpsOffice_HRLY";
+                //else
+                //    ColumnName = "";
             }
              string code ="";
-             code = Core.getEmpType(Core.getEmpID(forUser.ToString())); //Checking Employee Type
+             code = Core.getEmpGroup(Core.getEmpID(forUser.ToString())); 
+            //Checking Employee Type
+                                                                         
+            //MessageBox.Show(code);                                 
+            //if (code == "")       { code = "Full-time Regular"; ColumnName = "All_Salary"; }
+            //else if (code == "1") { code = "Part-time Casual";  ColumnName = "All_PTC";    }
+            //else if (code == "2") { code = "Part-time Hourly";  ColumnName = "All_PTH";    }
+            //else if (code == "3") { code = "Contract";          ColumnName = "ALL_SEIU_Contract"; }
+            //else if (code == "4") { code = "Elected Officials"; } 
+            //else if (code == "5") { code = "Full-time Hourly";  ColumnName = "All_Salary"; }
+            //else if (code == "6") { code = "Contract Salary"; }
+            //else if (code == "7") { code = "LTD";             }
+            //else  code = "Unknown";
 
-                if (code == "")       { code = "Full-time Regular"; ColumnName = "All_Salary"; }
-                else if (code == "1") { code = "Part-time Casual";  ColumnName = "All_PTC";    }
-                else if (code == "2") { code = "Part-time Hourly";  ColumnName = "All_PTH";    }
-                else if (code == "3") { code = "Contract";          ColumnName = "ALL_SEIU_Contract"; }
-                else if (code == "4") { code = "Elected Officials"; }
-                else if (code == "5") { code = "Full-time Hourly";  ColumnName = "All_Salary"; }
-                else if (code == "6") { code = "Contract Salary"; }
-                else if (code == "7") { code = "LTD";             }
-                else  code = "Unknown";
-
-          if(Environment.MachineName == "SYSMG-09-19")
+            if (code == "SAL")          { code = "Full time salaried employees";            ColumnName = "All_Salary"; }
+            else if (code == "EXE")     { code = "Full time executive salaried employees";  ColumnName = "EXE"; }
+            else if (code == "FFE")     { code = "Full time salaried - Fire management";    ColumnName = "FFE"; }
+            else if (code == "HRLY")    { code = "Full time hourly employees non union";    ColumnName = "HRLY"; }
+            else if (code == "FAC")     { code = "Full time facilties union employees";     ColumnName = "FAC"; }
+            else if (code == "PTC")     { code = "Part time casual employees";              ColumnName = "All_PTC"; }
+            else if (code == "XGRD")    { code = "Crossing guards - non full time";         ColumnName = "XGRD"; }
+            else if (code == "PTH")     { code = "Permanent part time employees";           ColumnName = "All_PTH"; }
+            else if (code == "CON")     { code = "Contract employees - non full time";      ColumnName = "CON"; }
+            else if (code == "O/SCL.")  { code = "Off scale employees - non full time";     ColumnName = "O_SCL"; }
+            else if (code == "SEIU.C")  { code = "Seasonal facilities union employees";     ColumnName = "ALL_SEIU_Contract"; }
+            else code = "Unknown";
+            if (Environment.MachineName == "SYSMG-09-19")
             {
                 //string str = "";
                 //str += "Dept " + Core.getEmpID(forUser.ToString()) + " = code =" + code;

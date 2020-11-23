@@ -132,7 +132,8 @@ namespace DATS_Timesheets
                     checkedListBox1.Items.Contains("Facilities - Part Time") ||
                     checkedListBox1.Items.Contains("Facilities Maintenance") ||
                     checkedListBox1.Items.Contains("Crossing Guards") ||
-                    checkedListBox1.Items.Contains("Fleet")))
+                    checkedListBox1.Items.Contains("Fleet") ||
+                    checkedListBox1.Items.Contains("View Only"))) 
                 {
                     if (!checkedListBox1.Items.Contains("Crossing Guards"))
                         checkedListBox1.Items.Add("Crossing Guards");
@@ -150,6 +151,8 @@ namespace DATS_Timesheets
                         checkedListBox1.Items.Add("Roads");
                     if (!checkedListBox1.Items.Contains("Water"))
                         checkedListBox1.Items.Add("Water");
+                    if (!checkedListBox1.Items.Contains("View Only"))
+                        checkedListBox1.Items.Add("View Only");
                 }
             }
 

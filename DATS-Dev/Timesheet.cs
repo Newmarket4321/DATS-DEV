@@ -227,17 +227,17 @@ namespace DATS_Timesheets
             //else if (code == "7") { code = "LTD";             }
             //else  code = "Unknown";
 
-            if (code == "SAL")          { code = "Full time salaried employees";            ColumnName = "All_Salary"; }
+            if (code == "SAL")          { code = "Full time salaried employees";            ColumnName = "SAL"; }
             else if (code == "EXE")     { code = "Full time executive salaried employees";  ColumnName = "EXE"; }
             else if (code == "FFE")     { code = "Full time salaried - Fire management";    ColumnName = "FFE"; }
             else if (code == "HRLY")    { code = "Full time hourly employees non union";    ColumnName = "HRLY"; }
             else if (code == "FAC")     { code = "Full time facilties union employees";     ColumnName = "FAC"; }
-            else if (code == "PTC")     { code = "Part time casual employees";              ColumnName = "All_PTC"; }
+            else if (code == "PTC")     { code = "Part time casual employees";              ColumnName = "PTC"; }
             else if (code == "XGRD")    { code = "Crossing guards - non full time";         ColumnName = "XGRD"; }
-            else if (code == "PTH")     { code = "Permanent part time employees";           ColumnName = "All_PTH"; }
+            else if (code == "PTH")     { code = "Permanent part time employees";           ColumnName = "PTH"; }
             else if (code == "CON")     { code = "Contract employees - non full time";      ColumnName = "CON"; }
             else if (code == "O/SCL.")  { code = "Off scale employees - non full time";     ColumnName = "O_SCL"; }
-            else if (code == "SEIU.C")  { code = "Seasonal facilities union employees";     ColumnName = "ALL_SEIU_Contract"; }
+            else if (code == "SEIU.C")  { code = "Seasonal facilities union employees";     ColumnName = "SEIU_C"; }
             else code = "Unknown";
             if (Environment.MachineName == "SYSMG-09-19")
             {

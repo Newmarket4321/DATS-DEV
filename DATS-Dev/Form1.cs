@@ -805,9 +805,23 @@ order by version");
             }
             else if (toolStripComboBox2.Text != "All")
             {
-                sql = new SQL("select * from users u join departmentassociations da on u.userid = da.userid join department d on da.departmentid = d.departmentid where d.department=@DEPT and active=1 and enterstime=1 order by displayname");
+                if (toolStripComboBox2.Text == "View Only")
+                {
+                    sql = new SQL("select * from users u join departmentassociations da on u.userid = da.userid join department d on da.departmentid = d.departmentid where d.department=@DEPT and active=1 and VIEWONLYUSER=1 order by displayname");
+
+                }
+                else
+                {
+                    sql = new SQL("select * from users u join departmentassociations da on u.userid = da.userid join department d on da.departmentid = d.departmentid where d.department=@DEPT and active=1 and enterstime=1 order by displayname");
+
+                }
                 sql.AddParameter("@DEPT", toolStripComboBox2.Text);
             }
+            //else if (toolStripComboBox2.Text != "All" && toolStripComboBox2.Text == "View Only")
+            //{
+            //    sql = new SQL("select * from users u join departmentassociations da on u.userid = da.userid join department d on da.departmentid = d.departmentid where d.department=@DEPT and active=1 and VIEWONLYUSER=1 order by displayname");
+            //    sql.AddParameter("@DEPT", toolStripComboBox2.Text);
+            //}
             else
             {
                 sql = new SQL("select * from users where active=1 and enterstime=1 order by displayname");

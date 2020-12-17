@@ -110,6 +110,12 @@ namespace DATS_Timesheets
             else if (department == "21"){
                 JDEdepartment = "85";
             }
+            else if (forUser == "Schritt, Craig")
+            {
+                JDEdepartment = "85";
+                useSQL = true;
+               // MessageBox.Show(forUser + " " + JDEdepartment);
+            }
             else if (department == "22"){
                 JDEdepartment = "85";
             }

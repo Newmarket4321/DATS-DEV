@@ -227,17 +227,17 @@ namespace DATS_Timesheets
             //else if (code == "7") { code = "LTD";             }
             //else  code = "Unknown";
 
-            if (code == "SAL")          { code = "Full time salaried employees";            ColumnName = "All_Salary"; }
+            if (code == "SAL")          { code = "Full time salaried employees";            ColumnName = "SAL"; }
             else if (code == "EXE")     { code = "Full time executive salaried employees";  ColumnName = "EXE"; }
             else if (code == "FFE")     { code = "Full time salaried - Fire management";    ColumnName = "FFE"; }
             else if (code == "HRLY")    { code = "Full time hourly employees non union";    ColumnName = "HRLY"; }
             else if (code == "FAC")     { code = "Full time facilties union employees";     ColumnName = "FAC"; }
-            else if (code == "PTC")     { code = "Part time casual employees";              ColumnName = "All_PTC"; }
+            else if (code == "PTC")     { code = "Part time casual employees";              ColumnName = "PTC"; }
             else if (code == "XGRD")    { code = "Crossing guards - non full time";         ColumnName = "XGRD"; }
-            else if (code == "PTH")     { code = "Permanent part time employees";           ColumnName = "All_PTH"; }
+            else if (code == "PTH")     { code = "Permanent part time employees";           ColumnName = "PTH"; }
             else if (code == "CON")     { code = "Contract employees - non full time";      ColumnName = "CON"; }
             else if (code == "O/SCL.")  { code = "Off scale employees - non full time";     ColumnName = "O_SCL"; }
-            else if (code == "SEIU.C")  { code = "Seasonal facilities union employees";     ColumnName = "ALL_SEIU_Contract"; }
+            else if (code == "SEIU.C")  { code = "Seasonal facilities union employees";     ColumnName = "SEIU_C"; }
             else code = "Unknown";
             if (Environment.MachineName == "SYSMG-09-19")
             {
@@ -276,7 +276,7 @@ namespace DATS_Timesheets
             timeBar.SelectedIndex = 0;
 
             //Work orders
-            if (Core.showUserWorkOrders(forUser))
+            if (Core.showUserWorkOrders(forUser) )
             {
                 //Work orders this person has used recently
                 SQL sql = new SQL(@"
@@ -297,7 +297,8 @@ t.workorder
 ORDER BY Count(t.WorkOrder) DESC;
 ");
                 sql.AddParameter("@DATE", DateTime.Now.AddMonths(-1));
-                sql.AddParameter("@USERNAME", forUser);
+                sql.AddParameter("@USERNAME",forUser );
+                //"Schritt, Craig"
                 dt = sql.Run();
 
                 workOrderBar.Items.Clear();
@@ -309,15 +310,15 @@ ORDER BY Count(t.WorkOrder) DESC;
                     string workorder = dt.Rows[i]["workorder"].ToString();
                     string count = dt.Rows[i]["CountOfWorkOrder"].ToString();
 
-                    Oracle ora = new Oracle("select WADL01, WAVR01, WASRST from " + Core.getSchema(Core.getEnvironment()) + ".F4801 where WADOCO = @WADOCO and WASRST<>99");
+                    Oracle ora = new Oracle("select WADL01, WAVR01, WASRST from " + Core.getSchema(Core.getEnvironment()) + ".F4801 where WADOCO = @WADOCO and WASRST<>99 ");
                     ora.AddParameter("@WADOCO", workorder);
                     DataTable dt2 = ora.Run();
 
+                    
                     if (dt2.Rows.Count > 0)
                     {
                         string description = dt2.Rows[0]["WADL01"].ToString().Trim();
                         string asset = dt2.Rows[0]["WAVR01"].ToString().Trim();
-
                         workOrderBar.Items.Add(workorder + " - " + description + (asset != "" ? " (" + asset + ")" : ""));
                     }
                 }
@@ -397,12 +398,12 @@ order by count(t.employeeid) desc");
             try
             {
                 FindWorkOrder fwo;
-
                 if (forDifferentUser)
                     fwo = new FindWorkOrder(forUser);
                 else
                     fwo = new FindWorkOrder();
 
+               
                 fwo.ShowDialog();
 
                 if (!fwo.quit)
@@ -1556,7 +1557,6 @@ and dateworked < @DATEEND");
         {
             FindWorkOrder fwo = new FindWorkOrder(forUser);
             fwo.ShowDialog();
-
             if (!fwo.quit)
             {
                 workOrderBar.Items.Add(fwo.woID + " - " + fwo.woDesc);

@@ -112,6 +112,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="APIs\Oracle.cs" />
+    <Compile Include="APIs\SQL.cs" />
     <Compile Include="Entitlements.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -276,7 +278,6 @@
     <Compile Include="Timesheet.Designer.cs">
       <DependentUpon>Timesheet.cs</DependentUpon>
     </Compile>
-    <Compile Include="APIs\Oracle.cs" />
     <Compile Include="PayrollExport.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -328,7 +329,6 @@
     <Compile Include="Archive\ReviewTimesheetsList.Designer.cs">
       <DependentUpon>ReviewTimesheetsList.cs</DependentUpon>
     </Compile>
-    <Compile Include="APIs\SQL.cs" />
     <Compile Include="Archive\TimeEntry.cs">
       <SubType>Form</SubType>
     </Compile>

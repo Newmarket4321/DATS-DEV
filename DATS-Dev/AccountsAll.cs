@@ -45,6 +45,17 @@ namespace DATS_Timesheets
             }
 
             comboBox1.SelectedIndex = 0;
+            if (Core.isAdmin(Core.getUsername()))
+            {
+                button7.Visible = true;
+                button8.Visible = true;
+
+            }
+            else
+            {
+                button7.Visible = false;
+                button8.Visible = false;
+            }
         }
 
         public AccountsAll(bool selectMode)

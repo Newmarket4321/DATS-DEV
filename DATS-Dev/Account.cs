@@ -57,47 +57,62 @@ namespace DATS_Timesheets
                 viewonly = bool.Parse(dt.Rows[0]["viewonlyuser"].ToString());
             }
             if (!active)
-                radioButton1.Checked = true;
+                InactiveUser.Checked = true;
             else if (admin)
-                radioButton7.Checked = true;
+            {  
+                if(reviewer == true && entersTime == true)
+                {
+                    Enter_Review_Timesheet.Checked = true;
+                }
+                else if(approver == true && entersTime == true)
+                {
+                    Enter_Approve_Timesheets.Checked = true;
+                }
+                else if(reviewer == true)
+                    ReviewsTimesheets.Checked = true;
+                else if(approver ==true)
+                    ApprovesTimesheets.Checked = true;
+
+                Admin.Checked = true;
+            }
             else if (approver)
             {
                 if (entersTime)
-                    radioButton6.Checked = true;
+                    Enter_Approve_Timesheets.Checked = true;
                 else
-                    radioButton5.Checked = true;
+                    ApprovesTimesheets.Checked = true;
             }
             else if (reviewer)
             {
                 if (entersTime)
-                    radioButton3.Checked = true;
+                    Enter_Review_Timesheet.Checked = true;
                 else
-                    radioButton4.Checked = true;
+                    ReviewsTimesheets.Checked = true;
             }
             else if (viewonly)
             {
-                radioButton8.Checked = true;
+                Viewonlyuser.Checked = true;
             }
             else
-                radioButton2.Checked = true;
+                EntersTimesheets.Checked = true;
         }
 
         private void startup(string username)
         {
             if (!Core.canApprove(Core.getUsername()) && !Core.canApprove(username)) //Neither of you can
             {
-                radioButton5.Enabled = false;
-                radioButton6.Enabled = false;
+                ApprovesTimesheets.Enabled = false;
+                Enter_Approve_Timesheets.Enabled = false;
             }
             else if (!Core.canApprove(Core.getUsername()) && Core.canApprove(username)) //They are above you
             {
-                radioButton1.Enabled = false;
-                radioButton2.Enabled = false;
-                radioButton3.Enabled = false;
-                radioButton4.Enabled = false;
-                radioButton5.Enabled = false;
-                radioButton6.Enabled = false;
-                radioButton8.Enabled = false;
+                InactiveUser.Enabled = false;
+                EntersTimesheets.Enabled = false;
+                Enter_Review_Timesheet.Enabled = false;
+                ReviewsTimesheets.Enabled = false;
+                ApprovesTimesheets.Enabled = false;
+                Enter_Approve_Timesheets.Enabled = false;
+                Viewonlyuser.Enabled = false;
                 textBox1.Enabled = false;
                 textBox2.Enabled = false;
                 textBox3.Enabled = false;
@@ -114,8 +129,8 @@ namespace DATS_Timesheets
             }
             else
             {
-                radioButton7.Enabled = false;
-
+               
+                Admin.Enabled = false;
                 SQL sql = new SQL("select department from department, departmentassociations da, users u where department != 'All' and department.departmentid = da.departmentid and da.userid = u.userid and (u.displayname = @THEIRUSERNAME or u.displayname = @YOURUSERNAME) group by department order by department");
                 sql.AddParameter("@THEIRUSERNAME", username);
                 sql.AddParameter("@YOURUSERNAME", Core.getUsername());
@@ -173,7 +188,7 @@ namespace DATS_Timesheets
                     checkedListBox1.SetItemCheckState(i, CheckState.Checked);
             }
 
-            radioButton2.Checked = true;
+            EntersTimesheets.Checked = true;
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -222,12 +237,40 @@ namespace DATS_Timesheets
                 return;
             }
 
-            bool canReview = radioButton3.Checked || radioButton4.Checked || radioButton5.Checked || radioButton6.Checked || radioButton7.Checked;
-            bool canApprove = radioButton5.Checked || radioButton6.Checked || radioButton7.Checked;
-            bool entersTime = radioButton2.Checked || radioButton3.Checked || radioButton6.Checked;
-            bool admin = radioButton7.Checked;
-            bool active = !radioButton1.Checked;
-            bool viewonly = radioButton8.Checked;
+
+            //bool canReview = radioButton3.Checked || radioButton4.Checked || radioButton5.Checked || radioButton6.Checked;
+            //bool canApprove = radioButton5.Checked || radioButton6.Checked;
+            //bool entersTime = radioButton2.Checked || radioButton3.Checked || radioButton6.Checked;
+            bool admin = Admin.Checked;
+            bool active = !InactiveUser.Checked;
+            bool viewonly = Viewonlyuser.Checked;
+            bool canReview = false;
+            bool canApprove =false;
+            bool canReview_EnterTime = Enter_Review_Timesheet.Checked;
+            bool canApprove_EnterTime = Enter_Approve_Timesheets.Checked;
+            bool entersTime = false;
+            if (canReview_EnterTime == true)
+            {
+                canReview = Enter_Review_Timesheet.Checked;
+                entersTime = canReview_EnterTime;
+            }
+            else if(ReviewsTimesheets.Checked == true && canReview_EnterTime == false)
+            {
+                canReview = ReviewsTimesheets.Checked;
+            }
+            if (canApprove_EnterTime == true)
+            {
+                canApprove = Enter_Approve_Timesheets.Checked;
+                entersTime = canApprove_EnterTime;
+            }
+            else if(ApprovesTimesheets.Checked == true && canApprove_EnterTime == false)
+            {
+                canApprove = ApprovesTimesheets.Checked;
+            }
+            if(entersTime == true && canReview_EnterTime == false  && canApprove_EnterTime == false)
+            {
+                entersTime = EntersTimesheets.Checked;
+            }
             if (mode == NEWMODE)
             {
                 //Create user

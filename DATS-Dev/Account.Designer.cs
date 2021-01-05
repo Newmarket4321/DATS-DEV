@@ -37,18 +37,18 @@
             this.label4 = new System.Windows.Forms.Label();
             this.textBox3 = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
-            this.radioButton1 = new System.Windows.Forms.RadioButton();
-            this.radioButton2 = new System.Windows.Forms.RadioButton();
-            this.radioButton3 = new System.Windows.Forms.RadioButton();
-            this.radioButton4 = new System.Windows.Forms.RadioButton();
-            this.radioButton5 = new System.Windows.Forms.RadioButton();
-            this.radioButton6 = new System.Windows.Forms.RadioButton();
+            this.InactiveUser = new System.Windows.Forms.RadioButton();
+            this.EntersTimesheets = new System.Windows.Forms.RadioButton();
+            this.Enter_Review_Timesheet = new System.Windows.Forms.RadioButton();
+            this.ReviewsTimesheets = new System.Windows.Forms.RadioButton();
+            this.ApprovesTimesheets = new System.Windows.Forms.RadioButton();
+            this.Enter_Approve_Timesheets = new System.Windows.Forms.RadioButton();
             this.label2 = new System.Windows.Forms.Label();
             this.button1 = new System.Windows.Forms.Button();
             this.label6 = new System.Windows.Forms.Label();
-            this.radioButton7 = new System.Windows.Forms.RadioButton();
             this.label7 = new System.Windows.Forms.Label();
-            this.radioButton8 = new System.Windows.Forms.RadioButton();
+            this.Viewonlyuser = new System.Windows.Forms.RadioButton();
+            this.Admin = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // label1
@@ -157,77 +157,78 @@
             this.label5.Text = "Display Name";
             this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // radioButton1
+            // InactiveUser
             // 
-            this.radioButton1.AutoSize = true;
-            this.radioButton1.ForeColor = System.Drawing.Color.Red;
-            this.radioButton1.Location = new System.Drawing.Point(171, 153);
-            this.radioButton1.Name = "radioButton1";
-            this.radioButton1.Size = new System.Drawing.Size(122, 36);
-            this.radioButton1.TabIndex = 67;
-            this.radioButton1.TabStop = true;
-            this.radioButton1.Text = "Inactive";
-            this.radioButton1.UseVisualStyleBackColor = true;
+            this.InactiveUser.AutoSize = true;
+            this.InactiveUser.ForeColor = System.Drawing.Color.Red;
+            this.InactiveUser.Location = new System.Drawing.Point(171, 153);
+            this.InactiveUser.Name = "InactiveUser";
+            this.InactiveUser.Size = new System.Drawing.Size(122, 36);
+            this.InactiveUser.TabIndex = 67;
+            this.InactiveUser.TabStop = true;
+            this.InactiveUser.Text = "Inactive";
+            this.InactiveUser.UseVisualStyleBackColor = true;
             // 
-            // radioButton2
+            // EntersTimesheets
             // 
-            this.radioButton2.AutoSize = true;
-            this.radioButton2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
-            this.radioButton2.Location = new System.Drawing.Point(171, 184);
-            this.radioButton2.Name = "radioButton2";
-            this.radioButton2.Size = new System.Drawing.Size(228, 36);
-            this.radioButton2.TabIndex = 68;
-            this.radioButton2.TabStop = true;
-            this.radioButton2.Text = "Enters timesheets";
-            this.radioButton2.UseVisualStyleBackColor = true;
+            this.EntersTimesheets.AutoSize = true;
+            this.EntersTimesheets.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
+            this.EntersTimesheets.Location = new System.Drawing.Point(171, 184);
+            this.EntersTimesheets.Name = "EntersTimesheets";
+            this.EntersTimesheets.Size = new System.Drawing.Size(228, 36);
+            this.EntersTimesheets.TabIndex = 68;
+            this.EntersTimesheets.TabStop = true;
+            this.EntersTimesheets.Text = "Enters timesheets";
+            this.EntersTimesheets.UseVisualStyleBackColor = true;
             // 
-            // radioButton3
+            // Enter_Review_Timesheet
             // 
-            this.radioButton3.AutoSize = true;
-            this.radioButton3.ForeColor = System.Drawing.Color.Blue;
-            this.radioButton3.Location = new System.Drawing.Point(171, 215);
-            this.radioButton3.Name = "radioButton3";
-            this.radioButton3.Size = new System.Drawing.Size(361, 36);
-            this.radioButton3.TabIndex = 69;
-            this.radioButton3.TabStop = true;
-            this.radioButton3.Text = "Enters and reviews timesheets";
-            this.radioButton3.UseVisualStyleBackColor = true;
+            this.Enter_Review_Timesheet.AutoSize = true;
+            this.Enter_Review_Timesheet.ForeColor = System.Drawing.Color.Blue;
+            this.Enter_Review_Timesheet.Location = new System.Drawing.Point(171, 215);
+            this.Enter_Review_Timesheet.Name = "Enter_Review_Timesheet";
+            this.Enter_Review_Timesheet.Size = new System.Drawing.Size(361, 36);
+            this.Enter_Review_Timesheet.TabIndex = 69;
+            this.Enter_Review_Timesheet.TabStop = true;
+            this.Enter_Review_Timesheet.Text = "Enters and reviews timesheets";
+            this.Enter_Review_Timesheet.UseVisualStyleBackColor = true;
             // 
-            // radioButton4
+            // ReviewsTimesheets
             // 
-            this.radioButton4.AutoSize = true;
-            this.radioButton4.ForeColor = System.Drawing.Color.Blue;
-            this.radioButton4.Location = new System.Drawing.Point(171, 246);
-            this.radioButton4.Name = "radioButton4";
-            this.radioButton4.Size = new System.Drawing.Size(247, 36);
-            this.radioButton4.TabIndex = 70;
-            this.radioButton4.TabStop = true;
-            this.radioButton4.Text = "Reviews timesheets";
-            this.radioButton4.UseVisualStyleBackColor = true;
+            this.ReviewsTimesheets.AutoSize = true;
+            this.ReviewsTimesheets.ForeColor = System.Drawing.Color.Blue;
+            this.ReviewsTimesheets.Location = new System.Drawing.Point(171, 246);
+            this.ReviewsTimesheets.Name = "ReviewsTimesheets";
+            this.ReviewsTimesheets.Size = new System.Drawing.Size(247, 36);
+            this.ReviewsTimesheets.TabIndex = 70;
+            this.ReviewsTimesheets.TabStop = true;
+            this.ReviewsTimesheets.Text = "Reviews timesheets";
+            this.ReviewsTimesheets.UseVisualStyleBackColor = true;
             // 
-            // radioButton5
+            // ApprovesTimesheets
             // 
-            this.radioButton5.AutoSize = true;
-            this.radioButton5.ForeColor = System.Drawing.Color.Purple;
-            this.radioButton5.Location = new System.Drawing.Point(171, 308);
-            this.radioButton5.Name = "radioButton5";
-            this.radioButton5.Size = new System.Drawing.Size(263, 36);
-            this.radioButton5.TabIndex = 72;
-            this.radioButton5.TabStop = true;
-            this.radioButton5.Text = "Approves timesheets";
-            this.radioButton5.UseVisualStyleBackColor = true;
+            this.ApprovesTimesheets.AutoSize = true;
+            this.ApprovesTimesheets.ForeColor = System.Drawing.Color.Purple;
+            this.ApprovesTimesheets.Location = new System.Drawing.Point(171, 308);
+            this.ApprovesTimesheets.Name = "ApprovesTimesheets";
+            this.ApprovesTimesheets.Size = new System.Drawing.Size(263, 36);
+            this.ApprovesTimesheets.TabIndex = 72;
+            this.ApprovesTimesheets.TabStop = true;
+            this.ApprovesTimesheets.Text = "Approves timesheets";
+            this.ApprovesTimesheets.UseVisualStyleBackColor = true;
             // 
-            // radioButton6
+            // Enter_Approve_Timesheets
             // 
-            this.radioButton6.AutoSize = true;
-            this.radioButton6.ForeColor = System.Drawing.Color.Purple;
-            this.radioButton6.Location = new System.Drawing.Point(171, 277);
-            this.radioButton6.Name = "radioButton6";
-            this.radioButton6.Size = new System.Drawing.Size(379, 36);
-            this.radioButton6.TabIndex = 71;
-            this.radioButton6.TabStop = true;
-            this.radioButton6.Text = "Enters and approves timesheets";
-            this.radioButton6.UseVisualStyleBackColor = true;
+            this.Enter_Approve_Timesheets.AutoSize = true;
+            this.Enter_Approve_Timesheets.ForeColor = System.Drawing.Color.Purple;
+            this.Enter_Approve_Timesheets.Location = new System.Drawing.Point(171, 277);
+            this.Enter_Approve_Timesheets.Name = "Enter_Approve_Timesheets";
+            this.Enter_Approve_Timesheets.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.Enter_Approve_Timesheets.Size = new System.Drawing.Size(379, 36);
+            this.Enter_Approve_Timesheets.TabIndex = 71;
+            this.Enter_Approve_Timesheets.TabStop = true;
+            this.Enter_Approve_Timesheets.Text = "Enters and approves timesheets";
+            this.Enter_Approve_Timesheets.UseVisualStyleBackColor = true;
             // 
             // label2
             // 
@@ -271,18 +272,6 @@
             this.label6.Text = "Entitlements";
             this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // radioButton7
-            // 
-            this.radioButton7.AutoSize = true;
-            this.radioButton7.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(149)))), ((int)(((byte)(0)))));
-            this.radioButton7.Location = new System.Drawing.Point(171, 339);
-            this.radioButton7.Name = "radioButton7";
-            this.radioButton7.Size = new System.Drawing.Size(184, 36);
-            this.radioButton7.TabIndex = 76;
-            this.radioButton7.TabStop = true;
-            this.radioButton7.Text = "Administrator";
-            this.radioButton7.UseVisualStyleBackColor = true;
-            // 
             // label7
             // 
             this.label7.AutoSize = true;
@@ -296,17 +285,28 @@
             this.label7.Text = "...";
             this.label7.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // radioButton8
+            // Viewonlyuser
             // 
-            this.radioButton8.AutoSize = true;
-            this.radioButton8.ForeColor = System.Drawing.Color.Fuchsia;
-            this.radioButton8.Location = new System.Drawing.Point(171, 374);
-            this.radioButton8.Name = "radioButton8";
-            this.radioButton8.Size = new System.Drawing.Size(196, 36);
-            this.radioButton8.TabIndex = 78;
-            this.radioButton8.TabStop = true;
-            this.radioButton8.Text = "View only user";
-            this.radioButton8.UseVisualStyleBackColor = true;
+            this.Viewonlyuser.AutoSize = true;
+            this.Viewonlyuser.ForeColor = System.Drawing.Color.Fuchsia;
+            this.Viewonlyuser.Location = new System.Drawing.Point(171, 339);
+            this.Viewonlyuser.Name = "Viewonlyuser";
+            this.Viewonlyuser.Size = new System.Drawing.Size(196, 36);
+            this.Viewonlyuser.TabIndex = 78;
+            this.Viewonlyuser.TabStop = true;
+            this.Viewonlyuser.Text = "View only user";
+            this.Viewonlyuser.UseVisualStyleBackColor = true;
+            // 
+            // Admin
+            // 
+            this.Admin.AutoSize = true;
+            this.Admin.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(149)))), ((int)(((byte)(0)))));
+            this.Admin.Location = new System.Drawing.Point(19, 392);
+            this.Admin.Name = "Admin";
+            this.Admin.Size = new System.Drawing.Size(343, 36);
+            this.Admin.TabIndex = 79;
+            this.Admin.Text = "Permission for Administrator";
+            this.Admin.UseVisualStyleBackColor = true;
             // 
             // Account
             // 
@@ -314,19 +314,19 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Control;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.ClientSize = new System.Drawing.Size(758, 422);
-            this.Controls.Add(this.radioButton8);
+            this.ClientSize = new System.Drawing.Size(758, 440);
+            this.Controls.Add(this.Admin);
+            this.Controls.Add(this.Viewonlyuser);
             this.Controls.Add(this.label7);
-            this.Controls.Add(this.radioButton7);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.label2);
-            this.Controls.Add(this.radioButton5);
-            this.Controls.Add(this.radioButton6);
-            this.Controls.Add(this.radioButton4);
-            this.Controls.Add(this.radioButton3);
-            this.Controls.Add(this.radioButton2);
-            this.Controls.Add(this.radioButton1);
+            this.Controls.Add(this.ApprovesTimesheets);
+            this.Controls.Add(this.Enter_Approve_Timesheets);
+            this.Controls.Add(this.ReviewsTimesheets);
+            this.Controls.Add(this.Enter_Review_Timesheet);
+            this.Controls.Add(this.EntersTimesheets);
+            this.Controls.Add(this.InactiveUser);
             this.Controls.Add(this.textBox3);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.label4);
@@ -363,17 +363,17 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.TextBox textBox3;
         private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.RadioButton radioButton1;
-        private System.Windows.Forms.RadioButton radioButton2;
-        private System.Windows.Forms.RadioButton radioButton3;
-        private System.Windows.Forms.RadioButton radioButton4;
-        private System.Windows.Forms.RadioButton radioButton5;
-        private System.Windows.Forms.RadioButton radioButton6;
+        private System.Windows.Forms.RadioButton InactiveUser;
+        private System.Windows.Forms.RadioButton EntersTimesheets;
+        private System.Windows.Forms.RadioButton Enter_Review_Timesheet;
+        private System.Windows.Forms.RadioButton ReviewsTimesheets;
+        private System.Windows.Forms.RadioButton ApprovesTimesheets;
+        private System.Windows.Forms.RadioButton Enter_Approve_Timesheets;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.RadioButton radioButton7;
         private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.RadioButton radioButton8;
+        private System.Windows.Forms.RadioButton Viewonlyuser;
+        private System.Windows.Forms.CheckBox Admin;
     }
 }

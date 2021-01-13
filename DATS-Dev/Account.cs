@@ -248,7 +248,7 @@ namespace DATS_Timesheets
             bool canApprove =false;
             bool canReview_EnterTime = Enter_Review_Timesheet.Checked;
             bool canApprove_EnterTime = Enter_Approve_Timesheets.Checked;
-            bool entersTime = false;
+            bool entersTime = EntersTimesheets.Checked;
             if (canReview_EnterTime == true)
             {
                 canReview = Enter_Review_Timesheet.Checked;
@@ -267,7 +267,7 @@ namespace DATS_Timesheets
             {
                 canApprove = ApprovesTimesheets.Checked;
             }
-            if(entersTime == true && canReview_EnterTime == false  && canApprove_EnterTime == false)
+            if(entersTime == true  && canReview_EnterTime == false  && canApprove_EnterTime == false)
             {
                 entersTime = EntersTimesheets.Checked;
             }

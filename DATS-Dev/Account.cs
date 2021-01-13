@@ -59,20 +59,23 @@ namespace DATS_Timesheets
             if (!active)
                 InactiveUser.Checked = true;
             else if (admin)
-            {  
-                if(reviewer == true && entersTime == true)
+            {
+                if (reviewer == true && entersTime == true)
                 {
                     Enter_Review_Timesheet.Checked = true;
                 }
-                else if(approver == true && entersTime == true)
+                else if (approver == true && entersTime == true)
                 {
                     Enter_Approve_Timesheets.Checked = true;
                 }
-                else if(reviewer == true)
+                else if (reviewer == true)
                     ReviewsTimesheets.Checked = true;
-                else if(approver ==true)
+                else if (approver == true)
                     ApprovesTimesheets.Checked = true;
-
+                else if (viewonly == true)
+                    Viewonlyuser.Checked = true;
+                else if (active == false)
+                    InactiveUser.Checked = true;
                 Admin.Checked = true;
             }
             else if (approver)
@@ -271,6 +274,7 @@ namespace DATS_Timesheets
             {
                 entersTime = EntersTimesheets.Checked;
             }
+           
             if (mode == NEWMODE)
             {
                 //Create user
@@ -314,6 +318,7 @@ namespace DATS_Timesheets
             }
             else if (mode == EDITMODE)
             {
+               
                 //Remember what it started as
                 SQL sql = new SQL("select * from users where username = @USERNAME");
                 sql.AddParameter("@USERNAME", oldUsername);
@@ -427,6 +432,15 @@ where userid=@USERID");
             
         }
 
-        
+        private void InactiveUser_CheckedChanged(object sender, EventArgs e)
+        {
+            if (InactiveUser.Checked == true)
+            {
+                Admin.Enabled = false;
+                Admin.Checked = false;
+            }
+            else
+                Admin.Enabled = true;
+        }
     }
 }

@@ -168,6 +168,7 @@
             this.InactiveUser.TabStop = true;
             this.InactiveUser.Text = "Inactive";
             this.InactiveUser.UseVisualStyleBackColor = true;
+            this.InactiveUser.CheckedChanged += new System.EventHandler(this.InactiveUser_CheckedChanged);
             // 
             // EntersTimesheets
             // 

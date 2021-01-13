@@ -72,8 +72,6 @@ namespace DATS_Timesheets
                     ReviewsTimesheets.Checked = true;
                 else if (approver == true)
                     ApprovesTimesheets.Checked = true;
-                else if (viewonly == true)
-                    Viewonlyuser.Checked = true;
                 
                 Admin.Checked = true;
             }
@@ -434,6 +432,17 @@ where userid=@USERID");
         private void InactiveUser_CheckedChanged(object sender, EventArgs e)
         {
             if (InactiveUser.Checked == true)
+            {
+                Admin.Enabled = false;
+                Admin.Checked = false;
+            }
+            else
+                Admin.Enabled = true;
+        }
+
+        private void Viewonlyuser_CheckedChanged(object sender, EventArgs e)
+        {
+            if (Viewonlyuser.Checked == true)
             {
                 Admin.Enabled = false;
                 Admin.Checked = false;

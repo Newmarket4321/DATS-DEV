@@ -297,6 +297,7 @@
             this.Viewonlyuser.TabStop = true;
             this.Viewonlyuser.Text = "View only user";
             this.Viewonlyuser.UseVisualStyleBackColor = true;
+            this.Viewonlyuser.CheckedChanged += new System.EventHandler(this.Viewonlyuser_CheckedChanged);
             // 
             // Admin
             // 

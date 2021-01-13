@@ -74,8 +74,7 @@ namespace DATS_Timesheets
                     ApprovesTimesheets.Checked = true;
                 else if (viewonly == true)
                     Viewonlyuser.Checked = true;
-                else if (active == false)
-                    InactiveUser.Checked = true;
+                
                 Admin.Checked = true;
             }
             else if (approver)

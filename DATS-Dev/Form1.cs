@@ -38,7 +38,10 @@ namespace DATS_Timesheets
 
             if (dt.Rows.Count == 0) //If not recognized...
             {
-                MessageBox.Show("User \"" + Core.getUsername() + "\" not found. Please ask a supervisor to create you a DATS account.");
+                // MessageBox.Show("User \"" + Core.getUsername() + "\" not found. Please ask a supervisor to create you a DATS account.");
+                
+                 MessageBox.Show("User \"" + Core.getUsername() + "\" not found. Please contact Payroll.");
+
                 this.Close();
             }
             else //Else, do initial setup

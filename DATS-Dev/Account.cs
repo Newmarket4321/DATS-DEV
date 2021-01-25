@@ -241,37 +241,14 @@ namespace DATS_Timesheets
             //bool canReview = radioButton3.Checked || radioButton4.Checked || radioButton5.Checked || radioButton6.Checked;
             //bool canApprove = radioButton5.Checked || radioButton6.Checked;
             //bool entersTime = radioButton2.Checked || radioButton3.Checked || radioButton6.Checked;
+            bool canReview = Enter_Review_Timesheet.Checked || ReviewsTimesheets.Checked || ApprovesTimesheets.Checked || Enter_Approve_Timesheets.Checked;
+            bool canApprove = ApprovesTimesheets.Checked || Enter_Approve_Timesheets.Checked;
+            bool entersTime = EntersTimesheets.Checked || Enter_Review_Timesheet.Checked || Enter_Approve_Timesheets.Checked;
             bool admin = Admin.Checked;
             bool active = !InactiveUser.Checked;
             bool viewonly = Viewonlyuser.Checked;
-            bool canReview = false;
-            bool canApprove =false;
-            bool canReview_EnterTime = Enter_Review_Timesheet.Checked;
-            bool canApprove_EnterTime = Enter_Approve_Timesheets.Checked;
-            bool entersTime = EntersTimesheets.Checked;
-            if (canReview_EnterTime == true)
-            {
-                canReview = Enter_Review_Timesheet.Checked;
-                entersTime = canReview_EnterTime;
-            }
-            else if(ReviewsTimesheets.Checked == true && canReview_EnterTime == false)
-            {
-                canReview = ReviewsTimesheets.Checked;
-            }
-            if (canApprove_EnterTime == true)
-            {
-                canApprove = Enter_Approve_Timesheets.Checked;
-                entersTime = canApprove_EnterTime;
-            }
-            else if(ApprovesTimesheets.Checked == true && canApprove_EnterTime == false)
-            {
-                canApprove = ApprovesTimesheets.Checked;
-            }
-            if(entersTime == true  && canReview_EnterTime == false  && canApprove_EnterTime == false)
-            {
-                entersTime = EntersTimesheets.Checked;
-            }
-           
+         
+
             if (mode == NEWMODE)
             {
                 //Create user

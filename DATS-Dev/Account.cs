@@ -454,14 +454,14 @@ where userid=@USERID");
                 Core.logHistory("Edited account details", "Account: " + oldUsername + " - " + (beforeString == "" ? "No changes" : beforeString), afterString);
             }
 
-            DataTable dt  = SQL.Run("select * from users where EMPLOYEEID = @EMPLOYEEID and Home_Department != '' " , textBox2.Text);
+            //DataTable dt  = SQL.Run("select * from users where EMPLOYEEID = @EMPLOYEEID and Home_Department != '' " , textBox2.Text);
             
-            if(dt.Rows.Count == 0)
-            {
+            //if(dt.Rows.Count == 0)
+            //{
 
-               Home_Deprtment homedept = new Home_Deprtment(int.Parse(textBox2.Text));
-             //  homedept.ShowDialog();
-            }
+            //   Home_Deprtment homedept = new Home_Deprtment(int.Parse(textBox2.Text));
+            // //  homedept.ShowDialog();
+            //}
             
             this.Close();
         }

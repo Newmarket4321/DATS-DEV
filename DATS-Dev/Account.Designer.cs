@@ -49,6 +49,8 @@
             this.label7 = new System.Windows.Forms.Label();
             this.Viewonlyuser = new System.Windows.Forms.RadioButton();
             this.Admin = new System.Windows.Forms.CheckBox();
+            this.HomeDept = new System.Windows.Forms.Label();
+            this.DepartmentList = new System.Windows.Forms.ComboBox();
             this.SuspendLayout();
             // 
             // label1
@@ -59,7 +61,7 @@
             this.label1.Location = new System.Drawing.Point(13, 9);
             this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(196, 32);
+            this.label1.Size = new System.Drawing.Size(128, 21);
             this.label1.TabIndex = 0;
             this.label1.Text = "Computer Logon";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -70,7 +72,7 @@
             this.textBox1.Location = new System.Drawing.Point(171, 8);
             this.textBox1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(257, 37);
+            this.textBox1.Size = new System.Drawing.Size(257, 27);
             this.textBox1.TabIndex = 1;
             // 
             // textBox2
@@ -79,7 +81,7 @@
             this.textBox2.Location = new System.Drawing.Point(171, 82);
             this.textBox2.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(257, 37);
+            this.textBox2.Size = new System.Drawing.Size(257, 27);
             this.textBox2.TabIndex = 4;
             // 
             // label3
@@ -90,7 +92,7 @@
             this.label3.Location = new System.Drawing.Point(13, 83);
             this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(150, 32);
+            this.label3.Size = new System.Drawing.Size(97, 21);
             this.label3.TabIndex = 41;
             this.label3.Text = "Employee ID";
             this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -119,7 +121,7 @@
             this.checkedListBox1.Location = new System.Drawing.Point(558, 8);
             this.checkedListBox1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.checkedListBox1.Name = "checkedListBox1";
-            this.checkedListBox1.Size = new System.Drawing.Size(190, 324);
+            this.checkedListBox1.Size = new System.Drawing.Size(190, 312);
             this.checkedListBox1.TabIndex = 57;
             // 
             // label4
@@ -130,7 +132,7 @@
             this.label4.Location = new System.Drawing.Point(431, 9);
             this.label4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(153, 32);
+            this.label4.Size = new System.Drawing.Size(100, 21);
             this.label4.TabIndex = 58;
             this.label4.Text = "Departments";
             this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -141,7 +143,7 @@
             this.textBox3.Location = new System.Drawing.Point(171, 45);
             this.textBox3.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(257, 37);
+            this.textBox3.Size = new System.Drawing.Size(257, 27);
             this.textBox3.TabIndex = 2;
             // 
             // label5
@@ -152,7 +154,7 @@
             this.label5.Location = new System.Drawing.Point(13, 46);
             this.label5.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(163, 32);
+            this.label5.Size = new System.Drawing.Size(107, 21);
             this.label5.TabIndex = 62;
             this.label5.Text = "Display Name";
             this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -163,7 +165,7 @@
             this.InactiveUser.ForeColor = System.Drawing.Color.Red;
             this.InactiveUser.Location = new System.Drawing.Point(171, 153);
             this.InactiveUser.Name = "InactiveUser";
-            this.InactiveUser.Size = new System.Drawing.Size(122, 36);
+            this.InactiveUser.Size = new System.Drawing.Size(81, 25);
             this.InactiveUser.TabIndex = 67;
             this.InactiveUser.TabStop = true;
             this.InactiveUser.Text = "Inactive";
@@ -176,7 +178,7 @@
             this.EntersTimesheets.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
             this.EntersTimesheets.Location = new System.Drawing.Point(171, 184);
             this.EntersTimesheets.Name = "EntersTimesheets";
-            this.EntersTimesheets.Size = new System.Drawing.Size(228, 36);
+            this.EntersTimesheets.Size = new System.Drawing.Size(150, 25);
             this.EntersTimesheets.TabIndex = 68;
             this.EntersTimesheets.TabStop = true;
             this.EntersTimesheets.Text = "Enters timesheets";
@@ -188,7 +190,7 @@
             this.Enter_Review_Timesheet.ForeColor = System.Drawing.Color.Blue;
             this.Enter_Review_Timesheet.Location = new System.Drawing.Point(171, 215);
             this.Enter_Review_Timesheet.Name = "Enter_Review_Timesheet";
-            this.Enter_Review_Timesheet.Size = new System.Drawing.Size(361, 36);
+            this.Enter_Review_Timesheet.Size = new System.Drawing.Size(237, 25);
             this.Enter_Review_Timesheet.TabIndex = 69;
             this.Enter_Review_Timesheet.TabStop = true;
             this.Enter_Review_Timesheet.Text = "Enters and reviews timesheets";
@@ -200,7 +202,7 @@
             this.ReviewsTimesheets.ForeColor = System.Drawing.Color.Blue;
             this.ReviewsTimesheets.Location = new System.Drawing.Point(171, 246);
             this.ReviewsTimesheets.Name = "ReviewsTimesheets";
-            this.ReviewsTimesheets.Size = new System.Drawing.Size(247, 36);
+            this.ReviewsTimesheets.Size = new System.Drawing.Size(164, 25);
             this.ReviewsTimesheets.TabIndex = 70;
             this.ReviewsTimesheets.TabStop = true;
             this.ReviewsTimesheets.Text = "Reviews timesheets";
@@ -212,7 +214,7 @@
             this.ApprovesTimesheets.ForeColor = System.Drawing.Color.Purple;
             this.ApprovesTimesheets.Location = new System.Drawing.Point(171, 308);
             this.ApprovesTimesheets.Name = "ApprovesTimesheets";
-            this.ApprovesTimesheets.Size = new System.Drawing.Size(263, 36);
+            this.ApprovesTimesheets.Size = new System.Drawing.Size(173, 25);
             this.ApprovesTimesheets.TabIndex = 72;
             this.ApprovesTimesheets.TabStop = true;
             this.ApprovesTimesheets.Text = "Approves timesheets";
@@ -225,7 +227,7 @@
             this.Enter_Approve_Timesheets.Location = new System.Drawing.Point(171, 277);
             this.Enter_Approve_Timesheets.Name = "Enter_Approve_Timesheets";
             this.Enter_Approve_Timesheets.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.Enter_Approve_Timesheets.Size = new System.Drawing.Size(379, 36);
+            this.Enter_Approve_Timesheets.Size = new System.Drawing.Size(248, 25);
             this.Enter_Approve_Timesheets.TabIndex = 71;
             this.Enter_Approve_Timesheets.TabStop = true;
             this.Enter_Approve_Timesheets.Text = "Enters and approves timesheets";
@@ -239,7 +241,7 @@
             this.label2.Location = new System.Drawing.Point(13, 155);
             this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(139, 32);
+            this.label2.Size = new System.Drawing.Size(93, 21);
             this.label2.TabIndex = 73;
             this.label2.Text = "Permissions";
             this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -268,7 +270,7 @@
             this.label6.Location = new System.Drawing.Point(13, 120);
             this.label6.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(148, 32);
+            this.label6.Size = new System.Drawing.Size(96, 21);
             this.label6.TabIndex = 75;
             this.label6.Text = "Entitlements";
             this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -281,7 +283,7 @@
             this.label7.Location = new System.Drawing.Point(13, 343);
             this.label7.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(30, 32);
+            this.label7.Size = new System.Drawing.Size(19, 21);
             this.label7.TabIndex = 77;
             this.label7.Text = "...";
             this.label7.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -292,7 +294,7 @@
             this.Viewonlyuser.ForeColor = System.Drawing.Color.Fuchsia;
             this.Viewonlyuser.Location = new System.Drawing.Point(171, 339);
             this.Viewonlyuser.Name = "Viewonlyuser";
-            this.Viewonlyuser.Size = new System.Drawing.Size(196, 36);
+            this.Viewonlyuser.Size = new System.Drawing.Size(130, 25);
             this.Viewonlyuser.TabIndex = 78;
             this.Viewonlyuser.TabStop = true;
             this.Viewonlyuser.Text = "View only user";
@@ -303,20 +305,41 @@
             // 
             this.Admin.AutoSize = true;
             this.Admin.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(149)))), ((int)(((byte)(0)))));
-            this.Admin.Location = new System.Drawing.Point(19, 392);
+            this.Admin.Location = new System.Drawing.Point(14, 403);
             this.Admin.Name = "Admin";
-            this.Admin.Size = new System.Drawing.Size(343, 36);
+            this.Admin.Size = new System.Drawing.Size(229, 25);
             this.Admin.TabIndex = 79;
             this.Admin.Text = "Permission for Administrator";
             this.Admin.UseVisualStyleBackColor = true;
             // 
+            // HomeDept
+            // 
+            this.HomeDept.AutoSize = true;
+            this.HomeDept.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.HomeDept.Location = new System.Drawing.Point(11, 370);
+            this.HomeDept.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.HomeDept.Name = "HomeDept";
+            this.HomeDept.Size = new System.Drawing.Size(123, 17);
+            this.HomeDept.TabIndex = 80;
+            this.HomeDept.Text = "Home Department";
+            // 
+            // DepartmentList
+            // 
+            this.DepartmentList.FormattingEnabled = true;
+            this.DepartmentList.Location = new System.Drawing.Point(171, 364);
+            this.DepartmentList.Name = "DepartmentList";
+            this.DepartmentList.Size = new System.Drawing.Size(217, 29);
+            this.DepartmentList.TabIndex = 81;
+            // 
             // Account
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(13F, 32F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 21F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Control;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(758, 440);
+            this.Controls.Add(this.DepartmentList);
+            this.Controls.Add(this.HomeDept);
             this.Controls.Add(this.Admin);
             this.Controls.Add(this.Viewonlyuser);
             this.Controls.Add(this.label7);
@@ -377,5 +400,7 @@
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.RadioButton Viewonlyuser;
         private System.Windows.Forms.CheckBox Admin;
+        private System.Windows.Forms.Label HomeDept;
+        private System.Windows.Forms.ComboBox DepartmentList;
     }
 }

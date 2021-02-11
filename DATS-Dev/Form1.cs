@@ -2454,6 +2454,7 @@ and t2.dateworked >= @STARTDATE7 and t2.dateworked < @ENDDATE7) as 'Lump Sum'
 
         private void sendDataToJDEToolStripMenuItem_Click(object sender, EventArgs e)
         {
+
             if (MessageBox.Show("You are about to export hourly timesheet data to JDE." + Environment.NewLine + "Would you like to proceed?", "Export to JDE", MessageBoxButtons.YesNo) == System.Windows.Forms.DialogResult.Yes)
             {
                 int batchID = exportToJDE("H");
@@ -2626,21 +2627,37 @@ order by timestamp desc");
                 division = 3;
 
             PayrollExport.updateEmployeeTypes();
- 
+
+            DataTable dtdiv = SQL.Run(@"SELECT Users.Home_Department, Department.Department, Department.Division, Users.USERNAME, Users.DISPLAYNAME, Users.EMPLOYEEID, Users.EMPTYPE
+            FROM Users cross JOIN  Department where Department.Department = users.Home_Department");
+            //if (dtdiv.Rows.Count > 0)
+            //    MessageBox.Show(dtdiv.Rows[0]["division"].ToString());
+
+
+            //DataTable employees = SQL.Run(@"
+            //select u.employeeid from users u
+            //join departmentassociations da on u.userid = da.userid
+            //join department d on da.departmentid = d.departmentid
+            //where d.division = @DIV
+            //and u.active = 1 and u.enterstime=1 and u.emptype = '" + empType + @"'
+            //group by u.username, u.employeeid", division);
+
+
             DataTable employees = SQL.Run(@"
-select u.employeeid from users u
-join departmentassociations da on u.userid = da.userid
-join department d on da.departmentid = d.departmentid
-where d.division = @DIV
-and u.active = 1 and u.enterstime=1 and u.emptype = '" + empType + @"'
-group by u.username, u.employeeid", division);
-
+            select u.employeeid from users u
+            join departmentassociations da on u.userid = da.userid
+            join department d on da.departmentid = d.departmentid AND  u.Home_Department = d.Department
+            where  d.division = @DIV 
+            and u.active = 1  and u.enterstime=1 and u.emptype = '" + empType + @"'
+            group by u.username, u.employeeid", division);
+           // MessageBox.Show(dtdiv.Rows[0]["division"].ToString() + "==" + employees.Rows.Count + "==" + division);
             string empIDSpread = "";
+            
+                for (int i = 0; i < employees.Rows.Count; i++)
+                    empIDSpread += (i == 0 ? "" : ", ") + employees.Rows[i]["employeeid"].ToString();
+                employees = Oracle.Run("select YAALPH as username, YAAN8 as employeeid from " + Core.getSchema(Core.getEnvironment()) + ".F060116 where YAAN8 in (" + empIDSpread + ") order by YAALPH");
 
-            for (int i = 0; i < employees.Rows.Count; i++)
-                empIDSpread += (i == 0 ? "" : ", ") + employees.Rows[i]["employeeid"].ToString();
-
-            employees = Oracle.Run("select YAALPH as username, YAAN8 as employeeid from " + Core.getSchema(Core.getEnvironment()) + ".F060116 where YAAN8 in (" + empIDSpread + ") order by YAALPH");
+            
 
             Printer queue = new Printer();
 
@@ -2728,7 +2745,9 @@ order by t.dateworked asc");
                 queue.Add("Printed:");
                 queue.Add(DateTime.Now.ToString(), 100);
                 queue.Add("Department:", 640);
-                queue.Add(SQL.Run("select da.departmentid from users u join departmentassociations da on u.userid = da.userid where u.employeeid=" + employees.Rows[e]["employeeid"].ToString()).Rows.Count > 1 ? "Multiple" : SQL.Run("select d.department from department d join departmentassociations da on d.departmentid = da.departmentid join users u on u.userid = da.userid where u.employeeid = " + employees.Rows[e]["employeeid"].ToString()).Rows[0][0].ToString(), 740);
+                //queue.Add(SQL.Run("select da.departmentid from users u join departmentassociations da on u.userid = da.userid where u.employeeid=" + employees.Rows[e]["employeeid"].ToString()).Rows.Count > 1 ? "Multiple" : SQL.Run("select d.department from department d join departmentassociations da on d.departmentid = da.departmentid join users u on u.userid = da.userid where u.employeeid = " + employees.Rows[e]["employeeid"].ToString()).Rows[0][0].ToString(), 740);
+                queue.Add(SQL.Run("select Home_Department from users where employeeid = " + employees.Rows[e]["employeeid"].ToString()).Rows[0][0].ToString(), 740);
+
                 queue.AddLine();
                 queue.AddDivider();
 
@@ -2750,12 +2769,12 @@ order by t.dateworked asc");
                 {
                     week1Sub += double.Parse(week1.Rows[i]["hours"].ToString());
                     lumpSumTotal += double.Parse(week1.Rows[i]["lumpsum"].ToString());
-
+                    Console.WriteLine(DateTime.Parse(week1.Rows[i]["dateworked"].ToString()).ToString("yyyy-MM-dd ddd") +" = " + week1.Rows[i]["workorder"].ToString() + " = " + week1.Rows[i]["workorder"].ToString().Length);
                     queue.Add(DateTime.Parse(week1.Rows[i]["dateworked"].ToString()).ToString("yyyy-MM-dd ddd"), 10);
                     queue.Add(week1.Rows[i]["hours"].ToString(), 118);
                     queue.Add(week1.Rows[i]["description"].ToString(), 178);
                     queue.Add(week1.Rows[i]["workorder"].ToString(), 283);
-                    queue.Add(week1.Rows[i]["workorder"].ToString() != "" ? Oracle.Run("select wadl01 from " + Core.getSchema(Core.getEnvironment()) + ".f4801 where wadoco=" + week1.Rows[i]["workorder"].ToString()).Rows[0][0].ToString() : "", 353);
+                    queue.Add(week1.Rows[i]["workorder"].ToString().Length > 0 ? Oracle.Run("select wadl01 from " + Core.getSchema(Core.getEnvironment()) + ".f4801 where wadoco=" + week1.Rows[i]["workorder"].ToString()).Rows[0][0].ToString() : "", 353);
                     queue.Add(((int)double.Parse(week1.Rows[i]["lumpsum"].ToString())) == 0 ? "" : "$" + ((int)double.Parse(week1.Rows[i]["lumpsum"].ToString())), 525);
                     queue.Add(week1.Rows[i]["recordlocked"].ToString() == "True" ? "Yes" : "No", 615);
                     queue.AddLine();
@@ -3720,5 +3739,6 @@ order by HistoryTimestamp desc
             r.Show();
         }
 
+        
     }
 }

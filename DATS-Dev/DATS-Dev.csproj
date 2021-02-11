@@ -140,6 +140,12 @@
     <Compile Include="EntitlementType.Designer.cs">
       <DependentUpon>EntitlementType.cs</DependentUpon>
     </Compile>
+    <Compile Include="Home_Deprtment.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Home_Deprtment.Designer.cs">
+      <DependentUpon>Home_Deprtment.cs</DependentUpon>
+    </Compile>
     <Compile Include="Lookups\FindEmpID.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -706,6 +712,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="EntitlementType.resx">
       <DependentUpon>EntitlementType.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Home_Deprtment.resx">
+      <DependentUpon>Home_Deprtment.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Lookups\FindEmpID.resx">
       <DependentUpon>FindEmpID.cs</DependentUpon>

@@ -28,8 +28,8 @@ namespace DATS_Timesheets
             //if (Environment.MachineName == "SYSEA-08-18")
             //    name = "Squires, Michael";
 
-            //if (Environment.MachineName == "SYSMG-09-19")
-            //    name = "Schritt, Craig";
+            ////if (Environment.MachineName == "ITTEMPDT-01-21")
+            ////    name = "Grant, Dionne";
             try
             {
                 name = SQL.RunString("select displayname from users where username=@NAME", name);

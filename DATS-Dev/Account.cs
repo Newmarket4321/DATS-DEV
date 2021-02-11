@@ -20,11 +20,20 @@ namespace DATS_Timesheets
         public Account()
         {
             InitializeComponent();
-
+            //load_department();
             startup(Core.getUsername());
         }
+        public void load_department()
+        {
+            
+            DataTable dt = null;
+            dt = SQL.Run("select * from department order by department");
+            DepartmentList.DataSource = dt;
+            DepartmentList.DisplayMember = "department";
+            DepartmentList.ValueMember = "DepartmentID";
+        }
 
-        public Account(string username)
+            public Account(string username)
         {
             //Edit account
             InitializeComponent();
@@ -38,7 +47,7 @@ namespace DATS_Timesheets
             textBox3.Text = username;
             oldUsername = username;
             
-            SQL sql = new SQL("select u.username, u.vacmax, u.bankvacmax, u.employeeid as EmpID, u.reviewer, u.approver, u.active, u.enterstime, u.admin, u.viewonlyuser from users u where u.displayname = @USERNAME");
+            SQL sql = new SQL("select u.username, u.vacmax, u.bankvacmax, u.employeeid as EmpID, u.reviewer, u.approver, u.active, u.enterstime, u.admin, u.viewonlyuser , u.home_department from users u where u.displayname = @USERNAME");
             sql.AddParameter("@USERNAME", username);
             DataTable dt = sql.Run();
 
@@ -46,6 +55,8 @@ namespace DATS_Timesheets
             textBox1.Text = dt.Rows[0]["username"].ToString();
             oldUsername = dt.Rows[0]["username"].ToString();
             
+
+            DepartmentList.Text = dt.Rows[0]["home_department"].ToString();
             bool reviewer = bool.Parse(dt.Rows[0]["reviewer"].ToString());
             bool approver = bool.Parse(dt.Rows[0]["approver"].ToString());
             bool admin = bool.Parse(dt.Rows[0]["admin"].ToString());
@@ -95,10 +106,16 @@ namespace DATS_Timesheets
             }
             else
                 EntersTimesheets.Checked = true;
+
+
+          
         }
 
         private void startup(string username)
         {
+          
+          
+         
             if (!Core.canApprove(Core.getUsername()) && !Core.canApprove(username)) //Neither of you can
             {
                 ApprovesTimesheets.Enabled = false;
@@ -180,19 +197,31 @@ namespace DATS_Timesheets
                 SQL sql = new SQL("select department from department d, departmentassociations da, users u where d.department = @DEPARTMENT and d.departmentid = da.departmentid and da.userid = u.userid and u.displayname=@USERNAME");
                 sql.AddParameter("@DEPARTMENT", dept);
                 sql.AddParameter("@USERNAME", username);
-
+               
                 if (sql.Run().Rows.Count > 0)
                     partOfDept = true;
 
                 if (partOfDept)
                     checkedListBox1.SetItemCheckState(i, CheckState.Checked);
+                
             }
 
             EntersTimesheets.Checked = true;
+
+            DataTable dt1 = null;
+            dt1 = SQL.Run("select * from department order by department");
+            //DepartmentList.Text = "--select--";
+            
+                DepartmentList.DataSource = dt1;
+                DepartmentList.DisplayMember = "department";
+                DepartmentList.ValueMember = "DepartmentID";
+                DepartmentList.SelectedItem = null;
+         
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
+
             if (textBox1.Text == "") //Username can't be blank
             {
                 MessageBox.Show("Please enter a computer logon.");
@@ -247,12 +276,13 @@ namespace DATS_Timesheets
             bool admin = Admin.Checked;
             bool active = !InactiveUser.Checked;
             bool viewonly = Viewonlyuser.Checked;
-         
 
+           DataTable dtdiv = SQL.Run(@"SELECT Division from Department where Department = @dept", DepartmentList.Text.Trim());
             if (mode == NEWMODE)
             {
+
                 //Create user
-                SQL sql = new SQL("INSERT INTO Users VALUES (@Username, @DisplayName, @EmpID, @EmpType, @CanReview, @CanApprove, @VacMax, @BankVacMax, @Active, @PriorVacMax, @EntersTime, @Admin, @Viewonlyuser)");
+                SQL sql = new SQL("INSERT INTO Users VALUES (@Username, @DisplayName, @EmpID, @EmpType, @CanReview, @CanApprove, @VacMax, @BankVacMax, @Active, @PriorVacMax, @EntersTime, @Admin, @Viewonlyuser,@HomeDepartment)");
                 sql.AddParameter("@Username", textBox1.Text);
                 sql.AddParameter("@DisplayName", textBox3.Text);
                 sql.AddParameter("@EmpID", textBox2.Text);
@@ -265,8 +295,33 @@ namespace DATS_Timesheets
                 sql.AddParameter("@PriorVacMax", 0);
                 sql.AddParameter("@EntersTime", entersTime);
                 sql.AddParameter("@Admin", admin);
-                sql.AddParameter("@Viewonlyuser", viewonly);
-                sql.Run();
+                sql.AddParameter("@Viewonlyuser", viewonly); 
+                if (dtdiv.Rows.Count > 0)
+                {
+
+                    if (checkedListBox1.CheckedItems.Contains(DepartmentList.Text.Trim()))
+                    {
+                        sql.AddParameter("@HomeDepartment", DepartmentList.Text.Trim());
+                      
+                        sql.Run();
+
+                    }
+                    else
+                    {
+                        MessageBox.Show("Selected home department is not in selected Departments list.");
+                        return;
+                    }
+
+
+                }
+                else
+                {
+                    sql.AddParameter("@HomeDepartment", "");
+                    sql.AddParameter("@Division", "");
+                    sql.Run();
+                }
+
+
 
                 //Grab userID
                 sql = new SQL("select userid from users where username=@USERNAME");
@@ -285,7 +340,6 @@ namespace DATS_Timesheets
                     sql.AddParameter("@DEPARTMENTID", departmentID);
                     sql.Run();
                 }
-
                 PayrollExport.updateEmployeeTypes();
 
                 Core.logHistory("Created account", textBox1.Text + " (" + textBox2.Text + ")", "");
@@ -310,8 +364,8 @@ EmployeeID=@EMPLOYEEID,
 Active=@ACTIVE,
 enterstime=@ENTERSTIME,
 admin=@ADMIN,
-viewonlyuser=@Viewonlyuser
-
+viewonlyuser=@Viewonlyuser,
+Home_Department = @HomeDepartment
 where userid=@USERID");
                 sql.AddParameter("@USERNAME", textBox1.Text);
                 sql.AddParameter("@DISPLAYNAME", textBox3.Text);
@@ -323,7 +377,31 @@ where userid=@USERID");
                 sql.AddParameter("@ENTERSTIME", entersTime);
                 sql.AddParameter("@ADMIN", admin);
                 sql.AddParameter("@Viewonlyuser", viewonly);
-                sql.Run();
+
+              
+                if (dtdiv.Rows.Count > 0 )
+                {
+                    if (checkedListBox1.CheckedItems.Contains(DepartmentList.Text.Trim()))
+                    {
+                        sql.AddParameter("@HomeDepartment", DepartmentList.Text.Trim());
+                        
+                        sql.Run();
+
+                    }
+                    else
+                    {
+                        MessageBox.Show("Selected home department is not in selected Departments list !");
+                        return;
+                    }
+                   
+                }
+                else
+                {
+                    sql.AddParameter("@HomeDepartment", "");
+                    sql.AddParameter("@Division", "");
+                    sql.Run();
+                }
+              
 
                 //Grab userID
                 sql = new SQL("select userid from users where username=@USERNAME");
@@ -376,6 +454,15 @@ where userid=@USERID");
                 Core.logHistory("Edited account details", "Account: " + oldUsername + " - " + (beforeString == "" ? "No changes" : beforeString), afterString);
             }
 
+            DataTable dt  = SQL.Run("select * from users where EMPLOYEEID = @EMPLOYEEID and Home_Department != '' " , textBox2.Text);
+            
+            if(dt.Rows.Count == 0)
+            {
+
+               Home_Deprtment homedept = new Home_Deprtment(int.Parse(textBox2.Text));
+             //  homedept.ShowDialog();
+            }
+            
             this.Close();
         }
 

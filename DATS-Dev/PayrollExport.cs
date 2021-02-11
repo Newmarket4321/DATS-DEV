@@ -108,18 +108,21 @@ and EmployeeID in (select EmployeeID from Users where EMPTYPE = @EMPTYPE2)", bat
                     cutoff = Oracle.RunString("select max(JDPPED) from " + Core.getSchema(Core.getEnvironment()) + ".F069066 where trim(JDPCCD) = '" + (type == "H" ? "HR" : "SAL") + "' and JDPPED <= @TODAY", Core.dateToJDE(DateTime.Today.ToString()));
 
                     dt = SQL.Run(@"
-select t.employeeid, t.workorder, t.hours, p.rate_exp, p.rate_r, t.lumpsum, t.dateworked, t.timecarddetailid
+                    select t.employeeid, t.workorder, t.hours, p.rate_exp, p.rate_r, t.lumpsum, t.dateworked, t.timecarddetailid
 
-from Timesheets t
-join paycodes p on t.paytype = p.paytype
-join users u on t.employeeid = u.employeeid
+                    from Timesheets t
+                    join paycodes p on t.paytype = p.paytype
+                    join users u on t.employeeid = u.employeeid
 
-where dateworked<=@CUTOFF
-and recordlocked='True'
-and (exported='False' or batchid = @BATCHID)
-and t.paytype not in (0)
-and not (EMPTYPE = 'S' and t.paytype = 811)
-and EMPTYPE = @EMPTYPE", Core.JDEToDate(cutoff), batchID, type);
+                    where dateworked<=@CUTOFF
+                    and recordlocked='True'
+                    and (exported='False' or batchid = @BATCHID)
+                    and t.paytype not in (0)
+                    and not (EMPTYPE = 'S' and t.paytype = 811)
+                    and EMPTYPE = @EMPTYPE", Core.JDEToDate(cutoff), batchID, type);
+
+
+//                    MessageBox.Show(Core.JDEToDate(cutoff) + "," + batchID + "," + type);
 
                     //8. Insert into F06116Z1 (Payroll)
                     double totalHours = 0;
@@ -291,10 +294,13 @@ and EMPTYPE = @EMPTYPE", Core.JDEToDate(cutoff), batchID, type);
 
                     string email = "";
 
-  //                  if (Core.getEnvironment() != "PD")
-  //                      email = "msquires@newmarket.ca";
-  //                  else
-                      email = Core.getVariable("PayrollContact");
+                    //if (Core.getEnvironment() != "PD")
+                    //    email = "msquires@newmarket.ca";
+                    //else
+                    if (Environment.MachineName == "ITTEMPDT-01-21")
+                        email = "kpatel@newmarket.ca";
+                    else
+                        email = Core.getVariable("PayrollContact");
 
                     Core.sendMail(email, "DATS-Dev Export #" + batchID, output1 + Environment.NewLine + Environment.NewLine + output2);
                     MessageBox.Show("The export has finished. Please check your e-mail for results.");

@@ -50,7 +50,7 @@
             this.Viewonlyuser = new System.Windows.Forms.RadioButton();
             this.Admin = new System.Windows.Forms.CheckBox();
             this.HomeDept = new System.Windows.Forms.Label();
-            this.DepartmentList = new System.Windows.Forms.ComboBox();
+            this.HomeDepartment = new System.Windows.Forms.ComboBox();
             this.SuspendLayout();
             // 
             // label1
@@ -323,13 +323,13 @@
             this.HomeDept.TabIndex = 80;
             this.HomeDept.Text = "Home Department";
             // 
-            // DepartmentList
+            // HomeDepartment
             // 
-            this.DepartmentList.FormattingEnabled = true;
-            this.DepartmentList.Location = new System.Drawing.Point(171, 364);
-            this.DepartmentList.Name = "DepartmentList";
-            this.DepartmentList.Size = new System.Drawing.Size(217, 29);
-            this.DepartmentList.TabIndex = 81;
+            this.HomeDepartment.FormattingEnabled = true;
+            this.HomeDepartment.Location = new System.Drawing.Point(171, 364);
+            this.HomeDepartment.Name = "HomeDepartment";
+            this.HomeDepartment.Size = new System.Drawing.Size(217, 29);
+            this.HomeDepartment.TabIndex = 81;
             // 
             // Account
             // 
@@ -338,7 +338,7 @@
             this.BackColor = System.Drawing.SystemColors.Control;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(758, 440);
-            this.Controls.Add(this.DepartmentList);
+            this.Controls.Add(this.HomeDepartment);
             this.Controls.Add(this.HomeDept);
             this.Controls.Add(this.Admin);
             this.Controls.Add(this.Viewonlyuser);
@@ -401,6 +401,6 @@
         private System.Windows.Forms.RadioButton Viewonlyuser;
         private System.Windows.Forms.CheckBox Admin;
         private System.Windows.Forms.Label HomeDept;
-        private System.Windows.Forms.ComboBox DepartmentList;
+        private System.Windows.Forms.ComboBox HomeDepartment;
     }
 }

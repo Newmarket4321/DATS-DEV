@@ -28,9 +28,9 @@ namespace DATS_Timesheets
             
             DataTable dt = null;
             dt = SQL.Run("select * from department order by department");
-            DepartmentList.DataSource = dt;
-            DepartmentList.DisplayMember = "department";
-            DepartmentList.ValueMember = "DepartmentID";
+            HomeDepartment.DataSource = dt;
+            HomeDepartment.DisplayMember = "department";
+            HomeDepartment.ValueMember = "DepartmentID";
         }
 
             public Account(string username)
@@ -56,7 +56,7 @@ namespace DATS_Timesheets
             oldUsername = dt.Rows[0]["username"].ToString();
             
 
-            DepartmentList.Text = dt.Rows[0]["home_department"].ToString();
+            HomeDepartment.Text = dt.Rows[0]["home_department"].ToString();
             bool reviewer = bool.Parse(dt.Rows[0]["reviewer"].ToString());
             bool approver = bool.Parse(dt.Rows[0]["approver"].ToString());
             bool admin = bool.Parse(dt.Rows[0]["admin"].ToString());
@@ -212,10 +212,10 @@ namespace DATS_Timesheets
             dt1 = SQL.Run("select * from department order by department");
             //DepartmentList.Text = "--select--";
             
-                DepartmentList.DataSource = dt1;
-                DepartmentList.DisplayMember = "department";
-                DepartmentList.ValueMember = "DepartmentID";
-                DepartmentList.SelectedItem = null;
+                HomeDepartment.DataSource = dt1;
+                HomeDepartment.DisplayMember = "department";
+                HomeDepartment.ValueMember = "DepartmentID";
+                HomeDepartment.SelectedItem = null;
          
         }
 
@@ -277,7 +277,7 @@ namespace DATS_Timesheets
             bool active = !InactiveUser.Checked;
             bool viewonly = Viewonlyuser.Checked;
 
-           DataTable dtdiv = SQL.Run(@"SELECT Division from Department where Department = @dept", DepartmentList.Text.Trim());
+           DataTable dtdiv = SQL.Run(@"SELECT Division from Department where Department = @dept", HomeDepartment.Text.Trim());
             if (mode == NEWMODE)
             {
 
@@ -299,9 +299,9 @@ namespace DATS_Timesheets
                 if (dtdiv.Rows.Count > 0)
                 {
 
-                    if (checkedListBox1.CheckedItems.Contains(DepartmentList.Text.Trim()))
+                    if (checkedListBox1.CheckedItems.Contains(HomeDepartment.Text.Trim()))
                     {
-                        sql.AddParameter("@HomeDepartment", DepartmentList.Text.Trim());
+                        sql.AddParameter("@HomeDepartment", HomeDepartment.Text.Trim());
                       
                         sql.Run();
 
@@ -316,9 +316,18 @@ namespace DATS_Timesheets
                 }
                 else
                 {
-                    sql.AddParameter("@HomeDepartment", "");
-                    sql.AddParameter("@Division", "");
+                    if (checkedListBox1.CheckedItems.Count == 1)
+                    {
+                        for (int i = 0; i < checkedListBox1.CheckedItems.Count; i++)
+                        {
+                            //if (checkedListBox1.CheckedItems.Count == 1)
+                            sql.AddParameter("@HomeDepartment", checkedListBox1.CheckedItems[i].ToString());
+                        }
+                    }
+                    else
+                        sql.AddParameter("@HomeDepartment", "");
                     sql.Run();
+
                 }
 
 
@@ -381,9 +390,9 @@ where userid=@USERID");
               
                 if (dtdiv.Rows.Count > 0 )
                 {
-                    if (checkedListBox1.CheckedItems.Contains(DepartmentList.Text.Trim()))
+                    if (checkedListBox1.CheckedItems.Contains(HomeDepartment.Text.Trim()))
                     {
-                        sql.AddParameter("@HomeDepartment", DepartmentList.Text.Trim());
+                        sql.AddParameter("@HomeDepartment", HomeDepartment.Text.Trim());
                         
                         sql.Run();
 
@@ -397,8 +406,16 @@ where userid=@USERID");
                 }
                 else
                 {
-                    sql.AddParameter("@HomeDepartment", "");
-                    sql.AddParameter("@Division", "");
+                    if (checkedListBox1.CheckedItems.Count == 1)
+                    {
+                        for (int i = 0; i < checkedListBox1.CheckedItems.Count; i++)
+                        {
+                            //if (checkedListBox1.CheckedItems.Count == 1)
+                                sql.AddParameter("@HomeDepartment", checkedListBox1.CheckedItems[i].ToString());
+                        }
+                    }
+                    else
+                        sql.AddParameter("@HomeDepartment", "");
                     sql.Run();
                 }
               
@@ -416,6 +433,7 @@ where userid=@USERID");
                 //Update departments
                 for (int i = 0; i < checkedListBox1.CheckedItems.Count; i++)
                 {
+                   
                     sql = new SQL("select departmentid from department where department = @DEPARTMENT");
                     sql.AddParameter("@DEPARTMENT", checkedListBox1.CheckedItems[i].ToString());
                     string departmentID = sql.Run().Rows[0]["departmentid"].ToString();

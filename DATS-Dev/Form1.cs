@@ -2774,7 +2774,7 @@ order by t.dateworked asc");
                     queue.Add(week1.Rows[i]["hours"].ToString(), 118);
                     queue.Add(week1.Rows[i]["description"].ToString(), 178);
                     queue.Add(week1.Rows[i]["workorder"].ToString(), 283);
-                    queue.Add(week1.Rows[i]["workorder"].ToString().Length > 0 ? Oracle.Run("select wadl01 from " + Core.getSchema(Core.getEnvironment()) + ".f4801 where wadoco=" + week1.Rows[i]["workorder"].ToString()).Rows[0][0].ToString() : "", 353);
+                    queue.Add(week1.Rows[i]["workorder"].ToString() != "" ? Oracle.Run("select wadl01 from " + Core.getSchema(Core.getEnvironment()) + ".f4801 where wadoco=" + week1.Rows[i]["workorder"].ToString()).Rows[0][0].ToString() : "", 353);
                     queue.Add(((int)double.Parse(week1.Rows[i]["lumpsum"].ToString())) == 0 ? "" : "$" + ((int)double.Parse(week1.Rows[i]["lumpsum"].ToString())), 525);
                     queue.Add(week1.Rows[i]["recordlocked"].ToString() == "True" ? "Yes" : "No", 615);
                     queue.AddLine();

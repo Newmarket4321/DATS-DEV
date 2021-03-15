@@ -466,11 +466,12 @@ ORDER BY t.DATEWORKED ASC");
 
             dt.Rows.Add(new object[] { "Banked Overtime", bankedTimeIn, bankedTimeUsed, bankedTimeBalance });
 
-//          if (DateTime.Today.Month < 4) soleil April
-            dt.Rows.Add(new object[] { (start.Year - 1) + " Vacation", vacationPriorMax, vacationPriorUsed, vacationPriorBalance });
+            if (DateTime.Today.Month < 4)
+            { // soleil April
+                dt.Rows.Add(new object[] { (start.Year - 1) + " Vacation", vacationPriorMax, vacationPriorUsed, vacationPriorBalance });
 
-            dt.Rows.Add(new object[] { start.Year + " Vacation", vacationMax, vacationUsed, vacationBalance });
-
+                dt.Rows.Add(new object[] { start.Year + " Vacation", vacationMax, vacationUsed, vacationBalance });
+            }
             if ((!Core.isFacilities(getUsername()) && !Core.isFacilityMaintenance(getUsername())) || Core.getBankedVacationBalance(empID) > 0)
                 dt.Rows.Add(new object[] { "Banked Vacation", "", "", bankedVacationBalance });
 
@@ -3198,10 +3199,12 @@ order by p.paytype", start, end, getUsername());
 
             dt.Rows.Add(new object[] { "Banked Time", bankedTimeIn, bankedTimeUsed, bankedTimeBalance });
 
- //           if (DateTime.Today.Month < 4)  Soleil
+            if (DateTime.Today.Month < 4)//Soleil
+            { 
                 dt.Rows.Add(new object[] { (start.Year - 1) + " Vacation", vacationPriorMax, vacationPriorUsed, vacationPriorBalance });
+                dt.Rows.Add(new object[] { start.Year + " Vacation", vacationMax, vacationUsed, vacationBalance });
+            } 
             
-            dt.Rows.Add(new object[] { start.Year + " Vacation", vacationMax, vacationUsed, vacationBalance });
 
             if (!Core.isFacilities(getUsername()) && !Core.isFacilityMaintenance(getUsername()))
                 dt.Rows.Add(new object[] { "Banked Vacation", bankedVacationMax, bankedVacationUsed, bankedVacationBalance });
@@ -3288,10 +3291,13 @@ order by p.paytype", start, end, getUsername());
             result.Columns.Add("Employment");
             result.Columns.Add("Bank Hours Remaining");
 
- //          if (DateTime.Today.Month < 4)Soleil
-            
+            //         Soleil
+            if (DateTime.Today.Month < 4)
+            {
+
                 result.Columns.Add((year - 1) + " Vacation Entitlement");
                 result.Columns.Add((year - 1) + " Vacation Balance");
+            }
             
             // MCL Code added on Aug 2020
             result.Columns.Add(year + " Vacation Entitlement");

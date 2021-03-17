@@ -26,7 +26,8 @@ namespace DATS_Timesheets
             new DateTime(2019,10,14),
             new DateTime(2019,12,25),
             new DateTime(2019,12,26),
-            new DateTime(2020,1,1)
+            new DateTime(2020,1,1),
+            new DateTime(2021,1,1)
         };
 
         
@@ -566,16 +567,17 @@ order by count(t.employeeid) desc");
                 }
             }
 
-            //if ((dateCalendar.SelectionStart.Month == 12 || dateCalendar.SelectionEnd.Month == 12) && (payTypeBar.Text == "Banked Time 1.0" || payTypeBar.Text == "Banked Time 1.5"))
-            //{
-            //    foundErrors = true;
-            //    MessageBox.Show("According to company policy, an employee cannot submit new banked time in December." + Environment.NewLine
-            //        + "You can still make use of your already-banked time. Please speak to your supervisor if you have any questions.");
+            if ((dateCalendar.SelectionStart.Month == 12 || dateCalendar.SelectionEnd.Month == 12) && (payTypeBar.Text == "Banked Time 1.0" || payTypeBar.Text == "Banked Time 1.5"))
+            {
+                foundErrors = true;
+                MessageBox.Show("According to company policy, an employee cannot submit new banked time in December." + Environment.NewLine
+                    + "You can still make use of your already-banked time. Please speak to your supervisor if you have any questions.");
 
-            //    return foundErrors;
-            //}
+                return foundErrors;
+            }
             //            soleil
-            if ((dateCalendar.SelectionStart.Month >= 4 || dateCalendar.SelectionEnd.Month >= 4) && (payTypeBar.Text == "Vac(S)Pr.Yr." || payTypeBar.Text == "Vac.(H) Prior Year"))
+           
+                if ((dateCalendar.SelectionStart.Month >= 4 || dateCalendar.SelectionEnd.Month >= 4) && (payTypeBar.Text == "Vac(S)Pr.Yr." || payTypeBar.Text == "Vac.(H) Prior Year"))
             {
                 foundErrors = true;
                 MessageBox.Show("Effective April 1st, prior-year vacation is no longer accessible. Please use banked vacation." + Environment.NewLine

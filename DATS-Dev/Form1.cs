@@ -466,12 +466,11 @@ ORDER BY t.DATEWORKED ASC");
 
             dt.Rows.Add(new object[] { "Banked Overtime", bankedTimeIn, bankedTimeUsed, bankedTimeBalance });
 
-            if (DateTime.Today.Month < 4)
-            { // soleil April
+            if (DateTime.Today.Month < 4) // soleil April
                 dt.Rows.Add(new object[] { (start.Year - 1) + " Vacation", vacationPriorMax, vacationPriorUsed, vacationPriorBalance });
 
                 dt.Rows.Add(new object[] { start.Year + " Vacation", vacationMax, vacationUsed, vacationBalance });
-            }
+            
             if ((!Core.isFacilities(getUsername()) && !Core.isFacilityMaintenance(getUsername())) || Core.getBankedVacationBalance(empID) > 0)
                 dt.Rows.Add(new object[] { "Banked Vacation", "", "", bankedVacationBalance });
 
@@ -3200,11 +3199,10 @@ order by p.paytype", start, end, getUsername());
             dt.Rows.Add(new object[] { "Banked Time", bankedTimeIn, bankedTimeUsed, bankedTimeBalance });
 
             if (DateTime.Today.Month < 4)//Soleil
-            { 
                 dt.Rows.Add(new object[] { (start.Year - 1) + " Vacation", vacationPriorMax, vacationPriorUsed, vacationPriorBalance });
+
                 dt.Rows.Add(new object[] { start.Year + " Vacation", vacationMax, vacationUsed, vacationBalance });
-            } 
-            
+           
 
             if (!Core.isFacilities(getUsername()) && !Core.isFacilityMaintenance(getUsername()))
                 dt.Rows.Add(new object[] { "Banked Vacation", bankedVacationMax, bankedVacationUsed, bankedVacationBalance });
@@ -3378,7 +3376,7 @@ order by p.paytype", start, end, getUsername());
                     code = "Unknown";
 
                 //Result
-                /*
+                /* */
                 if (DateTime.Today.Month >= 4)
                 result.Rows.Add(new object[] {
                     users.Rows[u]["DISPLAYNAME"].ToString(),
@@ -3392,7 +3390,7 @@ order by p.paytype", start, end, getUsername());
                     MCLBalance,
                     floaterBalance,
                     statLabel });
-                else */
+                else
                     result.Rows.Add(new object[] {
                     users.Rows[u]["DISPLAYNAME"].ToString(),
                     users.Rows[u]["DEPARTMENT"].ToString(),

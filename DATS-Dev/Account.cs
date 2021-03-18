@@ -54,9 +54,15 @@ namespace DATS_Timesheets
             textBox2.Text = dt.Rows[0]["EmpId"].ToString();
             textBox1.Text = dt.Rows[0]["username"].ToString();
             oldUsername = dt.Rows[0]["username"].ToString();
-            
 
-            HomeDepartment.Text = dt.Rows[0]["home_department"].ToString();
+            string dept = "";
+            if (dt.Rows[0]["home_department"].ToString() != "")
+            {
+                sql = new SQL("select department from department where DepartmentID = @DEPARTMENTID");
+                sql.AddParameter("@DEPARTMENTID", dt.Rows[0]["home_department"].ToString());
+                dept = sql.Run().Rows[0]["Department"].ToString();
+            }
+            HomeDepartment.Text = dept;
             bool reviewer = bool.Parse(dt.Rows[0]["reviewer"].ToString());
             bool approver = bool.Parse(dt.Rows[0]["approver"].ToString());
             bool admin = bool.Parse(dt.Rows[0]["admin"].ToString());
@@ -301,7 +307,7 @@ namespace DATS_Timesheets
 
                     if (checkedListBox1.CheckedItems.Contains(HomeDepartment.Text.Trim()))
                     {
-                        sql.AddParameter("@HomeDepartment", HomeDepartment.Text.Trim());
+                        sql.AddParameter("@HomeDepartment", HomeDepartment.SelectedValue.ToString());
                       
                         sql.Run();
 
@@ -318,10 +324,14 @@ namespace DATS_Timesheets
                 {
                     if (checkedListBox1.CheckedItems.Count == 1)
                     {
+                        string deptID = "";
                         for (int i = 0; i < checkedListBox1.CheckedItems.Count; i++)
                         {
-                            //if (checkedListBox1.CheckedItems.Count == 1)
-                            sql.AddParameter("@HomeDepartment", checkedListBox1.CheckedItems[i].ToString());
+                            SQL sql1 = new SQL("select departmentid from department where department = @DEPARTMENT");
+                            sql1.AddParameter("@DEPARTMENT", checkedListBox1.CheckedItems[i].ToString());
+
+                            deptID = sql1.Run().Rows[0]["departmentid"].ToString();
+                            sql.AddParameter("@HomeDepartment", deptID);
                         }
                     }
                     else
@@ -392,9 +402,9 @@ where userid=@USERID");
                 {
                     if (checkedListBox1.CheckedItems.Contains(HomeDepartment.Text.Trim()))
                     {
-                        sql.AddParameter("@HomeDepartment", HomeDepartment.Text.Trim());
+                        sql.AddParameter("@HomeDepartment", HomeDepartment.SelectedValue.ToString());
                         
-                        sql.Run();
+                       sql.Run();
 
                     }
                     else
@@ -406,17 +416,24 @@ where userid=@USERID");
                 }
                 else
                 {
+                    string deptID  ="";
                     if (checkedListBox1.CheckedItems.Count == 1)
                     {
                         for (int i = 0; i < checkedListBox1.CheckedItems.Count; i++)
                         {
-                            //if (checkedListBox1.CheckedItems.Count == 1)
-                                sql.AddParameter("@HomeDepartment", checkedListBox1.CheckedItems[i].ToString());
+                          SQL  sql1 = new SQL("select departmentid from department where department = @DEPARTMENT");
+                            sql1.AddParameter("@DEPARTMENT", checkedListBox1.CheckedItems[i].ToString());
+                           
+                           deptID = sql1.Run().Rows[0]["departmentid"].ToString();
+                            sql.AddParameter("@HomeDepartment", deptID);
+                     
+                               
                         }
                     }
                     else
                         sql.AddParameter("@HomeDepartment", "");
                     sql.Run();
+                    
                 }
               
 

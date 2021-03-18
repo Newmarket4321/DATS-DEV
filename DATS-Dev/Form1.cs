@@ -2628,8 +2628,8 @@ order by timestamp desc");
 
             PayrollExport.updateEmployeeTypes();
 
-            DataTable dtdiv = SQL.Run(@"SELECT Users.Home_Department, Department.Department, Department.Division, Users.USERNAME, Users.DISPLAYNAME, Users.EMPLOYEEID, Users.EMPTYPE
-            FROM Users cross JOIN  Department where Department.Department = users.Home_Department");
+            //DataTable dtdiv = SQL.Run(@"SELECT Users.Home_Department, Department.Department, Department.Division, Users.USERNAME, Users.DISPLAYNAME, Users.EMPLOYEEID, Users.EMPTYPE
+            //FROM Users cross JOIN  Department where Department.Department = users.Home_Department");
             //if (dtdiv.Rows.Count > 0)
             //    MessageBox.Show(dtdiv.Rows[0]["division"].ToString());
 
@@ -2646,7 +2646,7 @@ order by timestamp desc");
             DataTable employees = SQL.Run(@"
             select u.employeeid from users u
             join departmentassociations da on u.userid = da.userid
-            join department d on da.departmentid = d.departmentid AND  u.Home_Department = d.Department
+            join department d on da.departmentid = d.departmentid AND  u.Home_Department = d.DepartmentID
             where  d.division = @DIV 
             and u.active = 1  and u.enterstime=1 and u.emptype = '" + empType + @"'
             group by u.username, u.employeeid", division);
@@ -2746,7 +2746,7 @@ order by t.dateworked asc");
                 queue.Add(DateTime.Now.ToString(), 100);
                 queue.Add("Department:", 640);
                 //queue.Add(SQL.Run("select da.departmentid from users u join departmentassociations da on u.userid = da.userid where u.employeeid=" + employees.Rows[e]["employeeid"].ToString()).Rows.Count > 1 ? "Multiple" : SQL.Run("select d.department from department d join departmentassociations da on d.departmentid = da.departmentid join users u on u.userid = da.userid where u.employeeid = " + employees.Rows[e]["employeeid"].ToString()).Rows[0][0].ToString(), 740);
-                queue.Add(SQL.Run("select Home_Department from users where employeeid = " + employees.Rows[e]["employeeid"].ToString()).Rows[0][0].ToString(), 740);
+                queue.Add(SQL.Run("SELECT Department.Department FROM Users INNER JOIN Department ON Users.Home_Department = Department.DepartmentID where Users.employeeid = " + employees.Rows[e]["employeeid"].ToString()).Rows[0][0].ToString(), 740);
 
                 queue.AddLine();
                 queue.AddDivider();

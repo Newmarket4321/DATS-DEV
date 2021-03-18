@@ -28,8 +28,8 @@ namespace DATS_Timesheets
             //if (Environment.MachineName == "SYSEA-08-18")
             //    name = "Squires, Michael";
 
-            ////if (Environment.MachineName == "ITTEMPDT-01-21")
-            ////    name = "Grant, Dionne";
+            if (Environment.MachineName == "ITTEMPDT-01-21")
+                name = "Wong, Wilson KB";
             try
             {
                 name = SQL.RunString("select displayname from users where username=@NAME", name);
@@ -709,9 +709,9 @@ and employeeid = @EMPID", year, year + 1, empID);
 
         public static double getVacationBalance(int year, int empID, bool priorYearLimit)
         {
-        //    soleil
-        //    if (priorYearLimit && DateTime.Now.Month >= 4)
-        //        return 0;
+            //    soleil
+            if (priorYearLimit && DateTime.Now.Month >= 4)
+                return 0;
 
             return getVacationMax(year, empID) - getVacationUsed(year, empID);
         }
@@ -862,6 +862,7 @@ select YASALY from " + Core.getSchema(Core.getEnvironment()) + ".F060116 where Y
 
         public static double getFloaterMax(int empID)
         {
+            
             Oracle ora = new Oracle(@"
 select YAEST from " + Core.getSchema(Core.getEnvironment()) + ".F060116 where YAAN8 = @EMPNO");
             ora.AddParameter("@EMPNO", empID);
@@ -1648,7 +1649,15 @@ ORDER BY t.TIMECARDDETAILID ASC");
             
             return sql.Run().Rows.Count > 0;
         }
+        public static bool isManager(string username)
+        {
+            SQL sql = new SQL(@"SELECT u.User_Level FROM Users INNER JOIN Users_Level ON Users.User_Level = Users_Level.LEVELID
+                                where u.displayname = @USERNAME");
+            sql.AddParameter("@USERNAME", username);
+            bool Manager = bool.Parse(sql.Run().Rows[0]["User_Level"].ToString());
 
+            return Manager || isAdmin(username);
+        }
         public static bool canReview(string username)
         {
             SQL sql = new SQL("select u.reviewer from Users u where u.displayname = @USERNAME");

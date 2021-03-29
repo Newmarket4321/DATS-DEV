@@ -248,6 +248,12 @@
     <Compile Include="ManagePayTypes.Designer.cs">
       <DependentUpon>ManagePayTypes.cs</DependentUpon>
     </Compile>
+    <Compile Include="ManageTimesheetViewers.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ManageTimesheetViewers.Designer.cs">
+      <DependentUpon>ManageTimesheetViewers.cs</DependentUpon>
+    </Compile>
     <Compile Include="ManageWorkOrders.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -763,6 +769,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ManagePayTypes.resx">
       <DependentUpon>ManagePayTypes.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ManageTimesheetViewers.resx">
+      <DependentUpon>ManageTimesheetViewers.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ManageWorkOrders.resx">
       <DependentUpon>ManageWorkOrders.cs</DependentUpon>

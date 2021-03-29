@@ -801,6 +801,7 @@ order by version");
         {
             SQL sql;
 
+              // 
             if(!Core.canReview(Core.getUsername()))
             {
                 sql = new SQL("select * from users u where u.displayname=@U");
@@ -827,7 +828,14 @@ order by version");
             //}
             else
             {
-                sql = new SQL("select * from users where active=1 and enterstime=1 order by displayname");
+                
+                sql = new SQL("select USERID from users where displayname=@displayname");
+                sql.AddParameter("@displayname", Core.getUsername());
+                string userid = sql.Run().Rows[0]["USERID"].ToString();
+                sql = new SQL("SELECT Users.DISPLAYNAME,Users.employeeid, Users_Level.Permission_ID FROM Users INNER JOIN Users_Level " +
+                    "ON Users.USERID = Users_Level.Permission_ID where Users_Level.user_id=@user_id");
+                sql.AddParameter("@user_id", userid);
+                //sql = new SQL("select * from users where active=1 and enterstime=1 order by displayname");
             }
             DataTable dt = sql.Run();
 

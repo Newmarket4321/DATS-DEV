@@ -271,6 +271,7 @@ FROM users u order by u.displayname
         {
             if (listView1.SelectedItems.Count > 0)
             {
+               
                 (new Account(listView1.SelectedItems[0].SubItems[listView1.Columns.IndexOfKey("Account")].Text)).ShowDialog();
                 refresh();
             }
@@ -278,6 +279,17 @@ FROM users u order by u.displayname
                 MessageBox.Show("No user selected.");
         }
 
+        private void button1_Click_1(object sender, EventArgs e)
+        {
+
+            if (listView1.SelectedItems.Count > 0)
+            {
+                (new ManageTimesheetViewers(listView1.SelectedItems[0].SubItems[listView1.Columns.IndexOfKey("Account")].Text)).ShowDialog();
+                refresh();
+            }
+            else
+                MessageBox.Show("No user selected.");
+        }
         private void listView1_MouseDoubleClick(object sender, MouseEventArgs e)
         {
             if (mode == VIEWMODE)
@@ -291,5 +303,6 @@ FROM users u order by u.displayname
             firstLoad = true;
             refresh();
         }
+
     }
 }

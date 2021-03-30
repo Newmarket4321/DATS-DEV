@@ -804,22 +804,42 @@ order by version");
               // 
             if(!Core.canReview(Core.getUsername()))
             {
-                sql = new SQL("select * from users u where u.displayname=@U");
-                sql.AddParameter("@U", Core.getUsername());
+                sql = new SQL("select USERID from users where displayname=@displayname");
+                sql.AddParameter("@displayname", Core.getUsername());
+                string userid = sql.Run().Rows[0]["USERID"].ToString();
+                sql = new SQL("SELECT Users.DISPLAYNAME,Users.employeeid, Users_Level.Permission_ID FROM Users INNER JOIN Users_Level " +
+                    "ON Users.USERID = Users_Level.Permission_ID where Users_Level.user_id=@user_id order by DISPLAYNAME");
+                sql.AddParameter("@user_id", userid);
+                if (!(sql.Run().Rows.Count > 0))
+                {
+                    sql = new SQL("select * from users u where u.displayname=@U");
+                    sql.AddParameter("@U", Core.getUsername());
+                }
             }
             else if (toolStripComboBox2.Text != "All")
             {
                 if (toolStripComboBox2.Text == "View Only")
                 {
                     sql = new SQL("select * from users u join departmentassociations da on u.userid = da.userid join department d on da.departmentid = d.departmentid where d.department=@DEPT and active=1 and VIEWONLYUSER=1 order by displayname");
+                    sql.AddParameter("@DEPT", toolStripComboBox2.Text);
 
                 }
                 else
                 {
-                    sql = new SQL("select * from users u join departmentassociations da on u.userid = da.userid join department d on da.departmentid = d.departmentid where d.department=@DEPT and active=1 and enterstime=1 order by displayname");
+                    sql = new SQL("select USERID from users where displayname=@displayname");
+                    sql.AddParameter("@displayname", Core.getUsername());
+                    string userid = sql.Run().Rows[0]["USERID"].ToString();
+                    sql = new SQL("SELECT Users.DISPLAYNAME,Users.employeeid, Users_Level.Permission_ID FROM Users INNER JOIN Users_Level " +
+                        "ON Users.USERID = Users_Level.Permission_ID where Users_Level.user_id=@user_id order by DISPLAYNAME");
+                    sql.AddParameter("@user_id", userid);
+                    if (!(sql.Run().Rows.Count > 0))
+                    {
+                        sql = new SQL("select * from users u join departmentassociations da on u.userid = da.userid join department d on da.departmentid = d.departmentid where d.department=@DEPT and active=1 and enterstime=1 order by displayname");
+                        sql.AddParameter("@DEPT", toolStripComboBox2.Text);
+
+                    }
 
                 }
-                sql.AddParameter("@DEPT", toolStripComboBox2.Text);
             }
             //else if (toolStripComboBox2.Text != "All" && toolStripComboBox2.Text == "View Only")
             //{
@@ -828,22 +848,23 @@ order by version");
             //}
             else
             {
-                
+
                 sql = new SQL("select USERID from users where displayname=@displayname");
                 sql.AddParameter("@displayname", Core.getUsername());
                 string userid = sql.Run().Rows[0]["USERID"].ToString();
                 sql = new SQL("SELECT Users.DISPLAYNAME,Users.employeeid, Users_Level.Permission_ID FROM Users INNER JOIN Users_Level " +
-                    "ON Users.USERID = Users_Level.Permission_ID where Users_Level.user_id=@user_id");
+                    "ON Users.USERID = Users_Level.Permission_ID where Users_Level.user_id=@user_id order by DISPLAYNAME");
                 sql.AddParameter("@user_id", userid);
-                //sql = new SQL("select * from users where active=1 and enterstime=1 order by displayname");
+                if (!(sql.Run().Rows.Count > 0))
+                    sql = new SQL("select * from users where active=1 and enterstime=1 order by displayname");
             }
             DataTable dt = sql.Run();
 
             toolStripComboBox1.Items.Clear();
 
             toolStripComboBox1.SelectedIndexChanged -= comboBox1_SelectedIndexChanged;
-
-            for (int i = 0; i < dt.Rows.Count; i++)
+            if (dt.Rows.Count > 0)
+                for (int i = 0; i < dt.Rows.Count; i++)
                 toolStripComboBox1.Items.Add(dt.Rows[i]["displayname"].ToString() + " (" + dt.Rows[i]["employeeid"].ToString() + ")");
 
             if(firstLoad)

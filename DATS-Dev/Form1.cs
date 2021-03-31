@@ -807,8 +807,13 @@ order by version");
                 sql = new SQL("select USERID from users where displayname=@displayname");
                 sql.AddParameter("@displayname", Core.getUsername());
                 string userid = sql.Run().Rows[0]["USERID"].ToString();
-                sql = new SQL("SELECT Users.DISPLAYNAME,Users.employeeid, Users_Level.Permission_ID FROM Users INNER JOIN Users_Level " +
-                    "ON Users.USERID = Users_Level.Permission_ID where Users_Level.user_id=@user_id order by DISPLAYNAME");
+                //sql = new SQL("SELECT Users.DISPLAYNAME,Users.employeeid, Users_Level.Permission_ID FROM Users INNER JOIN Users_Level " +
+                //    "ON Users.USERID = Users_Level.Permission_ID where Users_Level.user_id=@user_id order by DISPLAYNAME");
+                //sql.AddParameter("@user_id", userid);
+                sql = new SQL(@"select u.DISPLAYNAME,u.EMPLOYEEID,u.userid from users u join departmentassociations da on u.userid = da.userid join department d on da.departmentid = d.departmentid
+where d.department = @DEPT and  u.USERID not in (select Permission_ID from Users_Level where Users_Level.user_id = @user_id)
+and active = 1 and enterstime = 1 group by u.DISPLAYNAME , u.EMPLOYEEID, u.USERID order by displayname");
+                sql.AddParameter("@DEPT", toolStripComboBox2.Text);
                 sql.AddParameter("@user_id", userid);
                 if (!(sql.Run().Rows.Count > 0))
                 {
@@ -829,9 +834,14 @@ order by version");
                     sql = new SQL("select USERID from users where displayname=@displayname");
                     sql.AddParameter("@displayname", Core.getUsername());
                     string userid = sql.Run().Rows[0]["USERID"].ToString();
-                    sql = new SQL("SELECT Users.DISPLAYNAME,Users.employeeid, Users_Level.Permission_ID FROM Users INNER JOIN Users_Level " +
-                        "ON Users.USERID = Users_Level.Permission_ID where Users_Level.user_id=@user_id order by DISPLAYNAME");
+                    sql = new SQL(@"select u.DISPLAYNAME,u.EMPLOYEEID,u.userid from users u join departmentassociations da on u.userid = da.userid join department d on da.departmentid = d.departmentid
+where d.department = @DEPT and  u.USERID not in (select Permission_ID from Users_Level where Users_Level.user_id = @user_id)
+and active = 1 and enterstime = 1 group by u.DISPLAYNAME , u.EMPLOYEEID, u.USERID order by displayname");
+                    sql.AddParameter("@DEPT", toolStripComboBox2.Text);
                     sql.AddParameter("@user_id", userid);
+                    //sql = new SQL("SELECT Users.DISPLAYNAME,Users.employeeid, Users_Level.Permission_ID FROM Users INNER JOIN Users_Level " +
+                    //    "ON Users.USERID = Users_Level.Permission_ID where Users_Level.user_id=@user_id order by DISPLAYNAME");
+                    //sql.AddParameter("@user_id", userid);
                     if (!(sql.Run().Rows.Count > 0))
                     {
                         sql = new SQL("select * from users u join departmentassociations da on u.userid = da.userid join department d on da.departmentid = d.departmentid where d.department=@DEPT and active=1 and enterstime=1 order by displayname");
@@ -852,8 +862,13 @@ order by version");
                 sql = new SQL("select USERID from users where displayname=@displayname");
                 sql.AddParameter("@displayname", Core.getUsername());
                 string userid = sql.Run().Rows[0]["USERID"].ToString();
-                sql = new SQL("SELECT Users.DISPLAYNAME,Users.employeeid, Users_Level.Permission_ID FROM Users INNER JOIN Users_Level " +
-                    "ON Users.USERID = Users_Level.Permission_ID where Users_Level.user_id=@user_id order by DISPLAYNAME");
+                //sql = new SQL("SELECT Users.DISPLAYNAME,Users.employeeid, Users_Level.Permission_ID FROM Users INNER JOIN Users_Level " +
+                //    "ON Users.USERID = Users_Level.Permission_ID where Users_Level.user_id=@user_id order by DISPLAYNAME");
+                //sql.AddParameter("@user_id", userid);
+                sql = new SQL(@"select u.DISPLAYNAME,u.EMPLOYEEID,u.userid from users u join departmentassociations da on u.userid = da.userid join department d on da.departmentid = d.departmentid
+where d.department = @DEPT and  u.USERID not in (select Permission_ID from Users_Level where Users_Level.user_id = @user_id)
+and active = 1 and enterstime = 1 group by u.DISPLAYNAME , u.EMPLOYEEID, u.USERID order by displayname");
+                sql.AddParameter("@DEPT", toolStripComboBox2.Text);
                 sql.AddParameter("@user_id", userid);
                 if (!(sql.Run().Rows.Count > 0))
                     sql = new SQL("select * from users where active=1 and enterstime=1 order by displayname");

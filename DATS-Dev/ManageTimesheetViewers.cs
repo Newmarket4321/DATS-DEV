@@ -30,31 +30,34 @@ namespace DATS_Timesheets
             sql.AddParameter("@USERNAME", username);
             userID = sql.Run().Rows[0]["userid"].ToString();
 
-            sql = new SQL("SELECT DepartmentID from  DepartmentAssociations where DepartmentAssociations.UserID=@userid");
+            //sql = new SQL("SELECT DepartmentID from  DepartmentAssociations where DepartmentAssociations.UserID=@userid");
+            //sql.AddParameter("@userid", userID);
+            //DataTable dpt = sql.Run();
+            //for (int i = 0; i < dpt.Rows.Count; i++)
+            //{
+
+            //    sql = new SQL(@"select * from users u join departmentassociations da on u.userid = da.userid join department d on da.departmentid = d.departmentid where
+            //    d.DepartmentID = @DepartmentID and active = 1 and enterstime = 1 order by displayname");
+            //    sql.AddParameter("@DepartmentID", dpt.Rows[i]["DepartmentID"].ToString());
+            //    DataTable displaynames = sql.Run();
+            //    for (int i1 = 0; i1 < displaynames.Rows.Count; i1++)
+            //    {
+            //        if (!checkedListBox1.Items.Contains(displaynames.Rows[i1]["DISPLAYNAME"].ToString()) && displaynames.Rows[i1]["userid"].ToString() != userID)
+            //            checkedListBox1.Items.Add(displaynames.Rows[i1]["DISPLAYNAME"].ToString());
+
+            //    }
+            //}
+            sql = new SQL(@"select u.UserID,u.DISPLAYNAME from users u join departmentassociations da on u.userid = da.userid join department d on da.departmentid = d.departmentid where
+                        d.DepartmentID in(SELECT DepartmentID from  DepartmentAssociations where DepartmentAssociations.UserID=@userid) and active = 1 
+            and enterstime = 1  group by u.UserID,u.DISPLAYNAME order by displayname");
             sql.AddParameter("@userid", userID);
-            DataTable dpt = sql.Run();
-            for (int i = 0; i < dpt.Rows.Count; i++)
+            DataTable displaynames = sql.Run();
+            for (int i1 = 0; i1 < displaynames.Rows.Count; i1++)
             {
+                if (!checkedListBox1.Items.Contains(displaynames.Rows[i1]["DISPLAYNAME"].ToString()) && displaynames.Rows[i1]["userid"].ToString() != userID)
+                    checkedListBox1.Items.Add(displaynames.Rows[i1]["DISPLAYNAME"].ToString());
 
-                sql = new SQL(@"select* from users u join departmentassociations da on u.userid = da.userid join department d on da.departmentid = d.departmentid where
-                d.DepartmentID = @DepartmentID and active = 1 and enterstime = 1 order by displayname");
-                sql.AddParameter("@DepartmentID", dpt.Rows[i]["DepartmentID"].ToString());
-                DataTable displaynames = sql.Run();
-                for (int i1 = 0; i1 < displaynames.Rows.Count; i1++)
-                {
-                    if (!checkedListBox1.Items.Contains(displaynames.Rows[i1]["DISPLAYNAME"].ToString()) && displaynames.Rows[i1]["userid"].ToString() != userID)
-                        checkedListBox1.Items.Add(displaynames.Rows[i1]["DISPLAYNAME"].ToString());
-
-                }
             }
-
-            //sql = new SQL("select DISPLAYNAME from Users order by DISPLAYNAME");
-            //DataTable dt = sql.Run();
-            //string str = null;
-            //if (dt.Rows.Count > 0)
-            //    for (int i = 0; i < dt.Rows.Count; i++)
-            //        checkedListBox1.Items.Add(dt.Rows[i]["DISPLAYNAME"].ToString());
-
 
             sql = new SQL("SELECT Users.DISPLAYNAME, Users_Level.Permission_ID  FROM Users INNER JOIN Users_Level ON Users.USERID = Users_Level.Permission_ID where Users_Level.user_id=@user_id  order by DISPLAYNAME");
             sql.AddParameter("@user_id", userID);

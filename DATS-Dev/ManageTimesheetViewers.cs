@@ -42,7 +42,7 @@ namespace DATS_Timesheets
                 DataTable displaynames = sql.Run();
                 for (int i1 = 0; i1 < displaynames.Rows.Count; i1++)
                 {
-                    if (!checkedListBox1.Items.Contains(displaynames.Rows[i1]["DISPLAYNAME"].ToString()))
+                    if (!checkedListBox1.Items.Contains(displaynames.Rows[i1]["DISPLAYNAME"].ToString()) && displaynames.Rows[i1]["userid"].ToString() != userID)
                         checkedListBox1.Items.Add(displaynames.Rows[i1]["DISPLAYNAME"].ToString());
 
                 }
@@ -61,16 +61,15 @@ namespace DATS_Timesheets
             DataTable dt1 = sql.Run();
             if (dt1.Rows.Count > 0)
                 for (int i = 0; i < dt1.Rows.Count; i++)
-            {
-                for (int j = 0; j < checkedListBox1.Items.Count; j++)
                 {
-                    if(checkedListBox1.Items[j].ToString() == dt1.Rows[i]["DISPLAYNAME"].ToString())
+                    for (int j = 0; j < checkedListBox1.Items.Count; j++)
                     {
-                        checkedListBox1.SetItemCheckState(j, CheckState.Checked);
+                        if (checkedListBox1.Items[j].ToString() == dt1.Rows[i]["DISPLAYNAME"].ToString())
+                        {
+                            checkedListBox1.SetItemCheckState(j, CheckState.Checked);
+                        }
                     }
                 }
-            }
-         
         }
 
         private void button8_Click(object sender, EventArgs e)

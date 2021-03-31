@@ -49,12 +49,14 @@ namespace DATS_Timesheets
             {
                 button7.Visible = true;
                 button8.Visible = true;
+                button1.Visible = true;
 
             }
             else
             {
                 button7.Visible = false;
                 button8.Visible = false;
+                button1.Visible = false;
             }
         }
 

@@ -28,8 +28,10 @@ namespace DATS_Timesheets
             //if (Environment.MachineName == "SYSEA-08-18")
             //    name = "Squires, Michael";
 
-            if (Environment.MachineName == "ITTEMPDT-01-21")
-                name = "Wong, Wilson KB";
+            //if (Environment.MachineName == "ITTEMPDT-01-21")
+               // //name = "Agnoletto, Mark";
+               ////  name= "Kromberg, Joanne";
+               // name = "Kertesz, Sarah";
             try
             {
                 name = SQL.RunString("select displayname from users where username=@NAME", name);
@@ -129,7 +131,7 @@ namespace DATS_Timesheets
                 try
                 {
                     //Report to IT
-                    if (Environment.MachineName == "SYSMG-09-19")
+                    if (Environment.MachineName == "ITTEMPDT-01-21")
                     {
                         sendMail("kpatel@newmarket.ca", "DATS-Dev Error", getErrorText(e));
                     }
@@ -947,6 +949,8 @@ select YAEST from " + Core.getSchema(Core.getEnvironment()) + ".F060116 where YA
 
             if (username == "Evison, Doug")
                 return 80;
+            else if (username == "Voorn, Paul")
+                return 70;
             else if (canReview(username) || Core.isFacilities(username) || Core.isFacilityMaintenance(username))
                 return 80; //Facilities
             else if (code == "" || code == "5")

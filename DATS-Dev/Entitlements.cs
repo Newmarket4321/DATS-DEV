@@ -36,6 +36,10 @@ namespace DATS_Timesheets
                 double entitlement = double.Parse(listView1.Items[i].SubItems[listView1.Columns.IndexOfKey("Entitlement")].Text);
                 //double balance = (type == "Vacation" ? Core.getVacationBalance(year, empID, year < DateTime.Now.Year) : Core.getBankedVacationBalance(empID));
                 // MCL Code added Aug 2020
+                int year1 = DateTime.Today.Year;
+                DateTime start = new DateTime(year1, 1, 1);
+                DateTime end = start.AddYears(1);
+
                 switch (type)
                 {
                     case "Vacation":
@@ -43,6 +47,9 @@ namespace DATS_Timesheets
                         break;
                     case "MCL Vacation":
                         balance = Core.getMCLBalance(year, empID, year < DateTime.Now.Year);
+                        break;
+                    case "Bank OverTime"://kp
+                        balance = Core.getBankedTimeBalance(start, end, empID);
                         break;
                     default:
                         balance = Core.getBankedVacationBalance(empID);
@@ -157,6 +164,8 @@ and dateworked < @END2) a
 
                 if (type == "Banked Vacation")
                     balance = Core.getBankedVacationBalance(empID);
+                //else if (type == "Bank OverTime")
+                //    balance = Core.(empID);
                 else
                     balance = Core.getVacationBalance(year, empID, year < DateTime.Now.Year);
                 

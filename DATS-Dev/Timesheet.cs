@@ -240,12 +240,7 @@ namespace DATS_Timesheets
             else if (code == "O/SCL.")  { code = "Off scale employees - non full time";     ColumnName = "O_SCL"; }
             else if (code == "SEIU.C")  { code = "Seasonal facilities union employees";     ColumnName = "SEIU_C"; }
             else code = "Unknown";
-            if (Environment.MachineName == "SYSMG-09-19")
-            {
-                //string str = "";
-                //str += "Dept " + Core.getEmpID(forUser.ToString()) + " = code =" + code;
-               // MessageBox.Show(ColumnName + "= Department = " + Core.getEmpID(forUser.ToString()) + " = code =" + code);
-            }
+           
 
             dt = SQL.Run(@" SELECT PayType, Description FROM PayCodes WHERE " + ColumnName + " = 1 and paytypeactive = 1 ORDER BY Description");
 
@@ -465,7 +460,7 @@ order by count(t.employeeid) desc");
 
         private void button2_Click(object sender, EventArgs e)
         {
-           
+           //kp once banked overtime limit will be setup this admin logic will be close 
             if (Core.isDateOpen(dateCalendar.SelectionStart, Core.isSalary(Core.getEmpID(forUser)) ? "S" : "H"))
             {
                 if (Core.isAdmin(Core.getUsername()) || !checkForErrors()) //Be an administrator, or pass the check
@@ -539,7 +534,7 @@ order by count(t.employeeid) desc");
             }
 
 
-
+            //KP Review this manual code in new web DATS 
             if (forUser == "Bond, Jeff" | forUser == "Gregory, Mark" | forUser == "Bishop, Darrell" | forUser == "VanWensem, Harry" | forUser == "O'Brien, Michelle" | forUser == "Agnoletto, Mark")
             {
                 // Not required for these users
@@ -566,7 +561,7 @@ order by count(t.employeeid) desc");
                     }
                 }
             }
-
+            //KP
             if ((dateCalendar.SelectionStart.Month == 12 || dateCalendar.SelectionEnd.Month == 12) && (payTypeBar.Text == "Banked Time 1.0" || payTypeBar.Text == "Banked Time 1.5"))
             {
                 foundErrors = true;
@@ -903,11 +898,18 @@ group by EmployeeID");
 
             if (payType == 950 || payType == 955) //Putting in time
             {
+                
+                int empID = Core.getEmpID(forUser);
+                double BankOT = Core.getBankedOT(empID);
+              // MessageBox.Show(Core.getDepartments().Contains(21).ToString());
                 double banked = Core.getBankedTimeTotals(forUser);
                 double hourValue = payType == 955 ? hours * 1.5 : hours;
 
                 if (!Core.getDepartments().Contains(21)) //Engineering
                 {
+                            int year = DateTime.Today.Year;
+                            DateTime start = new DateTime(year, 1, 1);
+                            DateTime end = start.AddYears(1);
                     if (isEditMode()) //Edit
                     {
                         sql = new SQL("select paytype, hours from Timesheets where timecarddetailid = @ID");
@@ -916,30 +918,55 @@ group by EmployeeID");
                         double currentHours = double.Parse(sql.Run().Rows[0]["hours"].ToString());
                         currentHours = currentPayType == 955 ? currentHours * 1.5 : currentHours;
 
-
-                        if (banked - currentHours + hourValue > Core.getBankAllotment(forUser))
-                        {
-                            foundErrors = true;
-                            MessageBox.Show("You've banked " + banked + " hours this year." + Environment.NewLine
-                                + "This timesheet would bring you over the limit of " + Core.getBankAllotment(forUser) + " hours." + Environment.NewLine
-                                + Environment.NewLine
-                                + "Please select another pay type for the remaining balance after " + Core.getBankAllotment(forUser) + " hours.");
-
-                            return foundErrors;
-                        }
+                      //kpatel Bank overtime
+                            if (banked - currentHours + hourValue > BankOT)
+                            {
+                                foundErrors = true;
+                                MessageBox.Show("You've banked " + banked + " hours this year." + Environment.NewLine
+                                   + "This timesheet would bring you over the limit of " + BankOT + " hours." + Environment.NewLine
+                                   + Environment.NewLine
+                                   + "Please select another pay type for the remaining balance after " + Core.getBankedTimeBalance(start, end, empID) + " hours.");
+                                return foundErrors;
+                            }
+                        
+                            //if (banked - currentHours + hourValue > Core.getBankAllotment(forUser))
+                            //{
+                            //    if (banked - currentHours + hourValue > BankOT)
+                            //    {
+                            //        foundErrors = true;
+                            //        MessageBox.Show("You've banked " + banked + " hours this year." + Environment.NewLine
+                            //            + "This timesheet would bring you over the limit of " + Core.getBankAllotment(forUser) + " hours." + Environment.NewLine
+                            //            + Environment.NewLine
+                            //            + "Please select another pay type for the remaining balance after " + Core.getBankAllotment(forUser) + " hours.");
+                                   
+                            //    }
+                            //}
+                        
                     }
                     else //New
                     {
-                        if (banked + hourValue > Core.getBankAllotment(forUser))
-                        {
-                            foundErrors = true;
-                            MessageBox.Show("You've banked " + banked + " hours this year." + Environment.NewLine
-                                    + "This timesheet would bring you over the limit of " + Core.getBankAllotment(forUser) + " hours." + Environment.NewLine
-                                    + Environment.NewLine
-                                    + "Please select another pay type for the remaining balance after " + Core.getBankAllotment(forUser) + " hours.");
+                        //if (banked + hourValue > Core.getBankAllotment(forUser)) //kpatel Bank overtime
+                       // MessageBox.Show(Core.getBankedTimeBalance(start, end, empID).ToString());
+                            if (Core.getBankedTimeBalance(start, end, empID) + hourValue > BankOT)
+                            {
+                                foundErrors = true;
+                                MessageBox.Show("You've banked " + banked + " hours this year." + Environment.NewLine
+                                       + "This timesheet would bring you over the limit of " + BankOT + " hours." + Environment.NewLine
+                                       + Environment.NewLine
+                                       + "Please select another pay type for the remaining balance after " + Core.getBankedTimeBalance(start, end, empID) + " hours.");
+                                return foundErrors;
+                            }
+                       
+                            //if (banked + hourValue > Core.getBankAllotment(forUser))
+                            //{
+                            //    foundErrors = true;
+                            //    MessageBox.Show("You've banked " + banked + " hours this year." + Environment.NewLine
+                            //            + "This timesheet would bring you over the limit of " + Core.getBankAllotment(forUser) + " hours." + Environment.NewLine
+                            //            + Environment.NewLine
+                            //            + "Please select another pay type for the remaining balance after " + Core.getBankAllotment(forUser) + " hours.");
 
-                            return foundErrors;
-                        }
+                            //    return foundErrors;
+                            //}
                     }
                 }
             }
@@ -1268,7 +1295,7 @@ and dateworked < @DATEEND");
 
             if (equipmentBar.Visible == false)
                 equipment = null;
-
+            
             for (int i = 0; dateCalendar.SelectionStart.AddDays(i) <= dateCalendar.SelectionEnd; i++)
                 Core.newTimesheet(username, dateCalendar.SelectionStart.AddDays(i), start, end, payCode, hours, workorder, description, equipment);
         }

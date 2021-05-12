@@ -29,9 +29,9 @@ namespace DATS_Timesheets
             //    name = "Squires, Michael";
 
             //if (Environment.MachineName == "ITTEMPDT-01-21")
-               // //name = "Agnoletto, Mark";
-               ////  name= "Kromberg, Joanne";
-               // name = "Kertesz, Sarah";
+            //    name = "Agoncillo, Marian";
+            ////  name= "Kromberg, Joanne";
+            // name = "Kertesz, Sarah";
             try
             {
                 name = SQL.RunString("select displayname from users where username=@NAME", name);
@@ -739,7 +739,7 @@ and employeeid = @EMPID", year, year + 1, empID);
             return r;
         }
 
-
+       
         public static double getBankedVacationUsed(int empID)
         {
             DataTable dt = SQL.Run(@"select sum(hours)
@@ -755,7 +755,7 @@ and employeeid = @EMPID", empID); //October 19th, 2017 is when the bankvacmax wa
         {
             return getBankedVacationMax(empID) - getBankedVacationUsed(empID);
         }
-
+    
         public static double getMCLMax(int year, int empID)
         {
             double r = 0;
@@ -797,7 +797,7 @@ and employeeid = @EMPID", year, empID);
         {
             return getMCLMax(year, empID) - getMCLUsed(year, empID);
         }
-
+        
         public static string getEmpGroup(int empID)
         {
 
@@ -815,7 +815,7 @@ select YAUN from " + Core.getSchema(Core.getEnvironment()) + ".F060116 where YAA
 select YAEST from " + Core.getSchema(Core.getEnvironment()) + ".F060116 where YAAN8 = @EMPNO");
             ora.AddParameter("@EMPNO", empID);
             string code = ora.Run().Rows[0]["YAEST"].ToString().Trim();
-
+           // MessageBox.Show(code + " - " + empID);
             //   Full - time Regular
             //1  Part - Time Casual
             //2  Part - Time Hourly
@@ -930,8 +930,18 @@ having sum(t.hours) > 0", empID, 811, start, end).Rows.Count;
         {
             return getStatMax(start, end, empID) - getStatUsed(start, end, empID);
         }
+        public static double getBankedOT(int empID)
+        {
+            DateTime now = DateTime.Today;
+            SQL sql = new SQL("Select Entitlement from Entitlements where year="+ now.ToString("yyy") +  " and EmployeeID =" + empID );
+            double code = double.Parse(sql.Run().Rows[0]["Entitlement"].ToString());
 
-        public static double getBankAllotment(string username)
+            return code;
+
+        }
+
+
+            public static double getBankAllotment(string username)
         {
             Oracle ora = new Oracle(@"
 select YAEST from " + Core.getSchema(Core.getEnvironment()) + ".F060116 where YAAN8 = @EMPNO");

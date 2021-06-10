@@ -1946,6 +1946,97 @@ order by t.DateWorked, d.Department, u.USERNAME", start, end.AddDays(1), empType
             rpt.Show();
         }
 
+        private void notReviewedToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            string searchByTime = Core.lookupMessageBox("Time filter", "This report is filtered by time." + Environment.NewLine
+                + "Would you like to search by pay period or date range?", "Period", "Date range");
+
+            if (searchByTime == "")
+                return;
+
+            string empType = Core.lookupMessageBox("Employee type filter", "This report is filtered by employee type." + Environment.NewLine
+                + "Would you like to search for hourly or salary?", "Hourly", "Salary");
+
+            if (empType == "")
+                return;
+
+            empType = empType.Substring(0, 1); //S, H
+
+            string period = "";
+            DateTime start = new DateTime(1900, 1, 1);
+            DateTime end = new DateTime(1900, 1, 1);
+
+            if (searchByTime == "Period")
+            {
+                FindPeriod fp = new FindPeriod(empType, false);
+                fp.ShowDialog();
+                period = fp.period;
+
+                if (period == "")
+                    return;
+            }
+            else if (searchByTime == "Date range")
+            {
+                FindDate fd = new FindDate("From date");
+                fd.ShowDialog();
+                start = fd.date;
+
+                if (start.Year == 1900)
+                    return;
+
+                fd = new FindDate("To date");
+                fd.ShowDialog();
+                end = fd.date;
+
+                if (end.Year == 1900)
+                    return;
+            }
+
+            string departmentSpread = "";
+            DataTable dt = null;
+
+            if (!Core.isAdmin(Core.getUsername()))
+                dt = SQL.Run("select departmentid from departmentassociations da join users u on da.userid = u.userid where u.displayname=@USERNAME", Core.getUsername());
+            else
+                dt = SQL.Run("select departmentid from department");
+
+            for (int i = 0; i < dt.Rows.Count; i++)
+                departmentSpread += (i == 0 ? "" : ", ") + dt.Rows[i][0].ToString();
+
+            if (searchByTime == "Period")
+                dt = SQL.Run(@"SELECT d.Department as Department, u.USERNAME as Username, u.EMPLOYEEID as 'Employee ID', sum(t.Hours) as 'Hours Unapproved'
+      FROM [DATS].[dbo].Users u
+      join DepartmentAssociations da on da.UserID = u.USERID
+      join Department d on d.DepartmentID = da.DepartmentID
+      join Timesheets t on u.EMPLOYEEID = t.EmployeeID
+      where t.RecordLocked = 'False'
+      and Period=@PERIOD
+      and u.active = 1
+      and t.paytype <> 0
+      and u.emptype = @EMPTYPE
+      and reviewed = 0
+      and d.departmentid in (" + departmentSpread + @")
+      group by d.Department, u.USERNAME, u.EMPLOYEEID
+      order by d.Department, u.USERNAME", period, empType);
+            else if (searchByTime == "Date range")
+                dt = SQL.Run(@"SELECT d.Department as Department, u.USERNAME as Username, u.EMPLOYEEID as 'Employee ID', sum(t.Hours) as 'Hours Unreviewed'
+  FROM [DATS].[dbo].Users u
+  join DepartmentAssociations da on da.UserID = u.USERID
+  join Department d on d.DepartmentID = da.DepartmentID
+  join Timesheets t on u.EMPLOYEEID = t.EmployeeID
+  where t.RecordLocked = 'False'
+  and t.dateworked >= @STARTDATE and t.dateworked < @ENDDATE
+  and u.active = 1
+  and u.emptype = @EMPTYPE
+  and t.paytype <> 0
+  and d.departmentid in (" + departmentSpread + @")
+  group by d.Department, u.USERNAME, u.EMPLOYEEID
+  order by d.Department, u.USERNAME", start, end.AddDays(1), empType);
+
+            Report rpt = new Report("Not Reviewed Report", dt);
+            rpt.Show();
+        }
+
         private void notExportedToolStripMenuItem1_Click(object sender, EventArgs e)
         {
             string searchByTime = Core.lookupMessageBox("Time filter", "This report is filtered by time." + Environment.NewLine
@@ -3787,6 +3878,6 @@ order by HistoryTimestamp desc
             r.Show();
         }
 
-        
+       
     }
 }

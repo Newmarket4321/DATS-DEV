@@ -26,7 +26,7 @@ namespace DATS_Timesheets
             string name = Environment.UserName;
 
             if (Environment.MachineName == "SYSNW-05-19")
-                name = "Price, Natasha";
+                name = "";
 
             //if (Environment.MachineName == "ITTEMPDT-01-21")
             //    name = "Agoncillo, Marian";

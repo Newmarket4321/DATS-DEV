@@ -2004,7 +2004,7 @@ order by t.DateWorked, d.Department, u.USERNAME", start, end.AddDays(1), empType
                 departmentSpread += (i == 0 ? "" : ", ") + dt.Rows[i][0].ToString();
 
             if (searchByTime == "Period")
-                dt = SQL.Run(@"SELECT d.Department as Department, u.USERNAME as Username, u.EMPLOYEEID as 'Employee ID', sum(t.Hours) as 'Hours Unapproved'
+                dt = SQL.Run(@"SELECT d.Department as Department, u.USERNAME as Username, u.EMPLOYEEID as 'Employee ID', sum(t.Hours) as 'Hours Unreviewed'
       FROM [DATS].[dbo].Users u
       join DepartmentAssociations da on da.UserID = u.USERID
       join Department d on d.DepartmentID = da.DepartmentID
@@ -2029,6 +2029,7 @@ order by t.DateWorked, d.Department, u.USERNAME", start, end.AddDays(1), empType
   and u.active = 1
   and u.emptype = @EMPTYPE
   and t.paytype <> 0
+  and reviewed = 0
   and d.departmentid in (" + departmentSpread + @")
   group by d.Department, u.USERNAME, u.EMPLOYEEID
   order by d.Department, u.USERNAME", start, end.AddDays(1), empType);

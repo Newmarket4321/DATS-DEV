@@ -53,11 +53,12 @@ namespace DATS_Timesheets
                 {
                     data[j] = dt.Rows[i][j].ToString();
 
-                    if (j == 4 && data[0].Contains("BkHrs Usd/Pd"))
-                        bankPaid = decimal.Parse(data[4].Trim());
+                   // No longer needed. Banked hours calculation was already done
+                   //if (j == 4 && data[0].Contains("BkHrs Usd/Pd"))
+                   //     bankPaid = decimal.Parse(data[4].Trim());
 
-                    if (j == 4 && data[0].Contains("Bk Hrs Bal"))
-                        data[4] = (decimal.Parse(data[4].Trim()) - bankPaid).ToString();
+                   // if (j == 4 && data[0].Contains("Bk Hrs Bal"))
+                   //     data[4] = (decimal.Parse(data[4].Trim()) - bankPaid).ToString();
                 }
 
                 ListViewItem x = new ListViewItem(data);
